@@ -1,0 +1,6 @@
+#!/boot/home/config/bin/yab
+
+alert "Hallo Welt, ich hoffe es geht dir gut und alles ist fein. Super wÃ¤re es ja, wenn du dich mal wieder melden würdest.","Ok","idea"
+//foo = alert "Hallo Welt", "", "Bar", "", "idea"
+
+print "Answer foo = ", foo

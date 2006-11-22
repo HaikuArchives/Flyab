@@ -1,0 +1,18 @@
+
+ This directory contains the sources for yabasic ("yet another basic"), 
+ a simple Basic interpreter.
+
+ See the file INSTALL for instructions on how to build yabasic on your
+ machine.
+
+ To learn how to write your own yabasic programs, read the 
+ file yabasic.htm.
+
+ If you already know yabasic, you may read the file NEWS,
+ to find out, whats new with this release.
+
+ Yabasic may be copied only under the terms of either the               
+ Artistic License or the GNU General Public License (GPL),              
+ which can be found in the files ARTISTIC or GPL within this
+ directory.
+ 

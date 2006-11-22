@@ -1,0 +1,19 @@
+
+Title$		= "Mein Dateiwähler"
+Mode$		= "Load-File"
+Filename$	= "/home"
+
+//window open 100, 100 to 500, 400, "W", "Title"
+
+File$ = FILEPANEL Mode$, Title$, Directory$
+//File$ = FILEPANEL Mode$, Title$, Directory$, Filename$
+
+//  Mode$ = "Load-File"
+//  Mode$ = "Load-Directory"
+//  Mode$ = "Load-File-and-Directory"
+//  Mode$ = "Save-File"
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+wend
+exit
