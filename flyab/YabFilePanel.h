@@ -16,5 +16,5 @@ private:
 	Fl_File_Browser *list;
 	static void FP_callback(Fl_Widget *widget, void *data);
 	const char* result;
-	bool running;
+//	bool running;
 };

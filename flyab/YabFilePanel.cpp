@@ -5,6 +5,8 @@
 #include "YabInterface.h"
 #include <stdio.h>
 
+bool running = false;
+
 YabFilePanel::YabFilePanel(int x, int y, int w, int h, const char* mode, const char* title, const char* directory, const char* filename)
 {
 	Fl_File_Icon::load_system_icons();
@@ -24,7 +26,8 @@ YabFilePanel::YabFilePanel(int x, int y, int w, int h, const char* mode, const c
 	win->end();
 
 	win->callback(FP_callback, (void *)"win");
-	list->callback(FP_callback, (void *)"list");
+//	list->callback(FP_callback, (void *)"list");
+	list->callback(FP_callback);
 	btn_ok->callback(FP_callback, (void *)"ok");
 	btn_cancel->callback(FP_callback, (void *)"cancel");
 
@@ -47,22 +50,31 @@ const char* YabFilePanel::Run()
 	{
 		yi->Snooze(2.0);
 	}
+	Fl::lock();
+	win->hide();
+	Fl::unlock();
 	return result;
 }
 
 void YabFilePanel::FP_callback(Fl_Widget *widget, void *data=0)
 {
+	if (Fl_File_Browser *b = dynamic_cast<Fl_File_Browser*>(widget))
+	{
+		printf("LISTE!!!\n%s\n", (char*)data);
+	}
 	if (char* d = static_cast<char*>(data))
 	{
 		if(d == "list")
 		{
-//			list->
 			return;
 		}
 		if(d == "ok")
+		{
 			printf("ok\n");
-//		running = false;
+		}
+		running = false;
 	}
+	return;
 }
 
 
