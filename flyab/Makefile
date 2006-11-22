@@ -23,7 +23,7 @@ OPT = -O3
 ##
 ## Specify FLTK version and directory
 ##
-FLTK = ../../../fltk/
+FLTK = ../../fltk/
 
 ##
 ## GCC Options
