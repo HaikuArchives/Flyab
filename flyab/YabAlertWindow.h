@@ -2,6 +2,7 @@
 #define YABALERTWIN_H
 
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Window.H>
 #include "YabAlertIcon.h"
 #include "YabAlertText.h"
 #include "YabButton.h"

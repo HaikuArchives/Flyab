@@ -45,6 +45,11 @@ YabAlertText::YabAlertText(int x, int y, int w, const char* text)
 	size(w_, h_);
 }
 
+YabAlertText::~YabAlertText()
+{
+
+}
+
 int YabAlertText::GetHeight()
 {
 	return h_;

@@ -7,6 +7,7 @@ class YabAlertText : public Fl_Widget
 {
 public:
 	YabAlertText(int x, int y, int w, const char* text);
+	~YabAlertText();
 	int GetHeight();
 	void draw();
 private:

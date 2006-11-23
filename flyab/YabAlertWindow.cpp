@@ -1,9 +1,6 @@
 #include <FL/Fl.H>
-#include <FL/Fl_Button.H>
-#include <FL/Fl_Window.H>
 #include <FL/fl_draw.H>
 #include "global.h"
-#include "YabAlertText.h"
 #include "YabAlertWindow.h"
 
 YabAlertWindow::YabAlertWindow(const char* text, const char* button1, const char* button2, const char* button3, const char* type)
@@ -53,9 +50,9 @@ YabAlertWindow::YabAlertWindow(const char* text, const char* button1, const char
 
 YabAlertWindow::~YabAlertWindow()
 {
-	delete alertText;
-	delete icon;
 	delete win;
+//	delete icon;
+//	delete alertText;
 }
 
 Fl_Button* YabAlertWindow::GetButton(int i)

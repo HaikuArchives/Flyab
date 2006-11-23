@@ -1,6 +1,6 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Window.H>
+//#include <FL/Fl_Window.H>
 #include <FL/fl_draw.H>
 #include "global.h"
 #include <stdlib.h>
@@ -48,7 +48,6 @@ YabAlert::YabAlert(const char* text, const char* button1, const char* button2, c
 		btn3->callback(AlertCallback, (void *)(b-2));
 
 	Fl::unlock();
-	return;
 }
 
 YabAlert::~YabAlert()
@@ -70,7 +69,7 @@ int YabAlert::ARun()
 	{
 		yi->Snooze(2.0);
 	};
-	delete alert_win;
+//	delete alert_win;
 	return pressed;
 }
 
@@ -78,10 +77,12 @@ void YabAlert::AlertCallback(Fl_Widget* widget, void *data)
 {
 	int msg = (int)data;
 	Fl_Window *win;
+	Fl::lock();
 	if (! (win = dynamic_cast<Fl_Window*>(widget)))
 		win = widget->window();
 
 	win->hide();
+	Fl::unlock();
 	alert_running = false;
 	pressed = msg;
 	return;

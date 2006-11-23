@@ -8,9 +8,9 @@ class YabAlert
 {
 public:
 	YabAlert(const char* text, const char* button1, const char* button2, const char* button3, const char* option);
+	~YabAlert();
 	int ARun();
 	int HasType();
-	~YabAlert();
 private:
 	YabAlertWindow *alert_win;
 	int alert_type;
