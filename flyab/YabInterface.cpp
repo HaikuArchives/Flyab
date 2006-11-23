@@ -14,6 +14,7 @@
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_File_Chooser.H>
+#include <FL/Fl_File_Icon.H>
 
 #include "global.h"
 #include "YabInterface.h"
@@ -70,6 +71,9 @@ void *interpreter(void *data)
  */
 YabInterface::YabInterface(int argc, char **argv, const char* signature)
 {
+	// we want system icons
+	Fl_File_Icon::load_system_icons();
+
 	Fl::lock();
 	t.argc = argc;
 	t.argv = argv;
@@ -800,7 +804,9 @@ const char* YabInterface::FilePanel(const char *mode, const char* title, const c
 	{
 		Snooze(0.1);
 	}
-	std::string result = chooser->value();
+	std::string result = "";
+	if (chooser->value() != NULL)
+		result = chooser->value();
 	delete chooser;
 	return result.c_str();
 }
