@@ -15,7 +15,6 @@
 #include <FL/fl_draw.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_File_Icon.H>
-#include <src/flstring.h>
 
 #include "global.h"
 #include "YabInterface.h"
@@ -798,37 +797,27 @@ int YabInterface::NewAlert(const char* text, const char* button1, const char* bu
 
 const char* YabInterface::FilePanel(const char *mode, const char* title, const char* directory, const char* filename)
 {
-	int myMode = -1;
-	int type = 0;
-	if(strncasecmp(mode, "Load-File", 2) == 0)
+	int type=0;
+	if(strcasecmp(mode, "Load-File") == 0)
 	{
 		type = Fl_File_Chooser::SINGLE;
-		printf("%s\n", mode);
-		printf("type = %d\n", type);
 	}
-	else if(strncasecmp(mode, "Save-File", 2) == 0)
+	else if(strcasecmp(mode, "Save-File") == 0)
 	{
 		type = Fl_File_Chooser::CREATE;
-		printf("%s\n", mode);
-		printf("type = %d\n", type);
 	}
-	else if(strncasecmp(mode, "Load-Directory", 2) == 0)
+	else if(strcasecmp(mode, "Load-Directory") == 0)
 	{
-		type = 4;
-		printf("%s\n", mode);
-		printf("type = %d\n", type);
+		type = Fl_File_Chooser::DIRECTORY;
 	}
-	else if(strncasecmp(mode, "Load-File-and-Directory", 2) == 0)
+	else if(strcasecmp(mode, "Load-File-and-Directory") == 0)
 	{
 		type = Fl_File_Chooser::SINGLE;
-		printf("%s\n", mode);
-		printf("type = %d\n", type);
 	}
 	else
 		ErrorGen("Invalid Option");
 
-	printf("but then: type = %d\n", type);
-	std::string result = "";
+	std::string result="";
 	Fl::lock();
 	Fl_File_Chooser *chooser = new Fl_File_Chooser(directory, "*", type, title);
 	chooser->preview(0);
