@@ -15,6 +15,7 @@
 #include <FL/fl_draw.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_File_Icon.H>
+#include <src/flstring.h>
 
 #include "global.h"
 #include "YabInterface.h"
@@ -775,14 +776,12 @@ void YabInterface::TextControl(const char* id)
 
 void YabInterface::CreateAlert(const char* text, const char* button1, const char* option)
 {
-	
-
 	YabAlert *alert = new YabAlert(text, button1, "", "", option);
 	if(alert->HasType() == -1)
 		ErrorGen("Invalid option");
 
 	int pressed = alert->ARun();
-	//delete alert;
+	delete alert;
 	return;
 }
 
@@ -799,20 +798,39 @@ int YabInterface::NewAlert(const char* text, const char* button1, const char* bu
 
 const char* YabInterface::FilePanel(const char *mode, const char* title, const char* directory, const char* filename)
 {
-/*	int myMode = -1;
-	string opt(mode);
-	if(opt.IFindFirst("Load-File"))
-		myMode = 0;
-	if(opt.IFindFirst("Save-File"))
-		myMode = 1;
-	if(opt.IFindFirst("Load-Directory"))
-		myMode = 2;
-	if(opt.IFindFirst("Load-File-and-Directory"))
-		myMode = 3;
-	if(myMode == -1) ErrorGen("Invalid Option");
-*/
+	int myMode = -1;
+	int type = 0;
+	if(strncasecmp(mode, "Load-File", 2) == 0)
+	{
+		type = Fl_File_Chooser::SINGLE;
+		printf("%s\n", mode);
+		printf("type = %d\n", type);
+	}
+	else if(strncasecmp(mode, "Save-File", 2) == 0)
+	{
+		type = Fl_File_Chooser::CREATE;
+		printf("%s\n", mode);
+		printf("type = %d\n", type);
+	}
+	else if(strncasecmp(mode, "Load-Directory", 2) == 0)
+	{
+		type = 4;
+		printf("%s\n", mode);
+		printf("type = %d\n", type);
+	}
+	else if(strncasecmp(mode, "Load-File-and-Directory", 2) == 0)
+	{
+		type = Fl_File_Chooser::SINGLE;
+		printf("%s\n", mode);
+		printf("type = %d\n", type);
+	}
+	else
+		ErrorGen("Invalid Option");
+
+	printf("but then: type = %d\n", type);
+	std::string result = "";
 	Fl::lock();
-	Fl_File_Chooser *chooser = new Fl_File_Chooser(directory, "*", Fl_File_Chooser::SINGLE, title);
+	Fl_File_Chooser *chooser = new Fl_File_Chooser(directory, "*", type, title);
 	chooser->preview(0);
 	chooser->show();
 	Fl::unlock();
@@ -821,7 +839,7 @@ const char* YabInterface::FilePanel(const char *mode, const char* title, const c
 	{
 		Snooze(0.1);
 	}
-	std::string result = "";
+
 	if (chooser->value() != NULL)
 		result = chooser->value();
 	delete chooser;
