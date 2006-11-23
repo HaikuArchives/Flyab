@@ -775,12 +775,14 @@ void YabInterface::TextControl(const char* id)
 
 void YabInterface::CreateAlert(const char* text, const char* button1, const char* option)
 {
+	
+
 	YabAlert *alert = new YabAlert(text, button1, "", "", option);
 	if(alert->HasType() == -1)
 		ErrorGen("Invalid option");
 
 	int pressed = alert->ARun();
-	delete alert;
+	//delete alert;
 	return;
 }
 
