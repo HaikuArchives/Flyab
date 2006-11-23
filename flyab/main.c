@@ -28,7 +28,7 @@ can be found at www.yabasic.de
 #define DONE {current=current->next;break;}  /* reduces type-work */
 #define COPYRIGHT "original yabasic Copyright 1995-2006 by Marc-Oliver Ihm\n\tyab improvements Copyright 2006 by Jan Bungeroth\n"
 #define BANNER \
-"\n        yab is yabasic for BeOS/Zeta. This is version " VERSION ",\n       built on "\
+"\n        flyab is yabasic for Linux. This is version " VERSION ",\n       built on "\
 ARCHITECTURE " at " BUILD_TIME "\n\n      " COPYRIGHT "\n\n"
 #define BANNER_VERSION \
 "yab " VERSION ", built on " ARCHITECTURE "\n" COPYRIGHT

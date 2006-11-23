@@ -444,6 +444,7 @@ void YabInterface::CreateButton(BRect frame, const char* id, const char* title, 
 			button->color(fl_rgb_color(B_GREY));
 			button->labelsize(B_FONT_SIZE);
 			yabViewList[i]->add(button);
+			yabViewList[i]->redraw();
 
 			Fl::unlock();
 
@@ -501,6 +502,7 @@ void YabInterface::CreateTextControl(BRect frame, const char* id, const char* la
 			txt->labelsize(B_FONT_SIZE);
 
 			yabViewList[i]->add(txt);
+			yabViewList[i]->redraw();
 
 			Fl::unlock();
 
@@ -535,6 +537,7 @@ void YabInterface::CreateCheckBox(double x, double y, const char* id, const char
 			check->size(w+2*B_FONT_SIZE-4, B_FONT_SIZE*2-4);
 
 			yabViewList[i]->add(check);
+			yabViewList[i]->redraw();
 
 			Fl::unlock();
 
@@ -585,6 +588,7 @@ void YabInterface::CreateRadioButton(double x, double y, const char* id, const c
 			radio->size(w+2*B_FONT_SIZE-4, B_FONT_SIZE*2-4);
 
 			yabViewList[i]->add(radio);
+			yabViewList[i]->redraw();
 
 			Fl::unlock();
 
