@@ -1,0 +1,18 @@
+window open 100,100 to 600,300, "MainView", "SpinControl"
+
+spincontrol 10, 20, "sp1", "SpinControl", 10, 50, 5, "MainView"
+
+REM MAIN LOOP
+while(not quitting)
+	msg$ = message$
+	if(msg$<>"") print msg$
+	
+	switch msg$
+		case "MainView:_QuitRequested|" 
+			quitting = true 
+			break
+		
+	end switch
+wend
+
+window close "MainView"

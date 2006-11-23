@@ -24,6 +24,7 @@
 #include "YabListBox.h"
 #include "YabRadioButton.h"
 #include "YabTextControl.h"
+#include "YabSpinControl.h"
 #include "YabView.h"
 #include "YabWindow.h"
 
@@ -293,6 +294,16 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 			t += "|";
 		}
 		localMessage += t;
+		return;
+	}
+	if(YabSpinControl *spin = dynamic_cast<YabSpinControl*>(widget))
+	{
+		std::stringstream s;
+		s << spin->GetID();
+		s << ":";
+		s << spin->value();
+		s << "|";
+		localMessage += s.str();
 		return;
 	}
 }
@@ -1279,7 +1290,41 @@ void YabInterface::Menu3(const char* menuHead, const char* menuItem, const char*
 
 void YabInterface::SpinControl(double x, double y, const char* id, const char* label, int min, int max, int step, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], x, y);
+
+			int w = (int)fl_width(label);
+
+			YabSpinControl *spin = new YabSpinControl((int)newCoor.x+w,(int)newCoor.y, id, label);
+			
+			spin->value(min);
+			spin->range(min,max);
+			spin->step(step);
+			
+			spin->callback(StaticMessageCallback);
+
+			spin->color(fl_rgb_color(B_GREY));
+			spin->labelsize(B_FONT_SIZE);
+			spin->textsize(B_FONT_SIZE);
+
+			yabViewList[i]->add(spin);
+
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+
+			return;
+		}
+	} 
+	Error(view, "VIEW");
 }
+
 
 void YabInterface::SpinControl(const char* spinControl, int value)
 {
