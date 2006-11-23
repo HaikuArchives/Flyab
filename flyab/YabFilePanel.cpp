@@ -5,12 +5,13 @@
 #include "YabInterface.h"
 #include <stdio.h>
 
+bool is_ok = false;
 bool running = false;
+int selected = 0;
 
 YabFilePanel::YabFilePanel(int x, int y, int w, int h, const char* mode, const char* title, const char* directory, const char* filename)
 {
 	Fl_File_Icon::load_system_icons();
-	result = "foobar";
 	Fl::lock();
 	win = new Fl_Double_Window(x, y, w, h, title);
 	win->color(fl_rgb_color(216,216,216));
@@ -26,7 +27,6 @@ YabFilePanel::YabFilePanel(int x, int y, int w, int h, const char* mode, const c
 	win->end();
 
 	win->callback(FP_callback, (void *)"win");
-//	list->callback(FP_callback, (void *)"list");
 	list->callback(FP_callback);
 	btn_ok->callback(FP_callback, (void *)"ok");
 	btn_cancel->callback(FP_callback, (void *)"cancel");
@@ -53,24 +53,27 @@ const char* YabFilePanel::Run()
 	Fl::lock();
 	win->hide();
 	Fl::unlock();
-	return result;
+	if (is_ok && selected > 0)
+	{
+		const char* result = list->text(selected);
+		return result;
+	}
+	return "";
 }
 
 void YabFilePanel::FP_callback(Fl_Widget *widget, void *data=0)
 {
 	if (Fl_File_Browser *b = dynamic_cast<Fl_File_Browser*>(widget))
 	{
-		printf("LISTE!!!\n%s\n", (char*)data);
+		selected = b->value();
+		printf("Selected: %d\n", selected);
 	}
 	if (char* d = static_cast<char*>(data))
 	{
-		if(d == "list")
-		{
-			return;
-		}
 		if(d == "ok")
 		{
 			printf("ok\n");
+			is_ok = true;
 		}
 		running = false;
 	}

@@ -13,13 +13,13 @@
 
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_File_Chooser.H>
 
 #include "global.h"
 #include "YabInterface.h"
 #include "YabAlert.h"
 #include "YabButton.h"
 #include "YabCheckButton.h"
-#include "YabFilePanel.h"
 #include "YabListBox.h"
 #include "YabRadioButton.h"
 #include "YabTextControl.h"
@@ -778,7 +778,6 @@ int YabInterface::NewAlert(const char* text, const char* button1, const char* bu
 
 const char* YabInterface::FilePanel(const char *mode, const char* title, const char* directory, const char* filename)
 {
-printf("SaveFilePanel\n");
 /*	int myMode = -1;
 	string opt(mode);
 	if(opt.IFindFirst("Load-File"))
@@ -791,15 +790,19 @@ printf("SaveFilePanel\n");
 		myMode = 3;
 	if(myMode == -1) ErrorGen("Invalid Option");
 */
+	Fl::lock();
+	Fl_File_Chooser *chooser = new Fl_File_Chooser(directory, "*", Fl_File_Chooser::SINGLE, title);
+	chooser->preview(0);
+	chooser->show();
+	Fl::unlock();
 
-	int x, y, w=350, h=400;
-	x = (Fl::w()/2) - (w/2);
-	y = (Fl::h()/2) - (h/2);
-
-	YabFilePanel *panel = new YabFilePanel(x, y, w, h, mode, title, directory, filename);
-	const char* result = panel->Run();
-	delete panel;
-	return result;
+	while (chooser->shown())
+	{
+		Snooze(0.1);
+	}
+	std::string result = chooser->value();
+	delete chooser;
+	return result.c_str();
 }
 
 void YabInterface::SetLayout(const char* layout, const char* window) 

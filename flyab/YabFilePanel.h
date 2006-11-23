@@ -15,6 +15,6 @@ private:
 	Fl_Button *btn_ok, *btn_cancel;
 	Fl_File_Browser *list;
 	static void FP_callback(Fl_Widget *widget, void *data);
-	const char* result;
+//	const char* result;
 //	bool running;
 };
