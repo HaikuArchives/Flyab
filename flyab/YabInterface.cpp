@@ -676,11 +676,15 @@ void YabInterface::CreateDropBox(BRect frame, const char* title, const char* lab
 			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 
 			YabDropBox *dropbox = new YabDropBox((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, title);
+			dropbox->type(0);
 			dropbox->label(label);
 			dropbox->add("empty");
 			dropbox->callback(StaticMessageCallback);
+
+			yabViewList[i]->add(dropbox);
+			yabViewList[i]->redraw();
+
 			Fl::unlock();
-			printf("The code is done, I am innocent!\n");
 			return;
 		}
 	}
