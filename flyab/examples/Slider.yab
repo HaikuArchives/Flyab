@@ -1,0 +1,20 @@
+window open 100,100 to 600,300, "MainView", "SpinControl"
+
+slider 10,20 to 300,40, "Slider1", "1. Slider", 1, 23, "MainView"
+slider 10,60 to 300,80, "Slider2", "2. Slider triangle", 1, 100, "triangle", "MainView"
+slider 400,20 to 490,180, "Slider3", "3. Slider vertical", 1, 10, "vertical", "MainView"
+
+REM MAIN LOOP
+while(not quitting)
+	msg$ = message$
+	if(msg$<>"") print msg$
+	
+	switch msg$
+		case "MainView:_QuitRequested|" 
+			quitting = true 
+			break
+		
+	end switch
+wend
+
+window close "MainView"
