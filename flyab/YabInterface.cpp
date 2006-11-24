@@ -21,6 +21,7 @@
 #include "YabAlert.h"
 #include "YabButton.h"
 #include "YabCheckButton.h"
+#include "YabDropBox.h"
 #include "YabListBox.h"
 #include "YabRadioButton.h"
 #include "YabTextControl.h"
@@ -275,6 +276,19 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		t += txt->value();
 		t += "|";
 		localMessage += t;
+		return;
+	}
+	if(YabDropBox *db = dynamic_cast<YabDropBox*>(widget))
+	{
+//		std::string s;
+//		if(db->value() && s << db->value())
+		if(db->value() != 0)
+		{
+			t += db->GetID();
+//			t += s.str();
+			t += db->value();
+			t += "|";
+		}
 		return;
 	}
 	if(YabListBox *list = dynamic_cast<YabListBox*>(widget))
@@ -651,6 +665,26 @@ void YabInterface::CreateListBox(BRect frame, const char* id, int scrollbar, con
 
 void YabInterface::CreateDropBox(BRect frame, const char* title, const char* label, const char* view)
 { 
+	// DROPBOX x1,y1 TO x2,y2, ID$, Label$, View$
+
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+
+			YabDropBox *dropbox = new YabDropBox((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, title);
+			dropbox->label(label);
+			dropbox->add("empty");
+			dropbox->callback(StaticMessageCallback);
+			Fl::unlock();
+			printf("The code is done, I am innocent!\n");
+			return;
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::CreateItem(const char* id, const char* item)
