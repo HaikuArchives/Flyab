@@ -1,4 +1,4 @@
-window open 100,100 to 600,300, "MainView", "SpinControl"
+window open 100,100 to 600,300, "MainView", "Slider"
 
 slider 10,20 to 300,40, "Slider1", "1. Slider", 1, 23, "MainView"
 slider 10,60 to 300,80, "Slider2", "2. Slider triangle", 1, 100, "triangle", "MainView"
