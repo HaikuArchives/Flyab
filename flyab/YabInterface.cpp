@@ -698,7 +698,6 @@ void YabInterface::CreateItem(const char* id, const char* item)
 				if(s == db->GetID())
 				{
 					Fl::lock();
-//					db->add(item);
 					db->add(item, 0, StaticMessageCallback, (void*)item);
 					Fl::unlock();
 					return;
@@ -727,6 +726,25 @@ int YabInterface::DropBoxCount(const char* dropbox)
 
 const char* YabInterface::DropBoxGet(const char* dropbox, int position)
 {
+	std::string id = dropbox;
+	int p = position-1;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabDropBox *db = dynamic_cast<YabDropBox*>(yabViewList[i]->child(j)))
+			{
+				if(id == db->GetID())
+				{
+					int s = db->size();
+					if(s >= 0 && p <= s && p >= 0)
+						return db->text(position-1);
+					return "";
+				}
+			}
+		}
+	}
+	Error(dropbox, "DROPBOX");
 }
 
 void YabInterface::RemoveItem(const char* title, const char* item)
