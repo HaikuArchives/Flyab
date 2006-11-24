@@ -280,15 +280,12 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 	}
 	if(YabDropBox *db = dynamic_cast<YabDropBox*>(widget))
 	{
-//		std::string s;
-//		if(db->value() && s << db->value())
-		if(db->value() != 0)
-		{
-			t += db->GetID();
-//			t += s.str();
-			t += db->value();
-			t += "|";
-		}
+		int n = db->value();
+		t += db->GetID();
+		t += ":";
+		t += db->text(n);
+		t += "|";
+		localMessage += t;
 		return;
 	}
 	if(YabListBox *list = dynamic_cast<YabListBox*>(widget))
@@ -665,8 +662,6 @@ void YabInterface::CreateListBox(BRect frame, const char* id, int scrollbar, con
 
 void YabInterface::CreateDropBox(BRect frame, const char* title, const char* label, const char* view)
 { 
-	// DROPBOX x1,y1 TO x2,y2, ID$, Label$, View$
-
 	std::string s = view;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
@@ -679,7 +674,6 @@ void YabInterface::CreateDropBox(BRect frame, const char* title, const char* lab
 			dropbox->type(0);
 			dropbox->label(label);
 			dropbox->color(fl_rgb_color(B_GREY));
-			dropbox->add("empty");
 			dropbox->callback(StaticMessageCallback);
 
 			yabViewList[i]->add(dropbox);
@@ -694,10 +688,50 @@ void YabInterface::CreateDropBox(BRect frame, const char* title, const char* lab
 
 void YabInterface::CreateItem(const char* id, const char* item)
 {
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabDropBox *db = dynamic_cast<YabDropBox*>(yabViewList[i]->child(j)))
+			{
+				if(s == db->GetID())
+				{
+					Fl::lock();
+//					db->add(item);
+					db->add(item, 0, StaticMessageCallback, (void*)item);
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "DROPBOX");
+}
+
+void YabInterface::DropBoxSelect(const char* dropbox, int position)
+{
+}
+
+void YabInterface::DropBoxClear(const char* dropbox)
+{
+}
+
+void YabInterface::DropBoxRemove(const char* dropbox, int position)
+{
+}
+
+int YabInterface::DropBoxCount(const char* dropbox)
+{
+}
+
+const char* YabInterface::DropBoxGet(const char* dropbox, int position)
+{
 }
 
 void YabInterface::RemoveItem(const char* title, const char* item)
 {
+printf("RemoveItem\n");
 }
 
 void YabInterface::ClearItems(const char* title)
@@ -1387,26 +1421,6 @@ int YabInterface::SpinControlGet(const char *spinControl)
 }
 
 const char* YabInterface::PopUpMenu(double x, double y, const char* menuItems, const char* view)
-{
-}
-
-void YabInterface::DropBoxSelect(const char* dropbox, int position)
-{
-}
-
-void YabInterface::DropBoxClear(const char* dropbox)
-{
-}
-
-void YabInterface::DropBoxRemove(const char* dropbox, int position)
-{
-}
-
-int YabInterface::DropBoxCount(const char* dropbox)
-{
-}
-
-const char* YabInterface::DropBoxGet(const char* dropbox, int position)
 {
 }
 

@@ -64,17 +64,13 @@ const char* YabFilePanel::Run()
 void YabFilePanel::FP_callback(Fl_Widget *widget, void *data=0)
 {
 	if (Fl_File_Browser *b = dynamic_cast<Fl_File_Browser*>(widget))
-	{
 		selected = b->value();
-		printf("Selected: %d\n", selected);
-	}
+
 	if (char* d = static_cast<char*>(data))
 	{
 		if(d == "ok")
-		{
-			printf("ok\n");
 			is_ok = true;
-		}
+
 		running = false;
 	}
 	return;
