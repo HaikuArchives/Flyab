@@ -728,14 +728,70 @@ void YabInterface::DropBoxSelect(const char* dropbox, int position)
 
 void YabInterface::DropBoxClear(const char* dropbox)
 {
+	std::string id = dropbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabDropBox *db = dynamic_cast<YabDropBox*>(yabViewList[i]->child(j)))
+			{
+				if(id == db->GetID())
+				{
+					Fl::lock();
+					db->clear();
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(dropbox, "DROPBOX");
 }
 
 void YabInterface::DropBoxRemove(const char* dropbox, int position)
 {
+	std::string id = dropbox;
+	int p = position-1;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabDropBox *db = dynamic_cast<YabDropBox*>(yabViewList[i]->child(j)))
+			{
+				if(id == db->GetID())
+				{
+					int s = db->size()-1;
+					if(s >= 0 && p <= s && p >= 0)
+					{
+						Fl::lock();
+						db->remove(p);
+						Fl::unlock();
+					}
+					return;
+				}
+			}
+		}
+	}
+	Error(dropbox, "DROPBOX");
 }
 
 int YabInterface::DropBoxCount(const char* dropbox)
 {
+	std::string id = dropbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabDropBox *db = dynamic_cast<YabDropBox*>(yabViewList[i]->child(j)))
+			{
+				if(id == db->GetID())
+				{
+					return db->size()-1;
+				}
+			}
+		}
+	}
+	Error(dropbox, "DROPBOX");
 }
 
 const char* YabInterface::DropBoxGet(const char* dropbox, int position)
@@ -750,7 +806,7 @@ const char* YabInterface::DropBoxGet(const char* dropbox, int position)
 			{
 				if(id == db->GetID())
 				{
-					int s = db->size();
+					int s = db->size()-1;
 					if(s >= 0 && p <= s && p >= 0)
 						return db->text(position-1);
 					return "";
