@@ -42,8 +42,8 @@ YabAlertIcon::YabAlertIcon(int x, int y, int w, int h, const char* type)
 
 YabAlertIcon::~YabAlertIcon()
 {
-//	if(myImage)
-//		delete myImage;
+	if(myImage)
+		delete myImage;
 }
 
 int YabAlertIcon::HasType()

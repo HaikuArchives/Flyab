@@ -50,9 +50,9 @@ YabAlertWindow::YabAlertWindow(const char* text, const char* button1, const char
 
 YabAlertWindow::~YabAlertWindow()
 {
+	delete icon;
+	delete alertText;
 	delete win;
-//	delete icon;
-//	delete alertText;
 }
 
 Fl_Button* YabAlertWindow::GetButton(int i)
