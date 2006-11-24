@@ -859,31 +859,27 @@ void YabInterface::Slider(BRect frame, const char* id, const char* title, int mi
 	{
 		if(s == yabViewList[i]->GetID())
 		{
-			//int w;
-
 			Fl::lock();
-
 			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 
-			YabSlider *yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, id,title);
-			yabslider->type(FL_HOR_NICE_SLIDER);
+			int x = static_cast<int>(newCoor.x);
+			int y = static_cast<int>(newCoor.y);
+			int w = static_cast<int>(frame.width);
+			int h = static_cast<int>(frame.height);
 
+			YabSlider *yabslider;
 			std::string s = option;
-			if (s == "vertical") {
-				delete yabslider;
-				YabSlider *yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, (int)frame.width-frame.width+20, (int)frame.height, id,title);
+			if (s == "vertical")
+			{
+				yabslider = new YabSlider(x, y, 20, h, id,title);
 				yabslider->type(FL_VERTICAL);
-				yabslider->redraw();
-				}
+			}
 			else
 			{
-				delete yabslider;
-				YabSlider *yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height-frame.height+20, id,title);
+				yabslider = new YabSlider(x, y, w, 20, id,title);
 				yabslider->type(FL_HORIZONTAL);
 				yabslider->slider(FL_DIAMOND_DOWN_BOX);
-				
 				yabslider->selection_color(2);
-				yabslider->redraw();
 			}
 			
 			yabslider->minimum(min);
