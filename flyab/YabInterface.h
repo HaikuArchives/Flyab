@@ -11,7 +11,6 @@
 	#include "BPoint.h"
 	#include "config.h"
 
-
 	class YabInterface 
 	{
 
