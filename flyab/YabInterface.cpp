@@ -678,6 +678,7 @@ void YabInterface::CreateDropBox(BRect frame, const char* title, const char* lab
 			YabDropBox *dropbox = new YabDropBox((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, title);
 			dropbox->type(0);
 			dropbox->label(label);
+			dropbox->color(fl_rgb_color(B_GREY));
 			dropbox->add("empty");
 			dropbox->callback(StaticMessageCallback);
 

@@ -1,12 +1,12 @@
 
 Title$		= "Mein Dateiwähler"
-Mode$		= "Load-File"
+Mode$ = "Save-File"
 Filename$	= "/home"
 
 //window open 100, 100 to 500, 400, "W", "Title"
 
-File$ = FILEPANEL Mode$, Title$, Directory$
-//File$ = FILEPANEL Mode$, Title$, Directory$, Filename$
+// File$ = FILEPANEL Mode$, Title$, Directory$
+File$ = FILEPANEL Mode$, Title$, Directory$, Filename$
 
 //  Mode$ = "Load-File"
 //  Mode$ = "Load-Directory"
