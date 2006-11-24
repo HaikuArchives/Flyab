@@ -15,6 +15,7 @@
 #include <FL/fl_draw.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_File_Icon.H>
+#include <FL/Fl_Value_Slider.H>
 
 #include "global.h"
 #include "YabInterface.h"
@@ -26,6 +27,7 @@
 #include "YabRadioButton.h"
 #include "YabTextControl.h"
 #include "YabSpinControl.h"
+#include "YabSlider.h"
 #include "YabView.h"
 #include "YabWindow.h"
 
@@ -313,6 +315,16 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		s << spin->GetID();
 		s << ":";
 		s << spin->value();
+		s << "|";
+		localMessage += s.str();
+		return;
+	}
+	if(YabSlider *yabslider = dynamic_cast<YabSlider*>(widget))
+	{
+		std::stringstream s;
+		s << yabslider->GetID();
+		s << ":";
+		s << yabslider->value();
 		s << "|";
 		localMessage += s.str();
 		return;
@@ -803,10 +815,98 @@ void YabInterface::TextAlign(const char* txt, const char* option)
 
 void YabInterface::Slider(BRect frame, const char* id, const char* title, int min, int max, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+
+			Fl::lock();
+
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+
+			YabSlider *yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height-frame.height+20, id,title);
+			yabslider->type(FL_HORIZONTAL);	//type(FL_HOR_NICE_SLIDER);
+			
+			yabslider->minimum(min);
+			yabslider->maximum(max);
+			
+			//yabslider->value();
+			yabslider->redraw();
+
+			yabslider->callback(StaticMessageCallback);
+			
+			yabslider->color(fl_rgb_color(B_GREY));
+			yabslider->labelsize(B_FONT_SIZE);
+			//yabslider->textsize(B_FONT_SIZE);
+
+			yabViewList[i]->add(yabslider);
+			
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+
+			return;
+		}
+	} 
+	Error(view, "VIEW");
 }
 
 void YabInterface::Slider(BRect frame, const char* id, const char* title, int min, int max, const char* option, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			//int w;
+
+			Fl::lock();
+
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+
+			YabSlider *yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, id,title);
+			yabslider->type(FL_HOR_NICE_SLIDER);
+
+			std::string s = option;
+			if (s == "vertical") {
+				delete yabslider;
+				YabSlider *yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, (int)frame.width-frame.width+20, (int)frame.height, id,title);
+				yabslider->type(FL_VERTICAL);
+				yabslider->redraw();
+				}
+			else
+			{
+				delete yabslider;
+				YabSlider *yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height-frame.height+20, id,title);
+				yabslider->type(FL_HORIZONTAL);
+				yabslider->slider(FL_DIAMOND_DOWN_BOX);
+				
+				yabslider->selection_color(2);
+				yabslider->redraw();
+			}
+			
+			yabslider->minimum(min);
+			yabslider->maximum(max);
+
+			yabslider->redraw();
+
+			yabslider->callback(StaticMessageCallback);
+			
+			yabslider->color(fl_rgb_color(B_GREY));
+			yabslider->labelsize(B_FONT_SIZE);
+			//yabslider->textsize(B_FONT_SIZE);
+			
+			yabViewList[i]->add(yabslider);
+
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+
+			return;
+		}
+	} 
+	Error(view, "VIEW");
 }
 
 void YabInterface::SetSlider(const char* id, const char* label1, const char* label2)
