@@ -712,7 +712,14 @@ void YabInterface::CreateItem(const char* id, const char* item)
 				if(s == db->GetID())
 				{
 					Fl::lock();
-					db->add(item, 0, StaticMessageCallback, (void*)item);
+					int z = db->size()-2;
+					if (strcmp(item, "--") == 0)
+					{
+						if (z >=0) db->mode(z, FL_MENU_DIVIDER);
+					}
+					else
+						db->add(item, 0, StaticMessageCallback, (void*)item);
+					db->redraw();
 					Fl::unlock();
 					return;
 				}
@@ -740,6 +747,7 @@ void YabInterface::DropBoxClear(const char* dropbox)
 					Fl::lock();
 					db->clear();
 					Fl::unlock();
+					db->redraw();
 					return;
 				}
 			}
@@ -766,6 +774,7 @@ void YabInterface::DropBoxRemove(const char* dropbox, int position)
 						Fl::lock();
 						db->remove(p);
 						Fl::unlock();
+						db->redraw();
 					}
 					return;
 				}
