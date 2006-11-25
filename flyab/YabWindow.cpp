@@ -1,4 +1,5 @@
 #include "YabWindow.h"
+#include <FL/fl_draw.H>
 	
 YabWindow::YabWindow(int x, int y, int width, int height, const char* id, const char* label)
 	: Fl_Double_Window(x,y,width,height)

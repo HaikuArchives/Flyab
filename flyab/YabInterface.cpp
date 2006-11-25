@@ -109,7 +109,6 @@ YabInterface::YabInterface(int argc, char **argv, const char* signature)
 	Fl::visual(FL_DOUBLE|FL_INDEX|FL_RGB);
 	fl_font(0, B_FONT_SIZE);
 
-
 	// myProps = new BPropertyInfo(prop_list);
 	currentLib = "";
 }
@@ -845,9 +844,13 @@ void YabInterface::DrawText(BPoint coordinates, const char* text, const char* wi
 		{
 			Fl::lock();
 			BPoint newCoor = GetWindowCoordinates(yabViewList[i], coordinates.x, coordinates.y);
-//			yabViewList[i]->begin();
-			fl_draw(text, (int)newCoor.x, (int)newCoor.y);
-			yabViewList[i]->end();
+			YabDrawing *t = new YabDrawing();
+			t->command = 0;
+			t->x1 = (int)newCoor.x;
+			t->y1 = (int)newCoor.y;
+			t->chardata = strdup(text);
+
+			yabViewList[i]->AddDrawing(t);
 			yabViewList[i]->redraw();
 			Fl::unlock();
 			return;
@@ -862,6 +865,27 @@ void YabInterface::DrawRect(BRect frame, const char* window)
 
 void YabInterface::DrawClear(const char* window, bool isExit)
 {
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			yabViewList[i]->FlushDrawings();
+			/*
+			BPoint newCoor1 = GetWindowCoordinates(yabViewList[i], 0,0);
+			BPoint newCoor2 = GetWindowCoordinates(yabViewList[i], yabViewList[i]->w() ,yabViewList[i]->h());
+			yabViewList[i]->DrawBox((int)newCoor1.x, (int)newCoor1.y, (int)newCoor2.x, (int)newCoor2.y);
+			*/
+
+			yabViewList[i]->redraw();
+			Snooze(0.01);
+			yabViewList[i]->redraw();
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW or WINDOW");
 }
 
 void YabInterface::DrawDot(double x, double y, const char* window)
@@ -870,6 +894,30 @@ void YabInterface::DrawDot(double x, double y, const char* window)
 
 void YabInterface::DrawLine(double x1, double y1, double x2, double y2, const char* window)
 {
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint newCoor1 = GetWindowCoordinates(yabViewList[i], x1, y1);
+			BPoint newCoor2 = GetWindowCoordinates(yabViewList[i], x2, y2);
+
+			YabDrawing *t = new YabDrawing();
+			t->command = 1;
+			t->x1 = (int)newCoor1.x;
+			t->y1 = (int)newCoor1.y;
+			t->x2 = (int)newCoor2.x;
+			t->y2 = (int)newCoor2.y;
+
+			yabViewList[i]->AddDrawing(t);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW or WINDOW");
 }
 
 void YabInterface::DrawCircle(double x, double y, double r, const char* window)
