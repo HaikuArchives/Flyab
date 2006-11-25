@@ -15,6 +15,7 @@
 #include <FL/fl_draw.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_File_Icon.H>
+#include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Value_Slider.H>
 
 #include "global.h"
@@ -244,6 +245,11 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		t += win->GetID();
 		t += ":_QuitRequested|";
 		localMessage += t;
+		return;
+	}
+	if(YabView *view = dynamic_cast<YabView*>(widget))
+	{
+		printf("Something happened in a view!\n");
 		return;
 	}
 	if(YabCheckButton *check = dynamic_cast<YabCheckButton*>(widget))
@@ -498,6 +504,37 @@ void YabInterface::StatusBarSet(const char* id, const char* label1, const char* 
 
 void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const char *shortcut, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			std::string sc = "^";
+			sc += shortcut;
+			Fl_Menu_Bar *menu;
+			if (yabViewList[i]->HasMenu() == false)
+			{
+				menu = new Fl_Menu_Bar(0, 0, yabViewList[i]->w(), 20);
+				menu->labelsize(B_FONT_SIZE);
+				menu->color(fl_rgb_color(B_GREY));
+				yabViewList[i]->add(menu);
+				yabViewList[i]->HasMenu(true);
+			}
+			else
+			{
+				for(int j = 0; j < yabViewList[i]->children(); j++)
+				{
+					if(menu = dynamic_cast<Fl_Menu_Bar*>(yabViewList[i]->child(j)))
+						break;
+				}
+			}
+			menu->add(menuhead, 0, StaticMessageCallback, (void *)1, FL_SUBMENU);
+			yabViewList[i]->redraw();
+			Fl::unlock();
+			return;
+		}
+	}
 }
 
 void YabInterface::CreateTextControl(BRect frame, const char* id, const char* label, const char* text, const char* view)

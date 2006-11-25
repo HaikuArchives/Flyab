@@ -25,11 +25,12 @@ public:
 	void draw();
 	void AddDrawing(YabDrawing* drawing);
 	void FlushDrawings();
-
+	void HasMenu(bool m);
+	bool HasMenu();
 private:
 	std::vector<YabDrawing*> drawList;
 	bool flush;
-
+	bool hasmenu;
 };
 
 #endif

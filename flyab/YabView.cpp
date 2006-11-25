@@ -8,6 +8,7 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	: Fl_Group(x,y,width,height), YabWidget(id)
 {
 	flush = false;
+	hasmenu = false;
 }
 
 YabView::~YabView()
@@ -69,5 +70,15 @@ void YabView::draw()
 		}
 	}
 	Fl_Group::draw();
+}
+
+bool YabView::HasMenu()
+{
+	return hasmenu;
+}
+
+void YabView::HasMenu(bool m)
+{
+	hasmenu = m;
 }
 
