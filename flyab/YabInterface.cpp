@@ -25,10 +25,11 @@
 #include "YabCheckButton.h"
 #include "YabDropBox.h"
 #include "YabListBox.h"
+#include "YabMenuBar.h"
 #include "YabRadioButton.h"
-#include "YabTextControl.h"
 #include "YabSpinControl.h"
 #include "YabSlider.h"
+#include "YabTextControl.h"
 #include "YabView.h"
 #include "YabWindow.h"
 
@@ -247,9 +248,18 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		localMessage += t;
 		return;
 	}
-	if(YabView *view = dynamic_cast<YabView*>(widget))
+	if(Fl_Menu_Bar *menu = dynamic_cast<Fl_Menu_Bar*>(widget))
 	{
-		printf("Something happened in a view!\n");
+/*		int r, s=10;
+		std::string item;
+		do {
+			char i[s];
+			r = menu->item_pathname(i, sizeof(i)-1);
+			item = i;
+			s += 10;
+		} while(r < 0);
+*/
+//		printf("Menu: %s\n", item.c_str());
 		return;
 	}
 	if(YabCheckButton *check = dynamic_cast<YabCheckButton*>(widget))
@@ -504,23 +514,25 @@ void YabInterface::StatusBarSet(const char* id, const char* label1, const char* 
 
 void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const char *shortcut, const char* view)
 {
-	std::string sc;			// shortcut
-	std::string item;		// the entry
+//	std::string sc;			// shortcut
+//	std::string item;		// the entry
 	std::string s = view;	// the view
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
 		if(s == yabViewList[i]->GetID())
 		{
 			Fl::lock();
-			sc = "^";
-			sc += shortcut;
-			Fl_Menu_Bar *menu;
+//			sc = "^";
+//			sc += shortcut;
+//			Fl_Menu_Bar *menu;
+			YabMenuBar *menu;
 			if (yabViewList[i]->HasMenu() == false)
 			{
-				menu = new Fl_Menu_Bar(0, 0, yabViewList[i]->w(), 20);
-				menu->box(FL_THIN_UP_BOX);
-				menu->labelsize(B_FONT_SIZE);
-				menu->color(fl_rgb_color(B_GREY));
+//				menu = new Fl_Menu_Bar(0, 0, yabViewList[i]->w(), 20);
+				menu = new YabMenuBar(yabViewList[i]->w(), 20);
+//				menu->box(FL_THIN_UP_BOX);
+//				menu->labelsize(B_FONT_SIZE);
+//				menu->color(fl_rgb_color(B_GREY));
 				yabViewList[i]->add(menu);
 				yabViewList[i]->HasMenu(true);
 			}
@@ -528,24 +540,26 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 			{
 				for(int j = 0; j < yabViewList[i]->children(); j++)
 				{
-					if(menu = dynamic_cast<Fl_Menu_Bar*>(yabViewList[i]->child(j)))
+					if(menu = dynamic_cast<YabMenuBar*>(yabViewList[i]->child(j)))
 						break;
 				}
 			}
-			for (int j=0; j<strlen(menuhead); j++)
+/*			for (int j=0; j<strlen(menuhead); j++)
 			{
-				if (menuhead[j] == 47)
+				if (menuitem[j] == 38 || menuhead[j] == 47 || menuhead[j] == 95)
 					item += "\\";
 				item += menuhead[j];
 			}
 			item += "/";
 			for (int j=0; j<strlen(menuitem); j++)
 			{
-				if (menuitem[j] == 47)
+				if (menuitem[j] == 38 || menuhead[j] == 47 || menuhead[j] == 95)
 					item += "\\";
 				item += menuitem[j];
 			}
-			menu->add(item.c_str(), sc.c_str(), StaticMessageCallback, (void *)1);
+*/
+//			menu->add(item.c_str(), sc.c_str(), StaticMessageCallback, (void *)item.c_str());
+			menu->Add(menuhead, menuitem, shortcut, StaticMessageCallback);
 
 			yabViewList[i]->redraw();
 			Fl::unlock();
