@@ -39,19 +39,24 @@ public:
 		string item;
 		for (int j=0; j<strlen(menuhead); j++)
 		{
-			if (menuitem[j] == 38 || menuhead[j] == 47 || menuhead[j] == 95)
+			if (menuhead[j] == 38 || menuhead[j] == 47 || menuhead[j] == 95)
 				item += "\\";
 			item += menuhead[j];
 		}
 		item += "/";
-		for (int j=0; j<strlen(menuitem); j++)
+		if (strcmp(menuitem, "--") == 0)
+			Fl_Menu_Bar::add(item.c_str(), "", cb, (void *)"", FL_MENU_DIVIDER);
+		else
 		{
-			if (menuitem[j] == 38 || menuhead[j] == 47 || menuhead[j] == 95)
-				item += "\\";
-			item += menuitem[j];
+			for (int j=0; j<strlen(menuitem); j++)
+			{
+				if (menuitem[j] == 38 || menuitem[j] == 47 || menuitem[j] == 95)
+					item += "\\";
+				item += menuitem[j];
+			}
+			// finally add the entry
+			Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
 		}
-		// finally add the entry
-		Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
 	}
 private:
 	vector<string> ret;

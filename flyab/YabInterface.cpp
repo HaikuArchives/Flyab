@@ -15,7 +15,6 @@
 #include <FL/fl_draw.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_File_Icon.H>
-//#include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Value_Slider.H>
 
 #include "global.h"
@@ -532,6 +531,7 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 				}
 			}
 			menu->add(menuhead, menuitem, shortcut, StaticMessageCallback);
+
 			yabViewList[i]->redraw();
 			Fl::unlock();
 			return;
