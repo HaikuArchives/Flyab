@@ -504,9 +504,9 @@ void YabInterface::StatusBarSet(const char* id, const char* label1, const char* 
 
 void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const char *shortcut, const char* view)
 {
-	std::string sc;
-	std::string item;
-	std::string s = view;
+	std::string sc;			// shortcut
+	std::string item;		// the entry
+	std::string s = view;	// the view
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
 		if(s == yabViewList[i]->GetID())
@@ -532,16 +532,27 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 						break;
 				}
 			}
-			item = menuhead;
+			for (int j=0; j<strlen(menuhead); j++)
+			{
+				if (menuhead[j] == 47)
+					item += "\\";
+				item += menuhead[j];
+			}
 			item += "/";
-			item += menuitem;
-			menu->add(item.c_str(), 0, StaticMessageCallback, (void *)1);
+			for (int j=0; j<strlen(menuitem); j++)
+			{
+				if (menuitem[j] == 47)
+					item += "\\";
+				item += menuitem[j];
+			}
+			menu->add(item.c_str(), sc.c_str(), StaticMessageCallback, (void *)1);
 
 			yabViewList[i]->redraw();
 			Fl::unlock();
 			return;
 		}
 	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::CreateTextControl(BRect frame, const char* id, const char* label, const char* text, const char* view)
