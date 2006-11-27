@@ -504,18 +504,21 @@ void YabInterface::StatusBarSet(const char* id, const char* label1, const char* 
 
 void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const char *shortcut, const char* view)
 {
+	std::string sc;
+	std::string item;
 	std::string s = view;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
 		if(s == yabViewList[i]->GetID())
 		{
 			Fl::lock();
-			std::string sc = "^";
+			sc = "^";
 			sc += shortcut;
 			Fl_Menu_Bar *menu;
 			if (yabViewList[i]->HasMenu() == false)
 			{
 				menu = new Fl_Menu_Bar(0, 0, yabViewList[i]->w(), 20);
+				menu->box(FL_THIN_UP_BOX);
 				menu->labelsize(B_FONT_SIZE);
 				menu->color(fl_rgb_color(B_GREY));
 				yabViewList[i]->add(menu);
@@ -529,7 +532,11 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 						break;
 				}
 			}
-			menu->add(menuhead, 0, StaticMessageCallback, (void *)1, FL_SUBMENU);
+			item = menuhead;
+			item += "/";
+			item += menuitem;
+			menu->add(item.c_str(), 0, StaticMessageCallback, (void *)1);
+
 			yabViewList[i]->redraw();
 			Fl::unlock();
 			return;
