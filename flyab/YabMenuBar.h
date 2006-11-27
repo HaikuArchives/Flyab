@@ -5,6 +5,9 @@
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Widget.H>
 #include <string>
+#include <vector>
+
+using namespace std;
 
 class YabMenuBar: public Fl_Menu_Bar
 {
@@ -19,19 +22,21 @@ public:
 	~YabMenuBar()
 	{
 	}
-	void Add(const char* menuhead, const char* menuitem, const char* shortcut, void cb(Fl_Widget *w, void *d))
+	void add(const char* menuhead, const char* menuitem, const char* shortcut, void cb(Fl_Widget *w, void *d))
 	{
 		// generate some kind of return code here
-		return_path = menuhead;
-		return_path += ":";
-		return_path += menuitem;
+		string s = menuhead;
+		s += ":";
+		s += menuitem;
+		ret.push_back(s);
+		int n = ret.size()-1;
 
 		// create a decent shortcut
-		std::string sc = "^";
+		string sc = "^";
 		sc += shortcut;
 
 		// filter out some special chars
-		std::string item;
+		string item;
 		for (int j=0; j<strlen(menuhead); j++)
 		{
 			if (menuitem[j] == 38 || menuhead[j] == 47 || menuhead[j] == 95)
@@ -46,14 +51,10 @@ public:
 			item += menuitem[j];
 		}
 		// finally add the entry
-		Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)item.c_str());
-	}
-	const char* GetPath()
-	{
-		return return_path.c_str();
+		Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
 	}
 private:
-	std::string return_path;
+	vector<string> ret;
 };
 
 #endif

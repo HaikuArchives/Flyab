@@ -248,18 +248,13 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		localMessage += t;
 		return;
 	}
-	if(Fl_Menu_Bar *menu = dynamic_cast<Fl_Menu_Bar*>(widget))
+	if(YabMenuBar *menu = dynamic_cast<YabMenuBar*>(widget))
 	{
-/*		int r, s=10;
-		std::string item;
-		do {
-			char i[s];
-			r = menu->item_pathname(i, sizeof(i)-1);
-			item = i;
-			s += 10;
-		} while(r < 0);
-*/
-//		printf("Menu: %s\n", item.c_str());
+		t += ((YabView*)menu->parent())->GetID();
+		t += ":";
+		t += (const char*)data;
+		t += "|";
+		localMessage += t;
 		return;
 	}
 	if(YabCheckButton *check = dynamic_cast<YabCheckButton*>(widget))
@@ -514,25 +509,17 @@ void YabInterface::StatusBarSet(const char* id, const char* label1, const char* 
 
 void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const char *shortcut, const char* view)
 {
-//	std::string sc;			// shortcut
-//	std::string item;		// the entry
 	std::string s = view;	// the view
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
 		if(s == yabViewList[i]->GetID())
 		{
 			Fl::lock();
-//			sc = "^";
-//			sc += shortcut;
-//			Fl_Menu_Bar *menu;
 			YabMenuBar *menu;
 			if (yabViewList[i]->HasMenu() == false)
 			{
-//				menu = new Fl_Menu_Bar(0, 0, yabViewList[i]->w(), 20);
 				menu = new YabMenuBar(yabViewList[i]->w(), 20);
-//				menu->box(FL_THIN_UP_BOX);
-//				menu->labelsize(B_FONT_SIZE);
-//				menu->color(fl_rgb_color(B_GREY));
+//				menu->callback(StaticMessageCallback);
 				yabViewList[i]->add(menu);
 				yabViewList[i]->HasMenu(true);
 			}
@@ -544,23 +531,7 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 						break;
 				}
 			}
-/*			for (int j=0; j<strlen(menuhead); j++)
-			{
-				if (menuitem[j] == 38 || menuhead[j] == 47 || menuhead[j] == 95)
-					item += "\\";
-				item += menuhead[j];
-			}
-			item += "/";
-			for (int j=0; j<strlen(menuitem); j++)
-			{
-				if (menuitem[j] == 38 || menuhead[j] == 47 || menuhead[j] == 95)
-					item += "\\";
-				item += menuitem[j];
-			}
-*/
-//			menu->add(item.c_str(), sc.c_str(), StaticMessageCallback, (void *)item.c_str());
-			menu->Add(menuhead, menuitem, shortcut, StaticMessageCallback);
-
+			menu->add(menuhead, menuitem, shortcut, StaticMessageCallback);
 			yabViewList[i]->redraw();
 			Fl::unlock();
 			return;
