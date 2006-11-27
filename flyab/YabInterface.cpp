@@ -756,6 +756,7 @@ void YabInterface::CreateDropBox(BRect frame, const char* title, const char* lab
 			dropbox->textsize(B_FONT_SIZE);
 			dropbox->labelsize(B_FONT_SIZE);
 			dropbox->color(fl_rgb_color(B_GREY));
+			dropbox->labelsize(B_FONT_SIZE);
 			dropbox->callback(StaticMessageCallback);
 
 			yabViewList[i]->add(dropbox);

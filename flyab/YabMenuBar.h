@@ -1,3 +1,6 @@
+#ifndef YABMENUBAR_H
+#define YABMENUBAR_H
+
 #include <FL/Fl.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Widget.H>
@@ -51,4 +54,6 @@ public:
 	}
 private:
 	std::string return_path;
-}
+};
+
+#endif
