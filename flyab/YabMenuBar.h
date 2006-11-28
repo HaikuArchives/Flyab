@@ -44,6 +44,11 @@ public:
 		string s = menuhead;
 		s += ":";
 		s += menuitem;
+		if (sub)
+		{
+			s += ":";
+			s += submenu;
+		}
 		ret.push_back(s);
 		int n = ret.size()-1;
 
