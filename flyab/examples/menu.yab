@@ -1,0 +1,31 @@
+// Menu implemented by DasJott
+// this is a testapp.
+
+window open 100, 100 to 400, 400, "W", "MenuWorld"
+
+menu "File", "Open", "o", "W"
+menu "File", "Save", "s", "W"
+menu "File", "--", "", "W"
+submenu "File", "Submenu", "one", "", "W"
+submenu "File", "Submenu", "two", "", "W"
+submenu "File", "Submenu", "disabled", "", "W"
+menu "File", "--", "", "W"
+menu "File", "About", "a", "W"
+
+menu "Edit", "Undo", "z", "W"
+menu "Edit", "Redo", "Z", "W"
+submenu "Edit", "more", "here", "", "W"
+submenu "Edit", "more", "is", "", "W"
+submenu "Edit", "more", "--", "", "W"
+submenu "Edit", "more", "more", "", "W"
+menu "Edit", "That's it", "", "W"
+
+submenu set "Edit", "more", 1, "W"
+submenu set "Edit", "more", "is", "mark", "W"
+submenu set "File", "Submenu", "disabled", "Disable", "W"
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+	if (msg$ <> "") print msg$
+wend
+exit

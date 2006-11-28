@@ -588,8 +588,53 @@ void YabInterface::Menu(const char* menuHead, int isRadio, const char* view)
 	Error(view, "VIEW");
 }
 
-void YabInterface::Menu3(const char* menuHead, const char* menuItem, const char* option,const char* view)
+void YabInterface::Menu3(const char* menuHead, const char* menuItem, const char* option, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			for(int j = 0; j < yabViewList[i]->children(); j++)
+			{
+				if(YabMenuBar *menu = dynamic_cast<YabMenuBar*>(yabViewList[i]->child(j)))
+				{
+					std::string path = menuHead;
+					path += "/";
+					path += menuItem;
+
+					if (Fl_Menu_Item *item = const_cast<Fl_Menu_Item*>(menu->find_item(path.c_str())))
+					{
+						if (strcasecmp(option, "Disable") == 0)
+						{
+							item->deactivate();
+						}
+						else if (strcasecmp(option, "Enable") == 0)
+						{
+							item->activate();
+						}
+						else if (strcasecmp(option, "Mark") == 0)
+						{
+							if(item->radio()) item->setonly();
+						}
+						else if (strcasecmp(option, "Plain") == 0)
+						{
+							if(item->radio()) item->clear();
+						}
+						else if (strcasecmp(option, "Remove") == 0)
+						{
+//							item->remove();
+						}
+						else
+							Error(option, "OPTION");
+						return;
+					}
+					Error(menuItem, "MENUITEM");
+				}
+			}
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::SubMenu(const char* menuHead, const char* menuItem, const char* subMenuItem, const char* shortcut, const char* view)
@@ -666,6 +711,53 @@ void YabInterface::SubMenu(const char* menuHead, const char* menuItem, int isRad
 
 void YabInterface::SubMenu3(const char* menuHead, const char* menuItem, const char* subMenuItem, const char* option, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			for(int j = 0; j < yabViewList[i]->children(); j++)
+			{
+				if(YabMenuBar *menu = dynamic_cast<YabMenuBar*>(yabViewList[i]->child(j)))
+				{
+					std::string path = menuHead;
+					path += "/";
+					path += menuItem;
+					path += "/";
+					path += subMenuItem;
+
+					if (Fl_Menu_Item *item = const_cast<Fl_Menu_Item*>(menu->find_item(path.c_str())))
+					{
+						if (strcasecmp(option, "Disable") == 0)
+						{
+							item->deactivate();
+						}
+						else if (strcasecmp(option, "Enable") == 0)
+						{
+							item->activate();
+						}
+						else if (strcasecmp(option, "Mark") == 0)
+						{
+							if(item->radio()) item->setonly();
+						}
+						else if (strcasecmp(option, "Plain") == 0)
+						{
+							if(item->radio()) item->clear();
+						}
+						else if (strcasecmp(option, "Remove") == 0)
+						{
+//							item->remove();
+						}
+						else
+							Error(option, "OPTION");
+						return;
+					}
+					Error(menuItem, "MENUITEM");
+				}
+			}
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::CreateTextControl(BRect frame, const char* id, const char* label, const char* text, const char* view)
