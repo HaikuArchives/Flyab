@@ -508,7 +508,7 @@ void YabInterface::StatusBarSet(const char* id, const char* label1, const char* 
 
 void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const char *shortcut, const char* view)
 {
-	std::string s = view;	// the view
+	std::string s = view;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
 		if(s == yabViewList[i]->GetID())
@@ -518,7 +518,6 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 			if (yabViewList[i]->HasMenu() == false)
 			{
 				menu = new YabMenuBar(yabViewList[i]->w(), 20);
-//				menu->callback(StaticMessageCallback);
 				yabViewList[i]->add(menu);
 				yabViewList[i]->HasMenu(true);
 			}
@@ -538,6 +537,43 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 		}
 	}
 	Error(view, "VIEW");
+}
+
+void YabInterface::SubMenu(const char* menuHead, const char* menuItem, const char* subMenuItem, const char* shortcut, const char* view)
+{
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			YabMenuBar *menu;
+			if (yabViewList[i]->HasMenu() == false)
+			{
+				menu = new YabMenuBar(yabViewList[i]->w(), 20);
+				yabViewList[i]->add(menu);
+				yabViewList[i]->HasMenu(true);
+			}
+			else
+			{
+				for(int j = 0; j < yabViewList[i]->children(); j++)
+				{
+					if(menu = dynamic_cast<YabMenuBar*>(yabViewList[i]->child(j)))
+						break;
+				}
+			}
+			menu->add(menuHead, menuItem, subMenuItem, shortcut, StaticMessageCallback);
+
+			yabViewList[i]->redraw();
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW");
+}
+
+void YabInterface::SubMenu(const char* menuHead, const char* menuItem, int isRadio, const char* view)
+{
 }
 
 void YabInterface::CreateTextControl(BRect frame, const char* id, const char* label, const char* text, const char* view)
@@ -1627,14 +1663,6 @@ void YabInterface::TextURL(const char* id, const char* option, int r, int g, int
 }
 
 void YabInterface::Menu(const char* menuHead, int isRadio, const char* view)
-{
-}
-
-void YabInterface::SubMenu(const char* menuHead, const char* menuItem, const char* subMenuItem, const char* shortcut, const char* view)
-{
-}
-
-void YabInterface::SubMenu(const char* menuHead, const char* menuItem, int isRadio, const char* view)
 {
 }
 

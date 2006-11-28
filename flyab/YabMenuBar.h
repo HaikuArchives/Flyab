@@ -37,8 +37,8 @@ public:
 	void add(const char* menuhead, const char* menuitem, const char* submenu, const char* shortcut, void cb(Fl_Widget *w, void *d))
 	{
 		// submenu wanted?
-		bool sub=true;
-		if (strcmp(submenu, "") == 0) sub = false;
+		bool sub=false;
+		if (strcmp(submenu, "") != 0) sub = true;
 
 		// generate some kind of return code here
 		string s = menuhead;
@@ -59,6 +59,7 @@ public:
 		if (sub)
 		{
 			item += FilterString(menuitem);
+			item += "/";
 			if (strcmp(submenu, "--") == 0)
 			{
 				item += "DasJott thanks jan__64 for his help";
@@ -74,7 +75,6 @@ public:
 				// finally add the entry
 				Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
 			}
-
 		}
 		else
 		{
