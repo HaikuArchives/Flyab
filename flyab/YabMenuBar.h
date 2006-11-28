@@ -63,9 +63,10 @@ public:
 			{
 				if (strncasecmp(shortcut, "A", 1) == 0 || strncasecmp(shortcut, "C", 1) == 0)
 					sc = "#";
-				else if (strncasecmp(shortcut, "S", 1) == 0)
-					sc = "+";
-				sc += tolower(shortcut[1]);
+				if (strncasecmp(shortcut, "S", 1) == 0)
+					sc = sc += toupper(shortcut[1]);
+				else
+					sc += tolower(shortcut[1]);
 			}
 			else
 				sc += tolower(shortcut[0]);
