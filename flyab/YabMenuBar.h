@@ -6,6 +6,7 @@
 #include <FL/Fl_Widget.H>
 #include <string>
 #include <vector>
+#include <ctype.h>
 
 using namespace std;
 
@@ -29,6 +30,7 @@ public:
 	{
 		box(FL_THIN_UP_BOX);
 		labelsize(B_FONT_SIZE);
+		textsize(B_FONT_SIZE);
 		color(fl_rgb_color(B_GREY));
 	}
 	~YabMenuBar()
@@ -53,9 +55,21 @@ public:
 		int n = ret.size()-1;
 
 		// create a decent shortcut
-		string sc;
-		if (strcmp(shortcut, "") != 0) sc = "^";
-		sc += shortcut;
+		string sc="";
+		if (strcmp(shortcut, ""))
+		{
+			sc = "^";
+			if (strlen(shortcut) > 1)
+			{
+				if (strncasecmp(shortcut, "A", 1) == 0 || strncasecmp(shortcut, "C", 1) == 0)
+					sc = "#";
+				else if (strncasecmp(shortcut, "S", 1) == 0)
+					sc = "+";
+				sc += tolower(shortcut[1]);
+			}
+			else
+				sc += tolower(shortcut[0]);
+		}
 
 		// filter out some special chars
 		string item="";
