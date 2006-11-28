@@ -68,10 +68,10 @@ public:
 			item += "/";
 			if (strcmp(submenu, "--") == 0)
 			{
-				item += "DasJott thanks jan__64 for his help";
+				item += "--";
 				Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
 				int z = find_item(item.c_str())->size();
-				z = size() - z - 1;
+				z = size() - z - 2;
 				if (z > 1) mode(z-1, FL_MENU_DIVIDER);
 				remove(z);
 			}
@@ -86,7 +86,7 @@ public:
 		{
 			if (strcmp(menuitem, "--") == 0)
 			{
-				item += "DasJott thanks jan__64 for his help";
+				item += "--";
 				Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
 				int z = find_item(item.c_str())->size();
 				z = size() - z - 1;
