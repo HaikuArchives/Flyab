@@ -24,8 +24,15 @@ submenu set "Edit", "more", 1, "W"
 submenu set "Edit", "more", "is", "mark", "W"
 submenu set "File", "Submenu", "disabled", "Disable", "W"
 
+statusbar 10, 50 to 110, 70, "S", "My status", "", "W"
+
 while (not instr(msg$, "Quit"))
 	msg$ = message$
 	if (msg$ <> "") print msg$
+
+	cc = cc + 1
+	statusbar set "S", "My status", "", cc
+	if (cc = 100) cc = 0
+	sleep 0.5
 wend
 exit

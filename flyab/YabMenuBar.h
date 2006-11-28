@@ -4,6 +4,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Widget.H>
+#include "YabInterface.h"
 #include <string>
 #include <vector>
 #include <ctype.h>
@@ -25,7 +26,7 @@ string FilterString(const char* s)
 class YabMenuBar: public Fl_Menu_Bar
 {
 public:
-	YabMenuBar(int w, int h)
+	YabMenuBar(int x, int y, int w, int h)
 		: Fl_Menu_Bar(0, 0, w, h)
 	{
 		box(FL_THIN_UP_BOX);

@@ -25,6 +25,7 @@
 #include "YabDropBox.h"
 #include "YabListBox.h"
 #include "YabMenuBar.h"
+#include "YabProgressBar.h"
 #include "YabRadioButton.h"
 #include "YabSpinControl.h"
 #include "YabSlider.h"
@@ -500,10 +501,43 @@ int YabInterface::CreateSVG(BRect frame, const char* FileName, const char* windo
 
 void YabInterface::StatusBar(BRect frame, const char* id, const char* label1, const char* label2, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+
+			YabProgressBar *bar = new YabProgressBar(id, (int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, label1);
+			bar->minimum(0);
+			bar->maximum(100);
+
+			yabViewList[i]->add(bar);
+			yabViewList[i]->redraw();
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::StatusBarSet(const char* id, const char* label1, const char* label2, double state)
 {
+	std::string b=id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if (YabProgressBar *bar = dynamic_cast<YabProgressBar*>(yabViewList[i]->child(j)))
+			{
+				bar->value(state);
+//				bar->label(label1);
+				return;
+			}
+		}
+	}
+	Error(id, "STATUSBAR");
 }
 
 void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const char *shortcut, const char* view)
@@ -517,7 +551,8 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 			YabMenuBar *menu;
 			if (yabViewList[i]->HasMenu() == false)
 			{
-				menu = new YabMenuBar(yabViewList[i]->w(), 20);
+				BPoint newCoor = GetWindowCoordinates(yabViewList[i], 0, 0);
+				menu = new YabMenuBar((int)newCoor.x, (int)newCoor.y, yabViewList[i]->w(), 20);
 				yabViewList[i]->add(menu);
 				yabViewList[i]->HasMenu(true);
 			}
@@ -541,6 +576,7 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 
 void YabInterface::Menu(const char* menuHead, int isRadio, const char* view)
 {
+	if (isRadio < 1) return;
 	std::string s = view;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
@@ -648,7 +684,8 @@ void YabInterface::SubMenu(const char* menuHead, const char* menuItem, const cha
 			YabMenuBar *menu;
 			if (yabViewList[i]->HasMenu() == false)
 			{
-				menu = new YabMenuBar(yabViewList[i]->w(), 20);
+				BPoint newCoor = GetWindowCoordinates(yabViewList[i], 0, 0);
+				menu = new YabMenuBar((int)newCoor.x, (int)newCoor.y, yabViewList[i]->w(), 20);
 				yabViewList[i]->add(menu);
 				yabViewList[i]->HasMenu(true);
 			}
@@ -672,6 +709,7 @@ void YabInterface::SubMenu(const char* menuHead, const char* menuItem, const cha
 
 void YabInterface::SubMenu(const char* menuHead, const char* menuItem, int isRadio, const char* view)
 {
+	if (isRadio < 1) return;
 	std::string s = view;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
