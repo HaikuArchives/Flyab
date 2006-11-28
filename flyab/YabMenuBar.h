@@ -48,7 +48,8 @@ public:
 		int n = ret.size()-1;
 
 		// create a decent shortcut
-		string sc = "^";
+		string sc;
+		if (strcmp(shortcut, "") != 0) sc = "^";
 		sc += shortcut;
 
 		// filter out some special chars
