@@ -551,15 +551,32 @@ void YabInterface::Menu(const char* menuHead, int isRadio, const char* view)
 				if(YabMenuBar *menu = dynamic_cast<YabMenuBar*>(yabViewList[i]->child(j)))
 				{
 					bool found=false;
+					bool wrong_sub=false;
+					bool is_sub=false;
 					for (int j=0; j<menu->size();j++)
 					{
 						const char* item = menu->text(j);
+						if (wrong_sub)
+						{
+							if (item == NULL) wrong_sub = false;
+							continue;
+						}
+
 						if (found)
 						{
-							if (item == NULL) break;
 							int m = menu->mode(j);
+							if (m == FL_SUBMENU) is_sub = true;
+							if (is_sub)
+							{
+								if (item == NULL) is_sub = false;
+								continue;
+							}
+							if (item == NULL) break;
 							menu->mode(j, m|FL_MENU_RADIO);
 						}
+
+						if (item && strcmp(item, menuHead) != 0 && menu->mode(j) == FL_SUBMENU)
+							wrong_sub = true;
 						else if (item && strcmp(item, menuHead) == 0 && menu->mode(j) == FL_SUBMENU)
 							found = true;
 					}
@@ -634,6 +651,7 @@ void YabInterface::SubMenu(const char* menuHead, const char* menuItem, int isRad
 							}
 							else if (item && strcmp(item, menuItem) == 0 && menu->mode(j) == FL_SUBMENU)
 								found2 = true;
+							if (item == NULL) found1 = false;
 						}
 						else if (item && strcmp(item, menuHead) == 0 && menu->mode(j) == FL_SUBMENU)
 								found1 = true;
