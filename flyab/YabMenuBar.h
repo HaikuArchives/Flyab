@@ -72,7 +72,11 @@ public:
 				Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
 				int z = find_item(item.c_str())->size();
 				z = size() - z - 2;
-				if (z > 1) mode(z-1, FL_MENU_DIVIDER);
+				if (z > 1)
+				{
+					int m = mode(z-1);
+					mode(z-1, m|FL_MENU_DIVIDER);
+				}
 				remove(z);
 			}
 			else
@@ -90,7 +94,11 @@ public:
 				Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
 				int z = find_item(item.c_str())->size();
 				z = size() - z - 1;
-				if (z > 1) mode(z-1, FL_MENU_DIVIDER);
+				if (z > 1)
+				{
+					int m = mode(z-1);
+					mode(z-1, m|FL_MENU_DIVIDER);
+				}
 				remove(z);
 			}
 			else

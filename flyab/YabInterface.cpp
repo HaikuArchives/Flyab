@@ -539,6 +539,42 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 	Error(view, "VIEW");
 }
 
+void YabInterface::Menu(const char* menuHead, int isRadio, const char* view)
+{
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			for(int j = 0; j < yabViewList[i]->children(); j++)
+			{
+				if(YabMenuBar *menu = dynamic_cast<YabMenuBar*>(yabViewList[i]->child(j)))
+				{
+					bool found=false;
+					for (int j=0; j<menu->size();j++)
+					{
+						const char* item = menu->text(j);
+						if (found)
+						{
+							if (item == NULL) break;
+							int m = menu->mode(j);
+							menu->mode(j, m|FL_MENU_RADIO);
+						}
+						else if (item && strcmp(item, menuHead) == 0 && menu->mode(j) == FL_SUBMENU)
+							found = true;
+					}
+					return;
+				}
+			}
+		}
+	}
+	Error(view, "VIEW");
+}
+
+void YabInterface::Menu3(const char* menuHead, const char* menuItem, const char* option,const char* view)
+{
+}
+
 void YabInterface::SubMenu(const char* menuHead, const char* menuItem, const char* subMenuItem, const char* shortcut, const char* view)
 {
 	std::string s = view;
@@ -573,6 +609,44 @@ void YabInterface::SubMenu(const char* menuHead, const char* menuItem, const cha
 }
 
 void YabInterface::SubMenu(const char* menuHead, const char* menuItem, int isRadio, const char* view)
+{
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			for(int j = 0; j < yabViewList[i]->children(); j++)
+			{
+				if(YabMenuBar *menu = dynamic_cast<YabMenuBar*>(yabViewList[i]->child(j)))
+				{
+					bool found1=false;
+					bool found2=false;
+					for (int j=0; j<menu->size();j++)
+					{
+						const char* item = menu->text(j);
+						if (found1)
+						{
+							if (found2)
+							{
+								if (item == NULL) break;
+								int m = menu->mode(j);
+								menu->mode(j, m|FL_MENU_RADIO);
+							}
+							else if (item && strcmp(item, menuItem) == 0 && menu->mode(j) == FL_SUBMENU)
+								found2 = true;
+						}
+						else if (item && strcmp(item, menuHead) == 0 && menu->mode(j) == FL_SUBMENU)
+								found1 = true;
+					}
+					return;
+				}
+			}
+		}
+	}
+	Error(view, "VIEW");
+}
+
+void YabInterface::SubMenu3(const char* menuHead, const char* menuItem, const char* subMenuItem, const char* option, const char* view)
 {
 }
 
@@ -1662,23 +1736,11 @@ void YabInterface::TextURL(const char* id, const char* option, int r, int g, int
 {
 }
 
-void YabInterface::Menu(const char* menuHead, int isRadio, const char* view)
-{
-}
-
 int YabInterface::ColorControlGet(const char* colorcontrol, const char* option)
 {
 }
 
 int YabInterface::SliderGet(const char* slider)
-{
-}
-
-void YabInterface::SubMenu3(const char* menuHead, const char* menuItem, const char* subMenuItem, const char* option, const char* view)
-{
-}
-
-void YabInterface::Menu3(const char* menuHead, const char* menuItem, const char* option,const char* view)
 {
 }
 
