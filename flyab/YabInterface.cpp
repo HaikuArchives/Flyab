@@ -530,7 +530,7 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 						break;
 				}
 			}
-			menu->add(menuhead, menuitem, shortcut, StaticMessageCallback);
+			menu->add(menuhead, menuitem, "", shortcut, StaticMessageCallback);
 
 			yabViewList[i]->redraw();
 			Fl::unlock();

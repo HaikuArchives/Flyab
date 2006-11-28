@@ -9,6 +9,18 @@
 
 using namespace std;
 
+string FilterString(const char* s)
+{	// filter out some special chars
+	string item = "";
+	for (int i=0; i<strlen(s); i++)
+	{
+		if (s[i] == 38 || s[i] == 47 || s[i] == 95)
+			item += "\\";
+		item += s[i];
+	}
+	return item;
+}
+
 class YabMenuBar: public Fl_Menu_Bar
 {
 public:
@@ -22,8 +34,12 @@ public:
 	~YabMenuBar()
 	{
 	}
-	void add(const char* menuhead, const char* menuitem, const char* shortcut, void cb(Fl_Widget *w, void *d))
+	void add(const char* menuhead, const char* menuitem, const char* submenu, const char* shortcut, void cb(Fl_Widget *w, void *d))
 	{
+		// submenu wanted?
+		bool sub=true;
+		if (strcmp(submenu, "") == 0) sub = false;
+
 		// generate some kind of return code here
 		string s = menuhead;
 		s += ":";
@@ -36,33 +52,47 @@ public:
 		sc += shortcut;
 
 		// filter out some special chars
-		string item;
-		for (int j=0; j<strlen(menuhead); j++)
-		{
-			if (menuhead[j] == 38 || menuhead[j] == 47 || menuhead[j] == 95)
-				item += "\\";
-			item += menuhead[j];
-		}
+		string item="";
+		item += FilterString(menuhead);
 		item += "/";
-		if (strcmp(menuitem, "--") == 0)
+
+		if (sub)
 		{
-			item += "tmp";
-			Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
-			int z = find_item(item.c_str())->size();
-			z = size() - z - 1;
-			if (z > 1) mode(z-1, FL_MENU_DIVIDER);
-			remove(z);
+			item += FilterString(menuitem);
+			if (strcmp(submenu, "--") == 0)
+			{
+				item += "DasJott thanks jan__64 for his help";
+				Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
+				int z = find_item(item.c_str())->size();
+				z = size() - z - 1;
+				if (z > 1) mode(z-1, FL_MENU_DIVIDER);
+				remove(z);
+			}
+			else
+			{
+				item += FilterString(submenu);
+				// finally add the entry
+				Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
+			}
+
 		}
 		else
 		{
-			for (int j=0; j<strlen(menuitem); j++)
+			if (strcmp(menuitem, "--") == 0)
 			{
-				if (menuitem[j] == 38 || menuitem[j] == 47 || menuitem[j] == 95)
-					item += "\\";
-				item += menuitem[j];
+				item += "DasJott thanks jan__64 for his help";
+				Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
+				int z = find_item(item.c_str())->size();
+				z = size() - z - 1;
+				if (z > 1) mode(z-1, FL_MENU_DIVIDER);
+				remove(z);
 			}
-			// finally add the entry
-			Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
+			else
+			{
+				item += FilterString(menuitem);
+				// finally add the entry
+				Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
+			}
 		}
 	}
 private:
