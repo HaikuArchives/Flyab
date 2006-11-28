@@ -45,7 +45,14 @@ public:
 		}
 		item += "/";
 		if (strcmp(menuitem, "--") == 0)
-			Fl_Menu_Bar::add(item.c_str(), "", cb, (void *)"", FL_MENU_DIVIDER);
+		{
+			item += "tmp";
+			Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
+			int z = find_item(item.c_str())->size();
+			z = size() - z - 1;
+			if (z > 1) mode(z-1, FL_MENU_DIVIDER);
+			remove(z);
+		}
 		else
 		{
 			for (int j=0; j<strlen(menuitem); j++)
