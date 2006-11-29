@@ -1254,14 +1254,17 @@ void YabInterface::Slider(BRect frame, const char* id, const char* title, int mi
 	{
 		if(s == yabViewList[i]->GetID())
 		{
-
 			Fl::lock();
 
 			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 
-			YabSlider *yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, (int)frame.width, 20, id,title);
+			int x = static_cast<int>(newCoor.x);
+			int y = static_cast<int>(newCoor.y);
+			int w = static_cast<int>(frame.width);
+
+			YabSlider *yabslider = new YabSlider(x, y, w, 20, id, title);
 			yabslider->type(FL_HORIZONTAL);	//type(FL_HOR_NICE_SLIDER);
-			
+
 			yabslider->minimum(min);
 			yabslider->maximum(max);
 			yabslider->step(1);
@@ -1335,6 +1338,33 @@ void YabInterface::SetSlider(const char* id, const char* bottomtop, int count)
 
 void YabInterface::SetSlider(const char* id, const char* part, int r, int g, int b)
 {
+	int myMode = 0;
+	if (strcasecmp(part, "barcolor") == 0) myMode = 1;
+	if (strcasecmp(part, "fillcolor") == 0) myMode = 2;
+	if (myMode == 0) Error(part, "PART");
+
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabSlider *slider = dynamic_cast<YabSlider*>(yabViewList[i]->child(j)))
+			{
+				if(s == slider->GetID())
+				{
+					Fl::lock();
+					if (myMode == 1)
+						slider->color(fl_rgb_color(r, g, b));
+					else if (myMode ==2)
+						slider->selection_color(fl_rgb_color(r, g, b));
+					slider->redraw();
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "SLIDER");
 }
 
 void YabInterface::SetSlider(const char* id, int value)

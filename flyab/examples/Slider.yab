@@ -8,6 +8,9 @@ slider set "Slider1", 18
 
 print "Slider1 = ", slider get "Slider1"
 
+slider color "Slider1", "barcolor", 66, 170, 75
+slider color "Slider1", "fillcolor", 170, 66, 75
+
 REM MAIN LOOP
 while(not quitting)
 	msg$ = message$
