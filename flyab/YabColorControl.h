@@ -1,7 +1,6 @@
 #ifndef YABCOLORCONTROL_H
 #define YABCOLORCONTROL_H
 
-//#include <FL/fl_draw.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Slider.H>
 #include "YabWidget.h"

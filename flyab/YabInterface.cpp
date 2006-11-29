@@ -838,6 +838,59 @@ void YabInterface::CreateTextControl(BRect frame, const char* id, const char* la
 	Error(view, "VIEW");
 }
 
+void YabInterface::TextControl(const char* id, const char* text)
+{
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabTextControl *control = dynamic_cast<YabTextControl*>(yabViewList[i]->child(j)))
+			{
+				if(s == control->GetID())
+				{
+					Fl::lock();
+					control->value(text);
+					control->redraw();
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "TEXTCONTROL");
+}
+
+void YabInterface::TextControl(const char* id, int mode)
+{
+}
+
+void YabInterface::TextControl(const char* id)
+{
+}
+
+const char* YabInterface::TextControlGet(const char* id)
+{
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabTextControl *control = dynamic_cast<YabTextControl*>(yabViewList[i]->child(j)))
+			{
+				if(s == control->GetID())
+				{
+					Fl::lock();
+					const char* ret = control->value();
+					Fl::unlock();
+					return ret;
+				}
+			}
+		}
+	}
+	Error(id, "TEXTCONTROL");
+}
+
 void YabInterface::CreateCheckBox(double x, double y, const char* id, const char* label, int isActivated, const char* view)
 {
 	std::string s = view;
@@ -1508,18 +1561,6 @@ int YabInterface::ColorControlGet(const char* colorcontrol, const char* option)
 	Error(colorcontrol, "COLORCONTROL");
 }
 
-void YabInterface::TextControl(const char* id, const char* text)
-{
-}
-
-void YabInterface::TextControl(const char* id, int mode)
-{
-}
-
-void YabInterface::TextControl(const char* id)
-{
-}
-
 void YabInterface::CreateAlert(const char* text, const char* button1, const char* option)
 {
 	YabAlert *alert = new YabAlert(text, button1, "", "", option);
@@ -1737,10 +1778,6 @@ void YabInterface::ButtonImage(double x,double y, const char* id,const char* ena
 }
 
 void YabInterface::CheckboxImage(double x, double y,const char* id,const char* enabledon, const char* enabledoff, const char *disabledon, const char *disabledoff, int isActivated, const char* view)
-{
-}
-
-const char* YabInterface::TextControlGet(const char* id)
 {
 }
 

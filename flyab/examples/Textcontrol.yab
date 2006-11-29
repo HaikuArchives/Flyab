@@ -2,6 +2,10 @@ window open 100,100 to 600,300, "MainView", "Textcontrol"
 
 textcontrol 10,50 to 390,70, "tc", "Textcontrol", "Mein Text", "MainView"
 
+textcontrol set "tc", "Mein neuer Text"
+
+print "Text: ", textcontrol get$ "tc"
+
 REM MAIN LOOP
 while(not quitting)
 	msg$ = message$
