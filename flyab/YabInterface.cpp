@@ -979,7 +979,7 @@ void YabInterface::CheckboxSet(const char* id, int isActivated)
 					return;
 				}
 
-	Error(id, "RADIOBUTTON");
+	Error(id, "CHECKBOX");
 }
 
 void YabInterface::CreateRadioButton(double x, double y, const char* id, const char* label, int isActivated, const char* view)
@@ -1425,6 +1425,25 @@ void YabInterface::Slider(BRect frame, const char* id, const char* title, int mi
 
 void YabInterface::SetSlider(const char* id, const char* label1, const char* label2)
 {
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabSlider *slider = dynamic_cast<YabSlider*>(yabViewList[i]->child(j)))
+			{
+				if(s == slider->GetID())
+				{
+					Fl::lock();
+					slider->label(label1);
+					slider->redraw_label();
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "SLIDER");
 }
 
 void YabInterface::SetSlider(const char* id, const char* bottomtop, int count)
