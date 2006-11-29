@@ -819,13 +819,13 @@ void YabInterface::CreateTextControl(BRect frame, const char* id, const char* la
 			w = (int)fl_width(label);
 
 			YabTextControl *txt = new YabTextControl((int)newCoor.x+w, (int)newCoor.y, (int)frame.width-w, (int)frame.height, id, label);
-
-			txt->value(text);
-			txt->textsize(B_FONT_SIZE);
-			txt->when(FL_WHEN_ENTER_KEY);
-
-			txt->callback(StaticMessageCallback);
+			txt->type(FL_NORMAL_INPUT);
 			txt->labelsize(B_FONT_SIZE);
+			txt->textsize(B_FONT_SIZE);
+			txt->value(text);
+
+			txt->when(FL_WHEN_ENTER_KEY);
+			txt->callback(StaticMessageCallback);
 
 			yabViewList[i]->add(txt);
 			yabViewList[i]->redraw();
@@ -861,12 +861,27 @@ void YabInterface::TextControl(const char* id, const char* text)
 	Error(id, "TEXTCONTROL");
 }
 
-void YabInterface::TextControl(const char* id, int mode)
-{
-}
-
 void YabInterface::TextControl(const char* id)
 {
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabTextControl *control = dynamic_cast<YabTextControl*>(yabViewList[i]->child(j)))
+			{
+				if(s == control->GetID())
+				{
+					Fl::lock();
+					control->value("");
+					control->redraw();
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "TEXTCONTROL");
 }
 
 const char* YabInterface::TextControlGet(const char* id)
@@ -884,6 +899,32 @@ const char* YabInterface::TextControlGet(const char* id)
 					const char* ret = control->value();
 					Fl::unlock();
 					return ret;
+				}
+			}
+		}
+	}
+	Error(id, "TEXTCONTROL");
+}
+
+void YabInterface::TextControl(const char* id, int mode)
+{
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabTextControl *control = dynamic_cast<YabTextControl*>(yabViewList[i]->child(j)))
+			{
+				if(s == control->GetID())
+				{
+					Fl::lock();
+					if (mode < 1)
+						control->type(FL_NORMAL_INPUT);
+					else
+						control->type(FL_SECRET_INPUT);
+					control->redraw();
+					Fl::unlock();
+					return;
 				}
 			}
 		}

@@ -1,21 +1,39 @@
-window open 100,100 to 600,300, "MainView", "Textcontrol"
+window open 100,100 to 500,240, "MainView", "Textcontrol"
+
+checkbox 10, 20, "cb", "Password mode", 0, "MainView"
 
 textcontrol 10,50 to 390,70, "tc", "Textcontrol", "Mein Text", "MainView"
-
 textcontrol set "tc", "Mein neuer Text"
 
-print "Text: ", textcontrol get$ "tc"
+button 10, 100 to 200, 120, "B1", "get$ (and print)", "MainView"
+button 210, 100 to 390, 120, "B2", "clear", "MainView"
 
 REM MAIN LOOP
 while(not quitting)
 	msg$ = message$
-	if(msg$<>"") print msg$
+//	if(msg$<>"") print msg$
 	
 	switch msg$
 		case "MainView:_QuitRequested|" 
 			quitting = true 
 			break
 		
+		case "cb:ON|"
+			textcontrol set "tc", 1
+			break
+
+		case "cb:OFF|"
+			textcontrol set "tc", 0
+			break
+
+		case "B1|"
+			print textcontrol get$ "tc"
+			break
+
+		case "B2|"
+			textcontrol clear "tc"
+			break
+
 	end switch
 wend
 
