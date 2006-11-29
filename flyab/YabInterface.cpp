@@ -531,9 +531,11 @@ void YabInterface::StatusBarSet(const char* id, const char* label1, const char* 
 		{
 			if (YabProgressBar *bar = dynamic_cast<YabProgressBar*>(yabViewList[i]->child(j)))
 			{
-				bar->value(state);
-//				bar->label(label1);
-				return;
+				if (b == bar->GetID())
+				{
+					bar->value(state);
+					return;
+				}
 			}
 		}
 	}

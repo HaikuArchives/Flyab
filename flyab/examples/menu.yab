@@ -33,6 +33,6 @@ while (not instr(msg$, "Quit"))
 	cc = cc + 1
 	statusbar set "S", "My status", "", cc
 	if (cc = 100) cc = 0
-	sleep 0.5
+	sleep 0.02
 wend
 exit
