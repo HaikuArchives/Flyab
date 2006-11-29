@@ -534,6 +534,7 @@ void YabInterface::StatusBarSet(const char* id, const char* label1, const char* 
 				if (b == bar->GetID())
 				{
 					bar->value(state);
+					bar->copy_label(label1);
 					return;
 				}
 			}
