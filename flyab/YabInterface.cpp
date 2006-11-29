@@ -1271,7 +1271,10 @@ void YabInterface::DrawRect(BRect frame, const char* window)
 			BPoint newCoor2 = GetWindowCoordinates(yabViewList[i], frame.x2, frame.y2);
 
 			YabDrawing *t = new YabDrawing();
-			t->command = 1;
+			if(drawStroking)
+				t->command = 4;
+			else
+				t->command = 5;
 			t->x1 = (int)newCoor1.x;
 			t->y1 = (int)newCoor1.y;
 			t->x2 = (int)newCoor2.x;
@@ -1387,7 +1390,10 @@ void YabInterface::DrawCurve(double x1, double y1, double x2, double y2, double 
 			BPoint newCoor4 = GetWindowCoordinates(yabViewList[i], x4, y4);
 
 			YabDrawing *t = new YabDrawing();
-			t->command = 8;
+			if(drawStroking)
+				t->command = 8;
+			else
+				t->command = 9;
 			t->x1 = (int)newCoor1.x;
 			t->y1 = (int)newCoor1.y;
 			t->x2 = (int)newCoor2.x;
@@ -2116,6 +2122,7 @@ void YabInterface::DrawSet1(const char* option, const char* window)
 
 void YabInterface::DrawSet2(int fillorstroke, const char* mypattern)
 {
+	drawStroking = fillorstroke ? true : false;
 }
 
 int YabInterface::DeskbarParam(const char* option)
