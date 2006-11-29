@@ -22,6 +22,7 @@
 #include "YabAlert.h"
 #include "YabButton.h"
 #include "YabCheckButton.h"
+#include "YabColorControl.h"
 #include "YabDropBox.h"
 #include "YabListBox.h"
 #include "YabMenuBar.h"
@@ -1432,10 +1433,79 @@ void YabInterface::DropZone(const char* view)
 
 void YabInterface::ColorControl(double x, double y, const char* id, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint point = GetWindowCoordinates(yabViewList[i], x, y);
+
+			YabColorControl *control = new YabColorControl((int)point.x, (int)point.y, 276, 54, id);
+			control->rgb(0, 0, 0);
+			control->redraw();
+
+			yabViewList[i]->add(control);
+			yabViewList[i]->redraw();
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::ColorControl(const char* id, int r, int g, int b)
 {
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabColorControl *control = dynamic_cast<YabColorControl*>(yabViewList[i]->child(j)))
+			{
+				if(s == control->GetID())
+				{
+					Fl::lock();
+					control->rgb(r, g, b);
+					control->redraw();
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "COLORCONTROL");
+}
+
+int YabInterface::ColorControlGet(const char* colorcontrol, const char* option)
+{
+	int myMode = 0;
+	if(strcasecmp(option, "red") == 0) myMode = 1;
+	if(strcasecmp(option, "green") == 0) myMode = 2;
+	if(strcasecmp(option, "blue") == 0) myMode = 3;
+	if(myMode == 0) Error(option, "OPTION");
+
+	std::string s = colorcontrol;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabColorControl *control = dynamic_cast<YabColorControl*>(yabViewList[i]->child(j)))
+			{
+				if(s == control->GetID())
+				{
+					int ret;
+					Fl::lock();
+					if(myMode == 1) ret = (int)control->r();
+					if(myMode == 2) ret = (int)control->g();
+					if(myMode == 3) ret = (int)control->b();
+					Fl::unlock();
+					return ret;
+				}
+			}
+		}
+	}
+	Error(colorcontrol, "COLORCONTROL");
 }
 
 void YabInterface::TextControl(const char* id, const char* text)
@@ -1947,10 +2017,6 @@ void YabInterface::TextURL(double x, double y, const char* id, const char* text,
 }
 
 void YabInterface::TextURL(const char* id, const char* option, int r, int g, int b)
-{
-}
-
-int YabInterface::ColorControlGet(const char* colorcontrol, const char* option)
 {
 }
 
