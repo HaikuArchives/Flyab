@@ -29,7 +29,6 @@ public:
 	bool HasMenu();
 private:
 	std::vector<YabDrawing*> drawList;
-	bool flush;
 	bool hasmenu;
 };
 

@@ -1181,8 +1181,6 @@ void YabInterface::DrawClear(const char* window, bool isExit)
 			*/
 
 			yabViewList[i]->redraw();
-			Snooze(0.01);
-			yabViewList[i]->redraw();
 			Fl::unlock();
 			return;
 		}

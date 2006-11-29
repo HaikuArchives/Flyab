@@ -7,7 +7,6 @@
 YabView::YabView(int x, int y, int width, int height, const char* id)
 	: Fl_Group(x,y,width,height), YabWidget(id)
 {
-	flush = false;
 	hasmenu = false;
 }
 
@@ -38,35 +37,27 @@ void YabView::FlushDrawings()
 		delete last;
 	}
 	drawList.clear();
-	flush = true;
+	// this might be a workaround as well, but with less lines ;P
+	hide();
+	show();
 }
 
 void YabView::draw()
 {
 	fl_color(0,0,0);
-	if(flush)
-	{ 
-		// uebler Workaround, aber funktioniert erstmal
-		fl_draw_box(FL_FLAT_BOX, 0,0, (window())->w(),(window())->h(), fl_rgb_color(B_GREY));
-		flush = false;
-		draw();
-	}
-	else
+	for(int i=0; i<drawList.size(); i++)
 	{
-		for(int i=0; i<drawList.size(); i++)
+		YabDrawing *e = drawList[i];
+		switch(e->command)
 		{
-			YabDrawing *e = drawList[i];
-			switch(e->command)
-			{
-				case 0: // draw text
-					fl_draw(e->chardata, e->x1, e->y1);
-					break;
-				case 1: // draw line
-					fl_line(e->x1, e->y1, e->x2, e->y2); 
-					break;
-				default:
-					break;
-			}
+			case 0: // draw text
+				fl_draw(e->chardata, e->x1, e->y1);
+				break;
+			case 1: // draw line
+				fl_line(e->x1, e->y1, e->x2, e->y2); 
+				break;
+			default:
+				break;
 		}
 	}
 	Fl_Group::draw();
