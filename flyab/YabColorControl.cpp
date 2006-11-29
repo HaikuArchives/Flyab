@@ -22,6 +22,7 @@ YabColorControl::YabColorControl(int x, int y, int w, int h, const char* id)
 		slider[i]->redraw();
 		add(slider[i]);
 	}
+	resizable(NULL);
 	end();
 	redraw();
 }
