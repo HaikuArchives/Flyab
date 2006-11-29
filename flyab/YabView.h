@@ -30,6 +30,7 @@ public:
 private:
 	std::vector<YabDrawing*> drawList;
 	bool hasmenu;
+	Fl_Color bgcolor, lowcolor, highcolor;
 };
 
 #endif

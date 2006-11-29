@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
 /* build-time, that will be displayed in banner */
-#define BUILD_TIME "Tue Jan 24 13:37:11 CET 2006"
+#define BUILD_TIME "$Date$"
 
 /* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
    systems. This function is required for `alloca.c' support on those systems.

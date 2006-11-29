@@ -1129,7 +1129,7 @@ void YabInterface::CreateItem(const char* id, const char* item)
 
 void YabInterface::DropBoxSelect(const char* dropbox, int position)
 {
-	printf("-- this command makes no sense in fltk\n");
+	// printf("-- this command makes no sense in fltk\n");
 }
 
 void YabInterface::DropBoxClear(const char* dropbox)
@@ -1227,12 +1227,12 @@ const char* YabInterface::DropBoxGet(const char* dropbox, int position)
 
 void YabInterface::RemoveItem(const char* title, const char* item)
 {
-	printf("-- This is a _very_ old command, not used anymore.\n");
+	// This is listbox remove
 }
 
 void YabInterface::ClearItems(const char* title)
 {
-	printf("-- This is a _very_ old command, not used anymore.\n");
+	// This is listbox clear
 }
 
 void YabInterface::DrawText(BPoint coordinates, const char* text, const char* window)
@@ -1261,6 +1261,30 @@ void YabInterface::DrawText(BPoint coordinates, const char* text, const char* wi
 
 void YabInterface::DrawRect(BRect frame, const char* window)
 {
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint newCoor1 = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+			BPoint newCoor2 = GetWindowCoordinates(yabViewList[i], frame.x2, frame.y2);
+
+			YabDrawing *t = new YabDrawing();
+			t->command = 1;
+			t->x1 = (int)newCoor1.x;
+			t->y1 = (int)newCoor1.y;
+			t->x2 = (int)newCoor2.x;
+			t->y2 = (int)newCoor2.y;
+
+			yabViewList[i]->AddDrawing(t);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW or WINDOW");
 }
 
 void YabInterface::DrawClear(const char* window, bool isExit)
@@ -1288,6 +1312,29 @@ void YabInterface::DrawClear(const char* window, bool isExit)
 
 void YabInterface::DrawDot(double x, double y, const char* window)
 {
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint newCoor1 = GetWindowCoordinates(yabViewList[i], x, y);
+
+			YabDrawing *t = new YabDrawing();
+			t->command = 1;
+			t->x1 = (int)newCoor1.x;
+			t->y1 = (int)newCoor1.y;
+			t->x2 = (int)newCoor1.x;
+			t->y2 = (int)newCoor1.y;
+
+			yabViewList[i]->AddDrawing(t);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW or WINDOW");
 }
 
 void YabInterface::DrawLine(double x1, double y1, double x2, double y2, const char* window)
@@ -1328,6 +1375,36 @@ void YabInterface::DrawEllipse(double x, double y, double r1, double r2, const c
 
 void YabInterface::DrawCurve(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, const char* window)
 {
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint newCoor1 = GetWindowCoordinates(yabViewList[i], x1, y1);
+			BPoint newCoor2 = GetWindowCoordinates(yabViewList[i], x2, y2);
+			BPoint newCoor3 = GetWindowCoordinates(yabViewList[i], x3, y3);
+			BPoint newCoor4 = GetWindowCoordinates(yabViewList[i], x4, y4);
+
+			YabDrawing *t = new YabDrawing();
+			t->command = 8;
+			t->x1 = (int)newCoor1.x;
+			t->y1 = (int)newCoor1.y;
+			t->x2 = (int)newCoor2.x;
+			t->y2 = (int)newCoor2.y;
+			t->x3 = (int)newCoor3.x;
+			t->y3 = (int)newCoor3.y;
+			t->x4 = (int)newCoor4.x;
+			t->y4 = (int)newCoor4.y;
+
+			yabViewList[i]->AddDrawing(t);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW or WINDOW");
 }
 
 void YabInterface::CreateText(double x, double y, const char* id, const char* text, const char* view)

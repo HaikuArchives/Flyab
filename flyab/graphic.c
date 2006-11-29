@@ -214,7 +214,7 @@ void createitem(struct command *cmd, YabInterface* yab) /* item add */
 	yi_CreateItem(view,item,yab);
 }
 
-void removeitem(struct command *cmd, YabInterface* yab) /* item add */
+void removeitem(struct command *cmd, YabInterface* yab) /* item remove */
 {
 	char *title, *item;
         
