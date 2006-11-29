@@ -533,8 +533,10 @@ void YabInterface::StatusBarSet(const char* id, const char* label1, const char* 
 			{
 				if (b == bar->GetID())
 				{
+					Fl::lock();
 					bar->value(state);
 					bar->copy_label(label1);
+					Fl::unlock();
 					return;
 				}
 			}
@@ -1032,6 +1034,7 @@ void YabInterface::CreateItem(const char* id, const char* item)
 
 void YabInterface::DropBoxSelect(const char* dropbox, int position)
 {
+	printf("-- this command makes no sense in fltk\n");
 }
 
 void YabInterface::DropBoxClear(const char* dropbox)
@@ -1129,12 +1132,12 @@ const char* YabInterface::DropBoxGet(const char* dropbox, int position)
 
 void YabInterface::RemoveItem(const char* title, const char* item)
 {
-	printf("This is a _very_ old command, not used anymore.\n");
+	printf("-- This is a _very_ old command, not used anymore.\n");
 }
 
 void YabInterface::ClearItems(const char* title)
 {
-	printf("This is a _very_ old command, not used anymore.\n");
+	printf("-- This is a _very_ old command, not used anymore.\n");
 }
 
 void YabInterface::DrawText(BPoint coordinates, const char* text, const char* window)
@@ -1261,15 +1264,11 @@ void YabInterface::Slider(BRect frame, const char* id, const char* title, int mi
 			
 			yabslider->minimum(min);
 			yabslider->maximum(max);
-			
-			//yabslider->value();
-			yabslider->redraw();
-
-			yabslider->callback(StaticMessageCallback);
-			
+			yabslider->step(1);
 			yabslider->color(fl_rgb_color(B_GREY));
 			yabslider->labelsize(B_FONT_SIZE);
-			//yabslider->textsize(B_FONT_SIZE);
+			yabslider->callback(StaticMessageCallback);
+			yabslider->redraw();
 
 			yabViewList[i]->add(yabslider);
 			yabViewList[i]->redraw();
@@ -1309,14 +1308,11 @@ void YabInterface::Slider(BRect frame, const char* id, const char* title, int mi
 			
 			yabslider->minimum(min);
 			yabslider->maximum(max);
-
-			yabslider->redraw();
-
-			yabslider->callback(StaticMessageCallback);
-			
+			yabslider->step(1);
 			yabslider->color(fl_rgb_color(B_GREY));
 			yabslider->labelsize(B_FONT_SIZE);
-			//yabslider->textsize(B_FONT_SIZE);
+			yabslider->callback(StaticMessageCallback);
+			yabslider->redraw();
 			
 			yabViewList[i]->add(yabslider);
 			yabViewList[i]->redraw();
@@ -1343,6 +1339,45 @@ void YabInterface::SetSlider(const char* id, const char* part, int r, int g, int
 
 void YabInterface::SetSlider(const char* id, int value)
 {
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabSlider *slider = dynamic_cast<YabSlider*>(yabViewList[i]->child(j)))
+			{
+				if(s == slider->GetID())
+				{
+					Fl::lock();
+					double v = slider->round(value);
+					slider->value(v);
+					slider->redraw();
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "SLIDER");
+}
+
+int YabInterface::SliderGet(const char* slider)
+{
+	std::string s = slider;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabSlider *slider = dynamic_cast<YabSlider*>(yabViewList[i]->child(j)))
+			{
+				if(s == slider->GetID())
+				{
+					return static_cast<int>(slider->value());
+				}
+			}
+		}
+	}
+	Error(slider, "SLIDER");
 }
 
 void YabInterface::SetOption(const char* id, const char* option, const char* value)
@@ -1886,10 +1921,6 @@ void YabInterface::TextURL(const char* id, const char* option, int r, int g, int
 }
 
 int YabInterface::ColorControlGet(const char* colorcontrol, const char* option)
-{
-}
-
-int YabInterface::SliderGet(const char* slider)
 {
 }
 
