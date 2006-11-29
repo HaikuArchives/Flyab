@@ -1701,6 +1701,26 @@ void YabInterface::WindowSet(const char* option, int r, int g, int b, const char
 
 void YabInterface::WindowSet(const char* option, double x, double y, const char* window)
 {
+	int myMode=0;
+	if (strcasecmp(option, "ResizeTo") == 0) myMode = 1;
+	if (strcasecmp(option, "MoveTo") == 0) myMode = 2;
+	if (strcasecmp(option, "MinimumTo") == 0) myMode = 3;
+	if (strcasecmp(option, "MaximumTo") == 0) myMode = 4;
+	if (myMode == 0) Error(option, "OPTION");
+
+	std::string s = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+		if (YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]))
+			if (s == win->GetID())
+			{
+				Fl::lock();
+				if (myMode == 1) win->size((int)x, (int)y);
+				if (myMode == 2) win->position((int)x, (int)y);
+				if (myMode == 3) win->MinimumTo(x, y);
+				if (myMode == 4) win->MaximumTo(x, y);
+				Fl::unlock();
+				return;
+			}
 }
 
 void YabInterface::WindowClear(const char* window)

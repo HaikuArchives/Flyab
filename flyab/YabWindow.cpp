@@ -7,6 +7,22 @@ YabWindow::YabWindow(int x, int y, int width, int height, const char* id, const 
 	resizable(this);
 	copy_label(label);
 	id_ = id;
+	minw = minh = 0;
+	maxw = maxh = -1;
+}
+
+void YabWindow::MinimumTo(int w, int h)
+{
+	minw = w;
+	minh = h;
+	size_range(minw, minh, maxw, maxh);
+}
+
+void YabWindow::MaximumTo(int w, int h)
+{
+	maxw = w;
+	maxh = h;
+	size_range(minw, minh, maxw, maxh);
 }
 
 const char* YabWindow::GetID()

@@ -8,11 +8,14 @@ class YabWindow : public Fl_Double_Window
 {
 public:
 	YabWindow(int x1, int y1, int width, int height, const char* id, const char* label);
+	void MinimumTo(int w, int h);
+	void MaximumTo(int w, int h);
 	const char* GetID();
 	int handle(int);
 
 private:
 	std::string id_;
+	int maxw, maxh, minw, minh;
 };
 
 #endif
