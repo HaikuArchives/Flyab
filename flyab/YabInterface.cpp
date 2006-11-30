@@ -415,7 +415,6 @@ int YabInterface::CloseWindow(const char* view)
 void YabInterface::WindowSet(const char* option, const char* value, const char* window)
 {
 	int myMode=0;
-
 	std::string t = option;
 	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
 
@@ -459,95 +458,97 @@ void YabInterface::WindowSet(const char* option, const char* value, const char* 
 		if(t.find("current") != std::string::npos) myMode = 502;
 	}
 
-	if (myMode == 0) Error(option, "OPTION");
+	if (myMode == 0) ErrorGen("Invalid option");
 
 	std::string s = window;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
 		if(s == yabViewList[i]->GetID())
 		{
-			Fl::lock();
-			YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window());
-			switch (myMode)
+			if (YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window()));
 			{
-			// look
-				case 101:
-					win->border(1);
-					break;
-				case 102:
-					win->border(1);
-					break;
-				case 103:
-					win->border(1);
-					break;
-				case 104:
-					win->border(1);
-					break;
-				case 105:
-					win->border(1);
-					break;
-				case 106:	// no-border
-					win->border(0);
-					break;
-			// feel
-				case 201:
-					break;
-				case 202:	// modal-app
-					win->set_modal();
-					break;
-				case 203:	// modal-all
-					win->set_modal();
-					break;
-				case 204:
-					break;
-				case 205:
-					break;
-			// title
-				case 301:	// title
-					win->label(value);
-					break;
-			// flags
-				case 401:
-					break;
-				case 402:
-					break;
-				case 403:
-					break;
-				case 404:	// not-h-resizable
-					{
-						int w = win->w();
-						int minh = win->GetMinimumHeight();
-						int maxh = win->GetMaximumHeight();
-						win->MinimumTo(w, minh);
-						win->MaximumTo(w, maxh);
-					}
-					break;
-				case 405:	// not-v-resizable
-					{
-						int h = win->h();
-						int minw = win->GetMinimumWidth();
-						int maxw = win->GetMaximumWidth();
-						win->MinimumTo(minw, h);
-						win->MaximumTo(maxw, h);
-					}
-					break;
-				case 406:	// not-resizable
-					win->resizable(NULL);
-					break;
-				case 407:
-					break;
-				case 408:
-					break;
-				case 409:
-					break;
-			// workspace
-				case 501:
-					break;
-				case 502:
-					break;
-			};
-			Fl::unlock();
-			return;
+				Fl::lock();
+				switch (myMode)
+				{
+				// look
+					case 101:
+						win->border(1);
+						break;
+					case 102:
+						win->border(1);
+						break;
+					case 103:
+						win->border(1);
+						break;
+					case 104:
+						win->border(1);
+						break;
+					case 105:
+						win->border(1);
+						break;
+					case 106:	// no-border
+						win->border(0);
+						break;
+				// feel
+					case 201:
+						break;
+					case 202:	// modal-app
+						win->set_modal();
+						break;
+					case 203:	// modal-all
+						win->set_modal();
+						break;
+					case 204:
+						break;
+					case 205:
+						break;
+				// title
+					case 301:	// title
+						win->label(value);
+						break;
+				// flags
+					case 401:
+						break;
+					case 402:
+						break;
+					case 403:
+						break;
+					case 404:	// not-h-resizable
+						{
+							int w = win->w();
+							int minh = win->GetMinimumHeight();
+							int maxh = win->GetMaximumHeight();
+							win->MinimumTo(w, minh);
+							win->MaximumTo(w, maxh);
+						}
+						break;
+					case 405:	// not-v-resizable
+						{
+							int h = win->h();
+							int minw = win->GetMinimumWidth();
+							int maxw = win->GetMaximumWidth();
+							win->MinimumTo(minw, h);
+							win->MaximumTo(maxw, h);
+						}
+						break;
+					case 406:	// not-resizable
+						win->resizable(NULL);
+						break;
+					case 407:
+						break;
+					case 408:
+						break;
+					case 409:
+						break;
+				// workspace
+					case 501:
+						break;
+					case 502:
+						break;
+				};
+				Fl::unlock();
+				return;
+			}
 		}
 	}
 	Error(window, "WINDOW");
@@ -555,6 +556,50 @@ void YabInterface::WindowSet(const char* option, const char* value, const char* 
 
 void YabInterface::WindowSet(const char* option, const char* window)
 {
+	int myMode=0;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("activate") != std::string::npos) myMode = 1;
+	if(t.find("deactivate") != std::string::npos) myMode = 2;
+	if(t.find("minimize") != std::string::npos) myMode = 3;
+	if(t.find("maximize") != std::string::npos) myMode = 4;
+	if(t.find("enable-updates") != std::string::npos) myMode = 5;
+	if(t.find("disable-updates") != std::string::npos) myMode = 6;
+	if (myMode == 0) ErrorGen("Invalid option");
+
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			if (YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window()));
+			{
+				Fl::lock();
+				switch (myMode)
+				{
+				case 1:	// Activate the window, so it is in the foreground.
+					win->activate();
+					break;
+				case 2:	// Deactivate the window, so it is in the background.
+					// fltk docu says, deactivate() currently doesn't work for windows
+					win->deactivate();
+					break;
+				case 3:	// Minimize the window, or restore the window if it is already minimized.
+					break;
+				case 4:	// Maximize (zoom) the window.
+					break;
+				case 5:	// Updates the window again after a "Disable-Updates".
+					break;
+				case 6:	// Disables the automatic window updates.
+					break;
+				};
+				Fl::unlock();
+				return;
+			}
+		}
+	}
+	Error(window, "WINDOW");
 }
 
 void YabInterface::WindowSet(const char* option, int r, int g, int b, const char* window)
@@ -1358,6 +1403,16 @@ void YabInterface::CreateListBox(BRect frame, const char* id, int scrollbar, con
 	Error(view, "VIEW");
 }
 
+void YabInterface::RemoveItem(const char* title, const char* item)
+{
+	// This is listbox remove
+}
+
+void YabInterface::ClearItems(const char* title)
+{
+	// This is listbox clear
+}
+
 void YabInterface::CreateDropBox(BRect frame, const char* title, const char* label, const char* view)
 { 
 	std::string s = view;
@@ -1512,16 +1567,6 @@ const char* YabInterface::DropBoxGet(const char* dropbox, int position)
 		}
 	}
 	Error(dropbox, "DROPBOX");
-}
-
-void YabInterface::RemoveItem(const char* title, const char* item)
-{
-	// This is listbox remove
-}
-
-void YabInterface::ClearItems(const char* title)
-{
-	// This is listbox clear
 }
 
 void YabInterface::DrawText(BPoint coordinates, const char* text, const char* window)
