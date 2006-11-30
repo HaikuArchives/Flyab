@@ -121,6 +121,7 @@ void YabView::draw()
 				case 11: // draw bitmap at x1,y1 to x2,y2
 					break;
 				case 12: // set font
+					fl_font(e->x1, e->y1);
 					break;
 				default:
 					break;

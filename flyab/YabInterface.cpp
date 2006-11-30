@@ -2376,6 +2376,98 @@ int YabInterface::ListboxCount(const char* listbox)
 
 void YabInterface::DrawSet1(const char* option, const char* window)
 {
+	int myFont = -1;
+	int fontSize = B_FONT_SIZE;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+	// currently only fixed fonts
+	if(t.find("system-plain", 0) != std::string::npos)
+		myFont = FL_HELVETICA;
+	else if(t.find("system-fixed", 0) != std::string::npos)
+		myFont = FL_SCREEN;
+	else if(t.find("system-bold", 0) != std::string::npos)
+		myFont = FL_HELVETICA_BOLD;
+	else if(t.find("helvetica", 0) != std::string::npos && t.find("bold", 0) != std::string::npos && t.find("italic", 0) != std::string::npos)
+		myFont = FL_HELVETICA_BOLD_ITALIC;
+	else if(t.find("helvetica", 0) != std::string::npos && t.find("bold", 0) != std::string::npos)
+		myFont = FL_HELVETICA_BOLD;
+	else if(t.find("helvetica", 0) != std::string::npos && t.find("italic", 0) != std::string::npos)
+		myFont = FL_HELVETICA_ITALIC;
+	else if(t.find("helvetica", 0) != std::string::npos)
+		myFont = FL_HELVETICA;
+	else if(t.find("courier", 0) != std::string::npos && t.find("bold", 0) != std::string::npos && t.find("italic", 0) != std::string::npos)
+		myFont = FL_COURIER_BOLD_ITALIC;
+	else if(t.find("courier", 0) != std::string::npos && t.find("bold", 0) != std::string::npos)
+		myFont = FL_COURIER_BOLD;
+	else if(t.find("courier", 0) != std::string::npos && t.find("italic", 0) != std::string::npos)
+		myFont = FL_COURIER_ITALIC;
+	else if(t.find("courier", 0) != std::string::npos)
+		myFont = FL_COURIER;
+	else if(t.find("times", 0) != std::string::npos && t.find("bold", 0) != std::string::npos && t.find("italic", 0) != std::string::npos)
+		myFont = FL_TIMES_BOLD_ITALIC;
+	else if(t.find("times", 0) != std::string::npos && t.find("bold", 0) != std::string::npos)
+		myFont = FL_TIMES_BOLD;
+	else if(t.find("times", 0) != std::string::npos && t.find("italic", 0) != std::string::npos)
+		myFont = FL_TIMES_ITALIC;
+	else if(t.find("times", 0) != std::string::npos)
+		myFont = FL_TIMES;
+	else if(t.find("symbol", 0) != std::string::npos)
+		myFont = FL_SYMBOL;
+	else if(t.find("screen", 0) != std::string::npos && t.find("bold", 0) != std::string::npos)
+		myFont = FL_SCREEN_BOLD;
+	else if(t.find("screen", 0) != std::string::npos)
+		myFont = FL_SCREEN;
+	else if(t.find("zapf-dingbats", 0) != std::string::npos)
+		myFont = FL_ZAPF_DINGBATS;
+	// map some popular Zeta fonts
+	else if(t.find("zurich", 0) != std::string::npos && t.find("bold", 0) != std::string::npos && t.find("italic", 0) != std::string::npos)
+		myFont = FL_HELVETICA_BOLD_ITALIC;
+	else if(t.find("zurich", 0) != std::string::npos && t.find("bold", 0) != std::string::npos)
+		myFont = FL_HELVETICA_BOLD;
+	else if(t.find("zurich", 0) != std::string::npos && t.find("italic", 0) != std::string::npos)
+		myFont = FL_HELVETICA_ITALIC;
+	else if(t.find("zurich", 0) != std::string::npos)
+		myFont = FL_HELVETICA;
+	else if(t.find("swis721 bt", 0) != std::string::npos && t.find("bold", 0) != std::string::npos && t.find("italic", 0) != std::string::npos)
+		myFont = FL_TIMES_BOLD_ITALIC;
+	else if(t.find("swis721 bt", 0) != std::string::npos && t.find("bold", 0) != std::string::npos)
+		myFont = FL_TIMES_BOLD;
+	else if(t.find("swis721 bt", 0) != std::string::npos && t.find("italic", 0) != std::string::npos)
+		myFont = FL_TIMES_ITALIC;
+	else if(t.find("swis721 bt", 0) != std::string::npos)
+		myFont = FL_TIMES;
+	else return; // Error message?
+
+	// font size
+	int pos = t.rfind(',', t.length());
+	if(pos != std::string::npos)
+	{
+		fontSize = atoi((t.substr(pos+1)).c_str());
+		std::cout << myFont << " " << t.substr(pos+1) << " " << fontSize << "\n";
+		if(fontSize == 0) fontSize = B_FONT_SIZE;
+	}
+	
+	// find the view
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+
+			YabDrawing *t = new YabDrawing();
+			t->command = 12;
+			t->x1 = myFont;
+			t->y1 = fontSize;
+
+			yabViewList[i]->AddDrawing(t);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW or WINDOW");
 }
 
 void YabInterface::DrawSet2(int fillorstroke, const char* mypattern)
