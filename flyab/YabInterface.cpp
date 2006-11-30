@@ -1372,6 +1372,32 @@ void YabInterface::DrawLine(double x1, double y1, double x2, double y2, const ch
 
 void YabInterface::DrawCircle(double x, double y, double r, const char* window)
 {
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], x, y);
+
+			YabDrawing *t = new YabDrawing();
+			if(drawStroking)
+				t->command = 2;
+			else
+				t->command = 3;
+			t->x1 = (int)newCoor.x;
+			t->y1 = (int)newCoor.y;
+			t->x2 = (int)r;
+			t->y2 = (int)r;
+
+			yabViewList[i]->AddDrawing(t);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW or WINDOW");
 }
 
 void YabInterface::DrawEllipse(double x, double y, double r1, double r2, const char* window)
@@ -1385,7 +1411,10 @@ void YabInterface::DrawEllipse(double x, double y, double r1, double r2, const c
 			BPoint newCoor = GetWindowCoordinates(yabViewList[i], x, y);
 
 			YabDrawing *t = new YabDrawing();
-			t->command = 2;
+			if(drawStroking)
+				t->command = 2;
+			else
+				t->command = 3;
 			t->x1 = (int)newCoor.x;
 			t->y1 = (int)newCoor.y;
 			t->x2 = (int)r1;

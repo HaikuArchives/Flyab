@@ -72,14 +72,23 @@ void YabView::draw()
 					break;
 				case 2: // stroke ellipse
 					fl_push_matrix();
-					fl_scale(1, (float)e->y2/(float)e->x2);
-					fl_translate(0,(float)e->y1);
+					fl_translate((float)e->x1,(float)e->y1);
+					fl_scale((float)e->x2,(float)e->y2);
 					fl_begin_line();
-					fl_arc((float)e->x1, (float)e->y1, (float)e->x2, 0, 360);
+					fl_arc(0,0, 1, 0, 360);
 					fl_end_line();
 					fl_pop_matrix();
 					break;
 				case 3: // fill ellipse
+					fl_push_matrix();
+					fl_translate((float)e->x1,(float)e->y1);
+					fl_scale((float)e->x2,(float)e->y2);
+					fl_begin_complex_polygon();
+					fl_begin_loop();
+					fl_arc(0,0, 1, 0, 360);
+					fl_end_loop();
+					fl_end_complex_polygon();
+					fl_pop_matrix();
 					break;
 				case 4: // stroke rect
 					fl_rect(e->x1, e->y1, e->x2, e->y2);
