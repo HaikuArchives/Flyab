@@ -1,0 +1,26 @@
+// Tabview testapp
+// by DasJott
+
+window open 100, 100 to 400, 400, "W", "MenuWorld"
+
+tabview 10, 10 to 290, 290, "tv", "top", "W"
+
+tabview add "tv", "First tab"
+tabview add "tv", "Second tab"
+
+button 10, 10 to 100, 30, "btn1", "Hello", "tv1"
+button 110, 10 to 200, 30, "btn1", "World", "tv2"
+
+sleep 1
+
+tabview set "tv", 2
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+	if (msg$ <> "") print msg$
+
+	if (msg$ = "btn1|") print tabview get "tv"
+	if (msg$ = "btn2|") print tabview get "tv"
+
+wend
+exit

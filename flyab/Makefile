@@ -55,7 +55,7 @@ yab: YabMain.o YabInterface.o YabView.o YabWindow.o YabColorControl.o YabAlert.o
 
 YabMain.o: YabMain.cpp 
 	$(GPP) $(GPP_OPT) -c YabMain.cpp -o YabMain.o
-YabInterface.o: YabInterface.cpp YabInterface.h BRect.h BPoint.h global.h YabMenuBar.h
+YabInterface.o: YabInterface.cpp YabInterface.h BRect.h BPoint.h global.h YabMenuBar.h YabTabView.h
 	$(GPP) $(GPP_OPT) -c YabInterface.cpp -o YabInterface.o
 
 YabView.o: YabView.cpp YabView.h

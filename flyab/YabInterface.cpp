@@ -32,6 +32,7 @@
 #include "YabRadioButton.h"
 #include "YabSpinControl.h"
 #include "YabSlider.h"
+#include "YabTabView.h"
 #include "YabTextControl.h"
 #include "YabView.h"
 #include "YabWindow.h"
@@ -771,10 +772,52 @@ void YabInterface::BoxView(BRect frame, const char* id, const char* text, int li
 
 void YabInterface::Tab(BRect frame, const char* id, const char* mode, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+			YabTabView *tabs = new YabTabView((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, id);
+
+			yabViewList[i]->add(tabs);
+			yabViewList[i]->redraw();
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::TabAdd(const char* id, const char* tabname)
 {
+	std::string b=id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if (YabTabView *tabs = dynamic_cast<YabTabView*>(yabViewList[i]->child(j)))
+			{
+				if (b == tabs->GetID())
+				{
+					Fl::lock();
+
+					YabView *view = tabs->NewTab(tabname);
+					view->color(fl_rgb_color(B_GREY));
+					view->callback(StaticMessageCallback);
+
+					yabViewList[i]->redraw();
+					yabViewList.push_back(view);
+
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "TABVIEW");
 }
 
 void YabInterface::TabDel(const char* id, int num)
@@ -783,10 +826,46 @@ void YabInterface::TabDel(const char* id, int num)
 
 void YabInterface::TabSet(const char* id, int num)
 {
+	std::string b=id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if (YabTabView *tabs = dynamic_cast<YabTabView*>(yabViewList[i]->child(j)))
+			{
+				if (b == tabs->GetID())
+				{
+					Fl::lock();
+					tabs->Set(num);
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "TABVIEW");
 }
 
 int YabInterface::TabViewGet(const char* id)
 {
+	std::string b=id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if (YabTabView *tabs = dynamic_cast<YabTabView*>(yabViewList[i]->child(j)))
+			{
+				if (b == tabs->GetID())
+				{
+					Fl::lock();
+					int num = tabs->Get();
+					Fl::unlock();
+					return num;
+				}
+			}
+		}
+	}
+	Error(id, "TABVIEW");
 }
 
 void YabInterface::CreateButton(BRect frame, const char* id, const char* title, const char* view)
