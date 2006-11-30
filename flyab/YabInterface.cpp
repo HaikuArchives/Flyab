@@ -415,42 +415,46 @@ int YabInterface::CloseWindow(const char* view)
 void YabInterface::WindowSet(const char* option, const char* value, const char* window)
 {
 	float myMode=0;
-	if (strcasecmp(option, "look") == 0) myMode = 1.0;
-	if (strcasecmp(option, "feel") == 0) myMode = 2.0;
-	if (strcasecmp(option, "Title") == 0) myMode = 3.1;
-	if (strcasecmp(option, "Flags") == 0) myMode = 4.0;
-	if (strcasecmp(option, "Workspace") == 0) myMode = 5.0;
+
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("look") != std::string::npos) myMode = 1.0;
+	if(t.find("feel") != std::string::npos) myMode = 2.0;
+	if(t.find("title") != std::string::npos) myMode = 3.1;
+	if(t.find("flags") != std::string::npos) myMode = 4.0;
+	if(t.find("workspace") != std::string::npos) myMode = 5.0;
 	if (myMode == 0) Error(option, "OPTION");
 
-	if (strcasecmp(value, "Documented") == 0) myMode = 1.1;
-	if (strcasecmp(value, "Titled") == 0) myMode = 1.2;
-	if (strcasecmp(value, "Floating") == 0) myMode = 1.3;
-	if (strcasecmp(value, "Modal") == 0) myMode = 1.4;
-	if (strcasecmp(value, "Bordered") == 0) myMode = 1.5;
-	if (strcasecmp(value, "No-Border") == 0) myMode = 1.6;
-	if ((int)myMode == myMode) Error(value, "LOOK");
+	if(t.find("documented") != std::string::npos) myMode = 1.1;
+	if(t.find("titled") != std::string::npos) myMode = 1.2;
+	if(t.find("floating") != std::string::npos) myMode = 1.3;
+	if(t.find("modal") != std::string::npos) myMode = 1.4;
+	if(t.find("bordered") != std::string::npos) myMode = 1.5;
+	if(t.find("no-border") != std::string::npos) myMode = 1.6;
+	// if ((int)myMode == myMode) Error(value, "LOOK");
 
-	if (strcasecmp(value, "Normal") == 0) myMode = 2.1;
-	if (strcasecmp(value, "Modal-App") == 0) myMode = 2.2;
-	if (strcasecmp(value, "Modal-All") == 0) myMode = 2.3;
-	if (strcasecmp(value, "Floating-App") == 0) myMode = 2.4;
-	if (strcasecmp(value, "Floating-All") == 0) myMode = 2.5;
-	if ((int)myMode == myMode) Error(value, "FEEL");
+	if(t.find("normal") != std::string::npos) myMode = 2.1;
+	if(t.find("modal-app") != std::string::npos) myMode = 2.2;
+	if(t.find("modal-all") != std::string::npos) myMode = 2.3;
+	if(t.find("floating-app") != std::string::npos) myMode = 2.4;
+	if(t.find("floating-all") != std::string::npos) myMode = 2.5;
+	// if ((int)myMode == myMode) Error(value, "FEEL");
 
-	if (strcasecmp(value, "Not-Closable") == 0) myMode = 4.1;
-	if (strcasecmp(value, "Not-Zoomable") == 0) myMode = 4.2;
-	if (strcasecmp(value, "Not-Minimizable") == 0) myMode = 4.3;
-	if (strcasecmp(value, "Not-H-Resizable") == 0) myMode = 4.4;
-	if (strcasecmp(value, "Not-V-Resizable") == 0) myMode = 4.5;
-	if (strcasecmp(value, "Not-Resizable") == 0) myMode = 4.6;
-	if (strcasecmp(value, "Not-Workspace-Activation") == 0) myMode = 4.7;
-	if (strcasecmp(value, "Accept-First-Click") == 0) myMode = 4.8;
-	if (strcasecmp(value, "Reset") == 0) myMode = 4.9;
-	if ((int)myMode == myMode) Error(value, "FLAGS");
+	if(t.find("not-closable") != std::string::npos) myMode = 4.1;
+	if(t.find("not-zoomable") != std::string::npos) myMode = 4.2;
+	if(t.find("not-minimizable") != std::string::npos) myMode = 4.3;
+	if(t.find("not-h-resizable") != std::string::npos) myMode = 4.4;
+	if(t.find("not-v-resizable") != std::string::npos) myMode = 4.5;
+	if(t.find("not-resizable") != std::string::npos) myMode = 4.6;
+	if(t.find("not-workspace-activation") != std::string::npos) myMode = 4.7;
+	if(t.find("accept-first-click") != std::string::npos) myMode = 4.8;
+	if(t.find("reset") != std::string::npos) myMode = 4.9;
+	// if ((int)myMode == myMode) Error(value, "FLAGS");
 
-	if (strcasecmp(value, "All") == 0) myMode = 5.1;
-	if (strcasecmp(value, "Current") == 0) myMode = 5.2;
-	if ((int)myMode == myMode) Error(value, "WORKSPACE");
+	if(t.find("all") != std::string::npos) myMode = 5.1;
+	if(t.find("current") != std::string::npos) myMode = 5.2;
+	// if ((int)myMode == myMode) Error(value, "WORKSPACE");
 
 	std::string s = window;
 	for (int i = 0; i < yabViewList.size(); i++)
@@ -587,10 +591,14 @@ void YabInterface::WindowSet(const char* option, int r, int g, int b, const char
 void YabInterface::WindowSet(const char* option, double x, double y, const char* window)
 {
 	int myMode=0;
-	if (strcasecmp(option, "ResizeTo") == 0) myMode = 1;
-	if (strcasecmp(option, "MoveTo") == 0) myMode = 2;
-	if (strcasecmp(option, "MinimumTo") == 0) myMode = 3;
-	if (strcasecmp(option, "MaximumTo") == 0) myMode = 4;
+
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("resizeto") != std::string::npos) myMode = 1;
+	if(t.find("moveto") != std::string::npos) myMode = 2;
+	if(t.find("minimumto") != std::string::npos) myMode = 3;
+	if(t.find("maximumto") != std::string::npos) myMode = 4;
 	if (myMode == 0) Error(option, "OPTION");
 
 	int w = static_cast<int>(x);
@@ -621,15 +629,19 @@ int YabInterface::WindowGet(const char* view, const char* option)
 {
 	std::string s = view;
 	int myMode=0, ret;
-	if (strcasecmp(option, "position-x") == 0) myMode = 1;
-	if (strcasecmp(option, "position-y") == 0) myMode = 2;
-	if (strcasecmp(option, "width") == 0) myMode = 3;
-	if (strcasecmp(option, "height") == 0) myMode = 4;
-	if (strcasecmp(option, "minimum-width") == 0) myMode = 5;
-	if (strcasecmp(option, "minimum-height") == 0) myMode = 6;
-	if (strcasecmp(option, "maximum-width") == 0) myMode = 7;
-	if (strcasecmp(option, "maximum-height") == 0) myMode = 8;
-	if (strcasecmp(option, "exists") == 0) myMode = 9;
+
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("position-x") != std::string::npos) myMode = 1;
+	if(t.find("position-y") != std::string::npos) myMode = 2;
+	if(t.find("width") != std::string::npos) myMode = 3;
+	if(t.find("height") != std::string::npos) myMode = 4;
+	if(t.find("minimum-width") != std::string::npos) myMode = 5;
+	if(t.find("minimum-height") != std::string::npos) myMode = 6;
+	if(t.find("maximum-width") != std::string::npos) myMode = 7;
+	if(t.find("maximum-height") != std::string::npos) myMode = 8;
+	if(t.find("exists") != std::string::npos) myMode = 9;
 	if (myMode == 0) Error(option, "OPTION");
 
 	for (int i = 0; i < yabViewList.size(); i++)
@@ -883,6 +895,10 @@ void YabInterface::Menu(const char* menuHead, int isRadio, const char* view)
 void YabInterface::Menu3(const char* menuHead, const char* menuItem, const char* option, const char* view)
 {
 	std::string s = view;
+
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
 		if(s == yabViewList[i]->GetID())
@@ -897,23 +913,23 @@ void YabInterface::Menu3(const char* menuHead, const char* menuItem, const char*
 
 					if (Fl_Menu_Item *item = const_cast<Fl_Menu_Item*>(menu->find_item(path.c_str())))
 					{
-						if (strcasecmp(option, "Disable") == 0)
+						if(t.find("disable") != std::string::npos)
 						{
 							item->deactivate();
 						}
-						else if (strcasecmp(option, "Enable") == 0)
+						else if(t.find("enable") != std::string::npos)
 						{
 							item->activate();
 						}
-						else if (strcasecmp(option, "Mark") == 0)
+						else if(t.find("mark") != std::string::npos)
 						{
 							if(item->radio()) item->setonly();
 						}
-						else if (strcasecmp(option, "Plain") == 0)
+						else if(t.find("plain") != std::string::npos)
 						{
 							if(item->radio()) item->clear();
 						}
-						else if (strcasecmp(option, "Remove") == 0)
+						else if(t.find("remove") != std::string::npos)
 						{
 //							item->remove();
 						}
@@ -1006,6 +1022,10 @@ void YabInterface::SubMenu(const char* menuHead, const char* menuItem, int isRad
 void YabInterface::SubMenu3(const char* menuHead, const char* menuItem, const char* subMenuItem, const char* option, const char* view)
 {
 	std::string s = view;
+
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
 		if(s == yabViewList[i]->GetID())
@@ -1022,23 +1042,23 @@ void YabInterface::SubMenu3(const char* menuHead, const char* menuItem, const ch
 
 					if (Fl_Menu_Item *item = const_cast<Fl_Menu_Item*>(menu->find_item(path.c_str())))
 					{
-						if (strcasecmp(option, "Disable") == 0)
+						if(t.find("disable") != std::string::npos)
 						{
 							item->deactivate();
 						}
-						else if (strcasecmp(option, "Enable") == 0)
+						else if(t.find("enable") != std::string::npos)
 						{
 							item->activate();
 						}
-						else if (strcasecmp(option, "Mark") == 0)
+						else if(t.find("mark") != std::string::npos)
 						{
 							if(item->radio()) item->setonly();
 						}
-						else if (strcasecmp(option, "Plain") == 0)
+						else if(t.find("plain") != std::string::npos)
 						{
 							if(item->radio()) item->clear();
 						}
-						else if (strcasecmp(option, "Remove") == 0)
+						else if(t.find("remove") != std::string::npos)
 						{
 //							item->remove();
 						}
@@ -1838,8 +1858,12 @@ void YabInterface::SetSlider(const char* id, const char* bottomtop, int count)
 void YabInterface::SetSlider(const char* id, const char* part, int r, int g, int b)
 {
 	int myMode = 0;
-	if (strcasecmp(part, "barcolor") == 0) myMode = 1;
-	if (strcasecmp(part, "fillcolor") == 0) myMode = 2;
+
+	std::string t = part;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("barcolor") != std::string::npos) myMode = 1;
+	if(t.find("fillcolor") != std::string::npos) myMode = 2;
 	if (myMode == 0) Error(part, "PART");
 
 	std::string s = id;
@@ -1978,9 +2002,13 @@ void YabInterface::ColorControl(const char* id, int r, int g, int b)
 int YabInterface::ColorControlGet(const char* colorcontrol, const char* option)
 {
 	int myMode = 0;
-	if(strcasecmp(option, "red") == 0) myMode = 1;
-	if(strcasecmp(option, "green") == 0) myMode = 2;
-	if(strcasecmp(option, "blue") == 0) myMode = 3;
+
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("red") != std::string::npos) myMode = 1;
+	if(t.find("green") != std::string::npos) myMode = 2;
+	if(t.find("blue") != std::string::npos) myMode = 3;
 	if(myMode == 0) Error(option, "OPTION");
 
 	std::string s = colorcontrol;
@@ -2031,19 +2059,23 @@ int YabInterface::NewAlert(const char* text, const char* button1, const char* bu
 const char* YabInterface::FilePanel(const char *mode, const char* title, const char* directory, const char* filename)
 {
 	int type=0;
-	if(strcasecmp(mode, "Load-File") == 0)
+
+	std::string t = mode;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("load-file") != std::string::npos)
 	{
 		type = Fl_File_Chooser::SINGLE;
 	}
-	else if(strcasecmp(mode, "Save-File") == 0)
+	else if(t.find("save-file") != std::string::npos)
 	{
 		type = Fl_File_Chooser::CREATE;
 	}
-	else if(strcasecmp(mode, "Load-Directory") == 0)
+	else if(t.find("load-directory") != std::string::npos)
 	{
 		type = Fl_File_Chooser::DIRECTORY;
 	}
-	else if(strcasecmp(mode, "Load-File-and-Directory") == 0)
+	else if(t.find("load-file-and-directory") == 0)
 	{
 		type = Fl_File_Chooser::SINGLE;
 	}
@@ -2378,8 +2410,10 @@ void YabInterface::DrawSet1(const char* option, const char* window)
 {
 	int myFont = -1;
 	int fontSize = B_FONT_SIZE;
+
 	std::string t = option;
 	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
 	// currently only fixed fonts
 	if(t.find("system-plain", 0) != std::string::npos)
 		myFont = FL_HELVETICA;
@@ -2443,7 +2477,6 @@ void YabInterface::DrawSet1(const char* option, const char* window)
 	if(pos != std::string::npos)
 	{
 		fontSize = atoi((t.substr(pos+1)).c_str());
-		std::cout << myFont << " " << t.substr(pos+1) << " " << fontSize << "\n";
 		if(fontSize == 0) fontSize = B_FONT_SIZE;
 	}
 	
@@ -2476,6 +2509,7 @@ void YabInterface::DrawSet2(int fillorstroke, const char* mypattern)
 
 	std::string t = mypattern;
 	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
 	if(t.find("highsolidfill",0) != std::string::npos)
 		;
 	else if(t.find("lowsolidfill",0) != std::string::npos)
