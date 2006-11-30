@@ -1,5 +1,6 @@
 #include <FL/Fl.H>
 #include "YabColorControl.h"
+#include "global.h"
 
 YabColorControl::YabColorControl(int x, int y, int w, int h, const char* id)
 	:Fl_Group(x, y, w, h), YabWidget(id)
@@ -7,11 +8,12 @@ YabColorControl::YabColorControl(int x, int y, int w, int h, const char* id)
 	bc[0] = fl_rgb_color(254, 100, 100);
 	bc[1] = fl_rgb_color(100, 254, 100);
 	bc[2] = fl_rgb_color(100, 100, 254);
-	int sh=h/3, min=0, max=255;
+	int sh=h/3, min=0, max=255, tw = 30;
 
 	for (int i=0; i<3; i++)
 	{
-		slider[i] = new Fl_Slider(x, y+(i*sh), w, sh);
+		data[i] = i;
+		slider[i] = new Fl_Slider(x, y+(i*sh), w-tw-10, sh);
 		slider[i]->type(FL_HORIZONTAL);
 		slider[i]->slider_size(0.05);
 		slider[i]->minimum(min);
@@ -20,29 +22,42 @@ YabColorControl::YabColorControl(int x, int y, int w, int h, const char* id)
 		slider[i]->value(0);
 		slider[i]->color(bc[i]);
 		slider[i]->redraw();
+		slider[i]->callback(cb_common, (void *)data[i]);
 		add(slider[i]);
+
+		txt[i] = new Fl_Input(w-tw, y+(i*sh), tw, sh);
+		txt[i]->type(FL_INT_INPUT);
+		txt[i]->value("0");
+		txt[i]->labelsize(B_FONT_SIZE);
+		txt[i]->textsize(B_FONT_SIZE);
+		txt[i]->when(FL_WHEN_ENTER_KEY);
+		txt[i]->callback(cb_common, (void *)data[i]);
+		add(txt[i]);
 	}
 	resizable(NULL);
 	end();
 	redraw();
 }
+
 YabColorControl::~YabColorControl()
 {
 	for (int i=0; i<3; i++)
 	{
 		delete slider[i];
+		delete txt[i];
 	}
 }
 
 void YabColorControl::rgb(int r, int g, int b)
 {
-	c[0] = r;
-	c[1] = g;
-	c[2] = b;
+	char val_txt[4];
+	int c[3]={r, g, b};
 	for (int i=0; i<3; i++)
 	{
 		slider[i]->value(c[i]);
 		slider[i]->redraw();
+		sprintf(val_txt, "%d", c[i]);
+		txt[i]->value(val_txt);
 	}
 }
 
@@ -65,3 +80,39 @@ void YabColorControl::draw()
 {
 	Fl_Group::draw();
 }
+
+void YabColorControl::cb_slider(Fl_Slider *slider, int n)
+{
+	char val_txt[4];
+	int val_num = (int)slider->value();
+	sprintf(val_txt, "%d", val_num);
+	txt[n]->value(val_txt);
+	return;
+}
+
+void YabColorControl::cb_input(Fl_Input *input, int n)
+{
+	bool is_wrong=false;
+	int v = atoi(input->value());
+
+	if (v > 255 || v < 0) is_wrong = true;
+	if (v > 255) v = 255;
+	if (v < 0) v = 0;
+
+	if (is_wrong)
+	{
+		char val_txt[4];
+		sprintf(val_txt, "%d", v);
+		input->value(val_txt);
+	}
+	slider[n]->value(v);
+}
+
+void YabColorControl::cb_common(Fl_Widget *widget, void *data)
+{
+	if (Fl_Slider *slider = dynamic_cast<Fl_Slider*>(widget))
+		((YabColorControl*)widget->parent())->cb_slider(slider, (int)data);
+	if (Fl_Input *input = dynamic_cast<Fl_Input*>(widget))
+		((YabColorControl*)widget->parent())->cb_input(input, (int)data);
+}
+
