@@ -573,7 +573,7 @@ void YabInterface::WindowSet(const char* option, int r, int g, int b, const char
 						yabViewList[i]->AddDrawing(t);
 					}
 					break;
-				case 3: yabViewList[i]->color(fl_rgb_color(r,g,b)); //not working ?!?
+				case 3: ((Fl_Widget*)yabViewList[i])->color(fl_rgb_color(r,g,b)); //not working ?!?
 					yabViewList[i]->redraw();
 					break;
 			}
@@ -760,6 +760,7 @@ void YabInterface::StatusBar(BRect frame, const char* id, const char* label1, co
 			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 
 			YabProgressBar *bar = new YabProgressBar(id, (int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, label1);
+			bar->labelsize(B_FONT_SIZE);
 			bar->minimum(0);
 			bar->maximum(100);
 
