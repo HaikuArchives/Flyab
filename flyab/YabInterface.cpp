@@ -412,6 +412,134 @@ int YabInterface::CloseWindow(const char* view)
 	}
 }
 
+void YabInterface::WindowSet(const char* option, const char* value, const char* window)
+{
+}
+
+void YabInterface::WindowSet(const char* option, const char* window)
+{
+}
+
+void YabInterface::WindowSet(const char* option, int r, int g, int b, const char* window)
+{
+	int opt = 0;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+	if(t.find("highcolor",0) != std::string::npos)
+		opt = 1;
+	else if(t.find("lowcolor",0) != std::string::npos)
+		opt = 2;
+	else if(t.find("bgcolor",0) != std::string::npos)
+		opt = 3;
+	else ErrorGen("Invalid option");
+
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			switch(opt)
+			{
+				case 1: {
+						YabDrawing *t = new YabDrawing();
+						t->command = 6;
+						t->r = r;
+						t->g = g;
+						t->b = b;
+						yabViewList[i]->AddDrawing(t);
+					}
+					break;
+				case 2: {
+						YabDrawing *t = new YabDrawing();
+						t->command = 7;
+						t->r = r;
+						t->g = g;
+						t->b = b;
+						yabViewList[i]->AddDrawing(t);
+					}
+					break;
+				case 3: yabViewList[i]->color(fl_rgb_color(r,g,b)); //not working ?!?
+					yabViewList[i]->redraw();
+					break;
+			}
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW or WINDOW");
+}
+
+void YabInterface::WindowSet(const char* option, double x, double y, const char* window)
+{
+	int myMode=0;
+	if (strcasecmp(option, "ResizeTo") == 0) myMode = 1;
+	if (strcasecmp(option, "MoveTo") == 0) myMode = 2;
+	if (strcasecmp(option, "MinimumTo") == 0) myMode = 3;
+	if (strcasecmp(option, "MaximumTo") == 0) myMode = 4;
+	if (myMode == 0) Error(option, "OPTION");
+
+	int w = static_cast<int>(x);
+	int h = static_cast<int>(y);
+	std::string s = window;
+
+	for (int i = 0; i < yabViewList.size(); i++)
+		if (s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window());
+			if (myMode == 1) win->size(w, h);
+			if (myMode == 2) win->position(w, h);
+			if (myMode == 3) win->MinimumTo(w, h);
+			if (myMode == 4) win->MaximumTo(w, h);
+			Fl::unlock();
+			return;
+		}
+	Error(window, "WINDOW");
+}
+
+void YabInterface::WindowClear(const char* window)
+{
+} 
+
+int YabInterface::WindowGet(const char* view, const char* option)
+{
+	std::string s = view;
+	int myMode=0, ret;
+	if (strcasecmp(option, "position-x")) myMode = 1;
+	if (strcasecmp(option, "position-y")) myMode = 2;
+	if (strcasecmp(option, "width")) myMode = 3;
+	if (strcasecmp(option, "height")) myMode = 4;
+	if (strcasecmp(option, "minimum-width")) myMode = 5;
+	if (strcasecmp(option, "minimum-height")) myMode = 6;
+	if (strcasecmp(option, "maximum-width")) myMode = 7;
+	if (strcasecmp(option, "maximum-height")) myMode = 8;
+	if (strcasecmp(option, "exists")) myMode = 9;
+	if (myMode == 0) Error(option, "OPTION");
+
+	for (int i = 0; i < yabViewList.size(); i++)
+		if (s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window());
+			if (myMode == 1) ret = win->x();
+			if (myMode == 2) ret = win->y();
+			if (myMode == 3) ret = win->w();
+			if (myMode == 4) ret = win->h();
+			if (myMode == 5) ret = win->GetMinimumHeight();
+			if (myMode == 6) ret = win->GetMinimumWidth();
+			if (myMode == 7) ret = win->GetMaximumHeight();
+			if (myMode == 8) ret = win->GetMaximumWidth();
+			if (myMode == 9) ret = 1;
+			Fl::unlock();
+			return ret;
+		}
+	if (myMode == 9)
+		return 0;
+	else
+		Error(view, "WINDOW");
+}
+
 void YabInterface::View(BRect frame, const char* id, const char* view)
 {
 	std::string s = view;
@@ -438,6 +566,10 @@ void YabInterface::View(BRect frame, const char* id, const char* view)
 	}
 
 	Error(view, "VIEW");
+}
+
+int YabInterface::ViewGet(const char* view, const char* option) 
+{
 }
 
 void YabInterface::BoxView(BRect frame, const char* id, const char* text, int lineType, const char* view)
@@ -1824,96 +1956,6 @@ void YabInterface::SetLayout(const char* layout, const char* window)
 {
 }
 
-void YabInterface::WindowSet(const char* option, const char* value, const char* window)
-{
-}
-
-void YabInterface::WindowSet(const char* option, const char* window)
-{
-}
-
-void YabInterface::WindowSet(const char* option, int r, int g, int b, const char* window)
-{
-	int opt = 0;
-	std::string t = option;
-	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
-	if(t.find("highcolor",0) != std::string::npos)
-		opt = 1;
-	else if(t.find("lowcolor",0) != std::string::npos)
-		opt = 2;
-	else if(t.find("bgcolor",0) != std::string::npos)
-		opt = 3;
-	else ErrorGen("Invalid option");
-
-	std::string v = window;
-	for (int i = 0; i < yabViewList.size(); i++)
-	{
-		if(v == yabViewList[i]->GetID())
-		{
-			Fl::lock();
-			switch(opt)
-			{
-				case 1: {
-						YabDrawing *t = new YabDrawing();
-						t->command = 6;
-						t->r = r;
-						t->g = g;
-						t->b = b;
-						yabViewList[i]->AddDrawing(t);
-					}
-					break;
-				case 2: {
-						YabDrawing *t = new YabDrawing();
-						t->command = 7;
-						t->r = r;
-						t->g = g;
-						t->b = b;
-						yabViewList[i]->AddDrawing(t);
-					}
-					break;
-				case 3: yabViewList[i]->color(fl_rgb_color(r,g,b)); //not working ?!?
-					yabViewList[i]->redraw();
-					break;
-			}
-			Fl::unlock();
-			return;
-		}
-	}
-	Error(window, "VIEW or WINDOW");
-}
-
-void YabInterface::WindowSet(const char* option, double x, double y, const char* window)
-{
-	int myMode=0;
-	if (strcasecmp(option, "ResizeTo") == 0) myMode = 1;
-	if (strcasecmp(option, "MoveTo") == 0) myMode = 2;
-	if (strcasecmp(option, "MinimumTo") == 0) myMode = 3;
-	if (strcasecmp(option, "MaximumTo") == 0) myMode = 4;
-	if (myMode == 0) Error(option, "OPTION");
-
-	int w = static_cast<int>(x);
-	int h = static_cast<int>(y);
-	std::string s = window;
-
-	for (int i = 0; i < yabViewList.size(); i++)
-		if (s == yabViewList[i]->GetID())
-		{
-			Fl::lock();
-			YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window());
-			if (myMode == 1) win->size(w, h);
-			if (myMode == 2) win->position(w, h);
-			if (myMode == 3) win->MinimumTo(w, h);
-			if (myMode == 4) win->MaximumTo(w, h);
-			Fl::unlock();
-			return;
-		}
-	Error(window, "WINDOW");
-}
-
-void YabInterface::WindowClear(const char* window)
-{
-} 
-
 /*
 void YabInterface::RemoveView(BView *myView)
 {
@@ -2239,14 +2281,6 @@ int YabInterface::DeskbarParam(const char* option)
 }
 
 int YabInterface::DesktopParam(bool isWidth)
-{
-}
-
-int YabInterface::WindowGet(const char* view, const char* option)
-{
-}
-
-int YabInterface::ViewGet(const char* view, const char* option) 
 {
 }
 

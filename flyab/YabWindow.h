@@ -10,6 +10,10 @@ public:
 	YabWindow(int x1, int y1, int width, int height, const char* id, const char* label);
 	void MinimumTo(int w, int h);
 	void MaximumTo(int w, int h);
+	int GetMinimumWidth();
+	int GetMinimumHeight();
+	int GetMaximumWidth();
+	int GetMaximumHeight();
 	const char* GetID();
 	int handle(int);
 

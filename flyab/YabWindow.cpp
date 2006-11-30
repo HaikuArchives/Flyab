@@ -25,6 +25,26 @@ void YabWindow::MaximumTo(int w, int h)
 	size_range(minw, minh, maxw, maxh);
 }
 
+int YabWindow::GetMinimumWidth()
+{
+	return minw;
+}
+
+int YabWindow::GetMinimumHeight()
+{
+	return minh;
+}
+
+int YabWindow::GetMaximumWidth()
+{
+	return maxw;
+}
+
+int YabWindow::GetMaximumHeight()
+{
+	return maxh;
+}
+
 const char* YabWindow::GetID()
 {
 	return id_.c_str();
