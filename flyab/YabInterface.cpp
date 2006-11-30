@@ -414,6 +414,21 @@ int YabInterface::CloseWindow(const char* view)
 
 void YabInterface::WindowSet(const char* option, const char* value, const char* window)
 {
+/*  "Look", "Document/Titled(default)/Floating/Modal/Bordered/No-Border"
+  "Feel", "Normal(default)/Modal-App/Modal-All/Floating-App/Floating-All"
+  See "BeBook->Interface Kit->BWindow->Constants and Defined Types" for details.
+  "Title", Title$
+  "Flags", "Not-Closable, Not-Zoomable, Not-Minimizable, Not-H-Resizable, Not-V-Resizable, 
+            Not-Resizable, No-Workspace-Activation, Accept-First-Click"
+  See "BeBook->Interface Kit->BWindow->Constants and Defined Types" for details.
+  "Flags", "Reset"
+  Resets the flags back to none.
+  "Workspace", "All"
+  Causes the window to appear on all workspaces.
+  "Workspace", "Current"
+  Causes the window to appear on only the current workspace.
+*/
+
 }
 
 void YabInterface::WindowSet(const char* option, const char* window)
@@ -500,21 +515,22 @@ void YabInterface::WindowSet(const char* option, double x, double y, const char*
 
 void YabInterface::WindowClear(const char* window)
 {
+	printf("-- isn't that an old commad?");
 } 
 
 int YabInterface::WindowGet(const char* view, const char* option)
 {
 	std::string s = view;
 	int myMode=0, ret;
-	if (strcasecmp(option, "position-x")) myMode = 1;
-	if (strcasecmp(option, "position-y")) myMode = 2;
-	if (strcasecmp(option, "width")) myMode = 3;
-	if (strcasecmp(option, "height")) myMode = 4;
-	if (strcasecmp(option, "minimum-width")) myMode = 5;
-	if (strcasecmp(option, "minimum-height")) myMode = 6;
-	if (strcasecmp(option, "maximum-width")) myMode = 7;
-	if (strcasecmp(option, "maximum-height")) myMode = 8;
-	if (strcasecmp(option, "exists")) myMode = 9;
+	if (strcasecmp(option, "position-x") == 0) myMode = 1;
+	if (strcasecmp(option, "position-y") == 0) myMode = 2;
+	if (strcasecmp(option, "width") == 0) myMode = 3;
+	if (strcasecmp(option, "height") == 0) myMode = 4;
+	if (strcasecmp(option, "minimum-width") == 0) myMode = 5;
+	if (strcasecmp(option, "minimum-height") == 0) myMode = 6;
+	if (strcasecmp(option, "maximum-width") == 0) myMode = 7;
+	if (strcasecmp(option, "maximum-height") == 0) myMode = 8;
+	if (strcasecmp(option, "exists") == 0) myMode = 9;
 	if (myMode == 0) Error(option, "OPTION");
 
 	for (int i = 0; i < yabViewList.size(); i++)
