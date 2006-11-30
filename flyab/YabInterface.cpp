@@ -5,11 +5,13 @@
 
 #include <iostream>
 #include <sstream>
+#include <string>
+#include <vector>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <vector>
 
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
@@ -1374,6 +1376,29 @@ void YabInterface::DrawCircle(double x, double y, double r, const char* window)
 
 void YabInterface::DrawEllipse(double x, double y, double r1, double r2, const char* window)
 {
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], x, y);
+
+			YabDrawing *t = new YabDrawing();
+			t->command = 2;
+			t->x1 = (int)newCoor.x;
+			t->y1 = (int)newCoor.y;
+			t->x2 = (int)r1;
+			t->y2 = (int)r2;
+
+			yabViewList[i]->AddDrawing(t);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW or WINDOW");
 }
 
 void YabInterface::DrawCurve(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, const char* window)
@@ -1780,6 +1805,52 @@ void YabInterface::WindowSet(const char* option, const char* window)
 
 void YabInterface::WindowSet(const char* option, int r, int g, int b, const char* window)
 {
+	int opt = 0;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+	if(t.find("highcolor",0) != std::string::npos)
+		opt = 1;
+	else if(t.find("lowcolor",0) != std::string::npos)
+		opt = 2;
+	else if(t.find("bgcolor",0) != std::string::npos)
+		opt = 3;
+	else ErrorGen("Invalid option");
+
+	std::string v = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			switch(opt)
+			{
+				case 1: {
+						YabDrawing *t = new YabDrawing();
+						t->command = 6;
+						t->r = r;
+						t->g = g;
+						t->b = b;
+						yabViewList[i]->AddDrawing(t);
+					}
+					break;
+				case 2: {
+						YabDrawing *t = new YabDrawing();
+						t->command = 7;
+						t->r = r;
+						t->g = g;
+						t->b = b;
+						yabViewList[i]->AddDrawing(t);
+					}
+					break;
+				case 3: yabViewList[i]->color(fl_rgb_color(r,g,b)); //not working ?!?
+					yabViewList[i]->redraw();
+					break;
+			}
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW or WINDOW");
 }
 
 void YabInterface::WindowSet(const char* option, double x, double y, const char* window)
@@ -2123,6 +2194,15 @@ void YabInterface::DrawSet1(const char* option, const char* window)
 void YabInterface::DrawSet2(int fillorstroke, const char* mypattern)
 {
 	drawStroking = fillorstroke ? true : false;
+
+	std::string t = mypattern;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+	if(t.find("highsolidfill",0) != std::string::npos)
+		;
+	else if(t.find("lowsolidfill",0) != std::string::npos)
+		;
+	else if(t.find("checkeredfill",0) != std::string::npos)
+		;
 }
 
 int YabInterface::DeskbarParam(const char* option)

@@ -12,6 +12,7 @@ struct YabDrawing
         int x1,y1,x2,y2,x3,y3,x4,y4;
         int r,g,b,alpha;
         const char* chardata;
+	int p; // pattern
         // pattern p;
         // BBitmap *bitmap;
         // BFont font;
@@ -30,6 +31,7 @@ public:
 private:
 	std::vector<YabDrawing*> drawList;
 	bool hasmenu;
+	bool highSolid;
 	Fl_Color bgcolor, lowcolor, highcolor;
 };
 

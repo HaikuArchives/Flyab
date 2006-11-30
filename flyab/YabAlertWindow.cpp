@@ -3,9 +3,10 @@
 #include "global.h"
 #include "YabAlertWindow.h"
 
+using namespace std;
+
 YabAlertWindow::YabAlertWindow(const char* text, const char* button1, const char* button2, const char* button3, const char* type)
 {
-	using namespace std;
 	int x,y,w,h;
 	Fl::screen_xywh(x,y,w,h);
 	x = w/2 - 205;

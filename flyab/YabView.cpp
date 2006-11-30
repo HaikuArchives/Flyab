@@ -11,6 +11,7 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	lowcolor = fl_rgb_color(B_GREY);
 	bgcolor = fl_rgb_color(B_GREY);
 	hasmenu = false;
+	highSolid = true;
 }
 
 YabView::~YabView()
@@ -70,6 +71,13 @@ void YabView::draw()
 					fl_line(e->x1, e->y1, e->x2, e->y2); 
 					break;
 				case 2: // stroke ellipse
+					fl_push_matrix();
+					// fl_scale((float)e->x2, (float)e->y2);
+					fl_scale((float)e->x2/(float)e->y2);
+					fl_begin_line();
+					fl_arc(e->x1, e->y1, e->x2, 0, 360);
+					fl_end_line();
+					fl_pop_matrix();
 					break;
 				case 3: // fill ellipse
 					break;
@@ -80,8 +88,12 @@ void YabView::draw()
 					fl_draw_box(FL_FLAT_BOX, e->x1,e->y1, e->x2-e->x1,e->y2-e->y1, highcolor);
 					break;
 				case 6: // set highcolor
+					highcolor = fl_rgb_color(e->r, e->g, e->b);
+					if(highSolid) fl_color(highcolor);
 					break;
 				case 7: // set lowcolor
+					lowcolor = fl_rgb_color(e->r, e->g, e->b);
+					if(!highSolid) fl_color(lowcolor);
 					break;
 				case 8: // stroke bezier
 					fl_begin_line();
