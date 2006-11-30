@@ -414,21 +414,120 @@ int YabInterface::CloseWindow(const char* view)
 
 void YabInterface::WindowSet(const char* option, const char* value, const char* window)
 {
-/*  "Look", "Document/Titled(default)/Floating/Modal/Bordered/No-Border"
-  "Feel", "Normal(default)/Modal-App/Modal-All/Floating-App/Floating-All"
-  See "BeBook->Interface Kit->BWindow->Constants and Defined Types" for details.
-  "Title", Title$
-  "Flags", "Not-Closable, Not-Zoomable, Not-Minimizable, Not-H-Resizable, Not-V-Resizable, 
-            Not-Resizable, No-Workspace-Activation, Accept-First-Click"
-  See "BeBook->Interface Kit->BWindow->Constants and Defined Types" for details.
-  "Flags", "Reset"
-  Resets the flags back to none.
-  "Workspace", "All"
-  Causes the window to appear on all workspaces.
-  "Workspace", "Current"
-  Causes the window to appear on only the current workspace.
-*/
+	float myMode=0;
+	if (strcasecmp(option, "look") == 0) myMode = 1.0;
+	if (strcasecmp(option, "feel") == 0) myMode = 2.0;
+	if (strcasecmp(option, "Title") == 0) myMode = 3.1;
+	if (strcasecmp(option, "Flags") == 0) myMode = 4.0;
+	if (strcasecmp(option, "Workspace") == 0) myMode = 5.0;
+	if (myMode == 0) Error(option, "OPTION");
 
+	if (strcasecmp(value, "Documented") == 0) myMode = 1.1;
+	if (strcasecmp(value, "Titled") == 0) myMode = 1.2;
+	if (strcasecmp(value, "Floating") == 0) myMode = 1.3;
+	if (strcasecmp(value, "Modal") == 0) myMode = 1.4;
+	if (strcasecmp(value, "Bordered") == 0) myMode = 1.5;
+	if (strcasecmp(value, "No-Border") == 0) myMode = 1.6;
+	if ((int)myMode == myMode) Error(value, "LOOK");
+
+	if (strcasecmp(value, "Normal") == 0) myMode = 2.1;
+	if (strcasecmp(value, "Modal-App") == 0) myMode = 2.2;
+	if (strcasecmp(value, "Modal-All") == 0) myMode = 2.3;
+	if (strcasecmp(value, "Floating-App") == 0) myMode = 2.4;
+	if (strcasecmp(value, "Floating-All") == 0) myMode = 2.5;
+	if ((int)myMode == myMode) Error(value, "FEEL");
+
+	if (strcasecmp(value, "Not-Closable") == 0) myMode = 4.1;
+	if (strcasecmp(value, "Not-Zoomable") == 0) myMode = 4.2;
+	if (strcasecmp(value, "Not-Minimizable") == 0) myMode = 4.3;
+	if (strcasecmp(value, "Not-H-Resizable") == 0) myMode = 4.4;
+	if (strcasecmp(value, "Not-V-Resizable") == 0) myMode = 4.5;
+	if (strcasecmp(value, "Not-Resizable") == 0) myMode = 4.6;
+	if (strcasecmp(value, "Not-Workspace-Activation") == 0) myMode = 4.7;
+	if (strcasecmp(value, "Accept-First-Click") == 0) myMode = 4.8;
+	if (strcasecmp(value, "Reset") == 0) myMode = 4.9;
+	if ((int)myMode == myMode) Error(value, "FLAGS");
+
+	if (strcasecmp(value, "All") == 0) myMode = 5.1;
+	if (strcasecmp(value, "Current") == 0) myMode = 5.2;
+	if ((int)myMode == myMode) Error(value, "WORKSPACE");
+
+	std::string s = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window());
+/*			switch (myMode)
+			{
+			case 1.1:
+				break;
+			case 1.2:
+				break;
+			case 1.3:
+				break;
+			case 1.4:
+				break;
+			case 1.5:
+				break;
+			case 1.6:
+				win->border(0);
+				break;
+			case 2.1:
+				break;
+			case 2.2:	// modal-app
+				win->set_modal();
+				break;
+			case 2.3:	// modal-all
+				win->set_modal();
+				break;
+			case 2.4:
+				break;
+			case 2.5:
+				break;
+			case 3.1:
+				win->label(value);
+				break;
+			case 4.1:
+				break;
+			case 4.2:
+				break;
+			case 4.3:
+				break;
+			case 4.4:	// not-h-resizable
+				int w = win->w();
+				int minh = win->GetMinimumHeight();
+				int maxh = win->GetMaximumHeight();
+				win->MinimumTo(w, minh);
+				win->MaximumTo(w, maxh);
+				break;
+			case 4.5:	// not-v-resizable
+				int h = win->h();
+				int minw = win->GetMinimumWidth();
+				int maxw = win->GetMaximumWidth();
+				win->MinimumTo(minw, h);
+				win->MaximumTo(maxw, h);
+				break;
+			case 4.6:
+				win->resizable(NULL)
+				break;
+			case 4.7:
+				break;
+			case 4.8:
+				break;
+			case 4.9:
+				break;
+			case 5.1:
+				break;
+			case 5.2:
+				break;
+			};
+*/			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "WINDOW");
 }
 
 void YabInterface::WindowSet(const char* option, const char* window)
