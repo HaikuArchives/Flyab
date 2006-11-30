@@ -21,7 +21,7 @@ public:
 private:
 	Fl_Slider *slider[3];
 	Fl_Input *txt[3];
-	int bc[3], data[3];
+	int bc[3], data[3], min, max;
 	static void cb_common(Fl_Widget *widget, void *data);
 	void cb_slider(Fl_Slider *slider, int n);
 	void cb_input(Fl_Input *input, int n);

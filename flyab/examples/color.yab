@@ -14,15 +14,15 @@ while (not instr(msg$, "Quit"))
 	// print if something changed
 	if (r <> colorcontrol get "CC", "red") then
 		r = colorcontrol get "CC", "red"
-//		print "  Red: ", r
+		print "  Red: ", r
 	fi
 	if (g <> colorcontrol get "CC", "green") then
 		g = colorcontrol get "CC", "green"
-//		print "Green: ", g
+		print "Green: ", g
 	fi
 	if (b <> colorcontrol get "CC", "blue") then
 		b = colorcontrol get "CC", "blue"
-//		print " Blue: ", b
+		print " Blue: ", b
 	fi
 
 wend
