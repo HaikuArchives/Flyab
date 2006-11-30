@@ -414,47 +414,52 @@ int YabInterface::CloseWindow(const char* view)
 
 void YabInterface::WindowSet(const char* option, const char* value, const char* window)
 {
-	float myMode=0;
+	int myMode=0;
 
 	std::string t = option;
 	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
 
-	if(t.find("look") != std::string::npos) myMode = 1.0;
-	if(t.find("feel") != std::string::npos) myMode = 2.0;
-	if(t.find("title") != std::string::npos) myMode = 3.1;
-	if(t.find("flags") != std::string::npos) myMode = 4.0;
-	if(t.find("workspace") != std::string::npos) myMode = 5.0;
+	if(t.find("look") != std::string::npos)
+	{
+		if(t.find("documented") != std::string::npos) myMode = 101;
+		if(t.find("titled") != std::string::npos) myMode = 102;
+		if(t.find("floating") != std::string::npos) myMode = 103;
+		if(t.find("modal") != std::string::npos) myMode = 104;
+		if(t.find("bordered") != std::string::npos) myMode = 105;
+		if(t.find("no-border") != std::string::npos) myMode = 106;
+	}
+
+	if(t.find("feel") != std::string::npos)
+	{
+		if(t.find("normal") != std::string::npos) myMode = 201;
+		if(t.find("modal-app") != std::string::npos) myMode = 202;
+		if(t.find("modal-all") != std::string::npos) myMode = 203;
+		if(t.find("floating-app") != std::string::npos) myMode = 204;
+		if(t.find("floating-all") != std::string::npos) myMode = 205;
+	}
+
+	if(t.find("title") != std::string::npos) myMode = 301;
+
+	if(t.find("flags") != std::string::npos)
+	{
+		if(t.find("not-closable") != std::string::npos) myMode = 401;
+		if(t.find("not-zoomable") != std::string::npos) myMode = 402;
+		if(t.find("not-minimizable") != std::string::npos) myMode = 403;
+		if(t.find("not-h-resizable") != std::string::npos) myMode = 404;
+		if(t.find("not-v-resizable") != std::string::npos) myMode = 405;
+		if(t.find("not-resizable") != std::string::npos) myMode = 406;
+		if(t.find("not-workspace-activation") != std::string::npos) myMode = 407;
+		if(t.find("accept-first-click") != std::string::npos) myMode = 408;
+		if(t.find("reset") != std::string::npos) myMode = 409;
+	}
+
+	if(t.find("workspace") != std::string::npos)
+	{
+		if(t.find("all") != std::string::npos) myMode = 501;
+		if(t.find("current") != std::string::npos) myMode = 502;
+	}
+
 	if (myMode == 0) Error(option, "OPTION");
-
-	if(t.find("documented") != std::string::npos) myMode = 1.1;
-	if(t.find("titled") != std::string::npos) myMode = 1.2;
-	if(t.find("floating") != std::string::npos) myMode = 1.3;
-	if(t.find("modal") != std::string::npos) myMode = 1.4;
-	if(t.find("bordered") != std::string::npos) myMode = 1.5;
-	if(t.find("no-border") != std::string::npos) myMode = 1.6;
-	// if ((int)myMode == myMode) Error(value, "LOOK");
-
-	if(t.find("normal") != std::string::npos) myMode = 2.1;
-	if(t.find("modal-app") != std::string::npos) myMode = 2.2;
-	if(t.find("modal-all") != std::string::npos) myMode = 2.3;
-	if(t.find("floating-app") != std::string::npos) myMode = 2.4;
-	if(t.find("floating-all") != std::string::npos) myMode = 2.5;
-	// if ((int)myMode == myMode) Error(value, "FEEL");
-
-	if(t.find("not-closable") != std::string::npos) myMode = 4.1;
-	if(t.find("not-zoomable") != std::string::npos) myMode = 4.2;
-	if(t.find("not-minimizable") != std::string::npos) myMode = 4.3;
-	if(t.find("not-h-resizable") != std::string::npos) myMode = 4.4;
-	if(t.find("not-v-resizable") != std::string::npos) myMode = 4.5;
-	if(t.find("not-resizable") != std::string::npos) myMode = 4.6;
-	if(t.find("not-workspace-activation") != std::string::npos) myMode = 4.7;
-	if(t.find("accept-first-click") != std::string::npos) myMode = 4.8;
-	if(t.find("reset") != std::string::npos) myMode = 4.9;
-	// if ((int)myMode == myMode) Error(value, "FLAGS");
-
-	if(t.find("all") != std::string::npos) myMode = 5.1;
-	if(t.find("current") != std::string::npos) myMode = 5.2;
-	// if ((int)myMode == myMode) Error(value, "WORKSPACE");
 
 	std::string s = window;
 	for (int i = 0; i < yabViewList.size(); i++)
@@ -463,71 +468,85 @@ void YabInterface::WindowSet(const char* option, const char* value, const char* 
 		{
 			Fl::lock();
 			YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window());
-/*			switch (myMode)
+			switch (myMode)
 			{
-			case 1.1:
-				break;
-			case 1.2:
-				break;
-			case 1.3:
-				break;
-			case 1.4:
-				break;
-			case 1.5:
-				break;
-			case 1.6:
-				win->border(0);
-				break;
-			case 2.1:
-				break;
-			case 2.2:	// modal-app
-				win->set_modal();
-				break;
-			case 2.3:	// modal-all
-				win->set_modal();
-				break;
-			case 2.4:
-				break;
-			case 2.5:
-				break;
-			case 3.1:
-				win->label(value);
-				break;
-			case 4.1:
-				break;
-			case 4.2:
-				break;
-			case 4.3:
-				break;
-			case 4.4:	// not-h-resizable
-				int w = win->w();
-				int minh = win->GetMinimumHeight();
-				int maxh = win->GetMaximumHeight();
-				win->MinimumTo(w, minh);
-				win->MaximumTo(w, maxh);
-				break;
-			case 4.5:	// not-v-resizable
-				int h = win->h();
-				int minw = win->GetMinimumWidth();
-				int maxw = win->GetMaximumWidth();
-				win->MinimumTo(minw, h);
-				win->MaximumTo(maxw, h);
-				break;
-			case 4.6:
-				win->resizable(NULL)
-				break;
-			case 4.7:
-				break;
-			case 4.8:
-				break;
-			case 4.9:
-				break;
-			case 5.1:
-				break;
-			case 5.2:
-				break;
+			// look
+				case 101:
+					win->border(1);
+					break;
+				case 102:
+					win->border(1);
+					break;
+				case 103:
+					win->border(1);
+					break;
+				case 104:
+					win->border(1);
+					break;
+				case 105:
+					win->border(1);
+					break;
+				case 106:	// no-border
+					win->border(0);
+					break;
+			// feel
+				case 201:
+					break;
+				case 202:	// modal-app
+					win->set_modal();
+					break;
+				case 203:	// modal-all
+					win->set_modal();
+					break;
+				case 204:
+					break;
+				case 205:
+					break;
+			// title
+				case 301:	// title
+					win->label(value);
+					break;
+			// flags
+				case 401:
+					break;
+				case 402:
+					break;
+				case 403:
+					break;
+				case 404:	// not-h-resizable
+					{
+						int w = win->w();
+						int minh = win->GetMinimumHeight();
+						int maxh = win->GetMaximumHeight();
+						win->MinimumTo(w, minh);
+						win->MaximumTo(w, maxh);
+					}
+					break;
+				case 405:	// not-v-resizable
+					{
+						int h = win->h();
+						int minw = win->GetMinimumWidth();
+						int maxw = win->GetMaximumWidth();
+						win->MinimumTo(minw, h);
+						win->MaximumTo(maxw, h);
+					}
+					break;
+				case 406:	// not-resizable
+					win->resizable(NULL);
+					break;
+				case 407:
+					break;
+				case 408:
+					break;
+				case 409:
+					break;
+			// workspace
+				case 501:
+					break;
+				case 502:
+					break;
 			};
-*/			Fl::unlock();
+			Fl::unlock();
 			return;
 		}
 	}
