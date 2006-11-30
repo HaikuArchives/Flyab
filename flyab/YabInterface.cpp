@@ -461,11 +461,12 @@ void YabInterface::WindowSet(const char* option, const char* value, const char* 
 	if (myMode == 0) ErrorGen("Invalid option");
 
 	std::string s = window;
+	YabWindow *win;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
-		if(s == yabViewList[i]->GetID())
+		if (win = dynamic_cast<YabWindow*>(yabViewList[i]->window()));
 		{
-			if (YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window()));
+			if(s == win->GetID())
 			{
 				Fl::lock();
 				switch (myMode)
@@ -569,11 +570,12 @@ void YabInterface::WindowSet(const char* option, const char* window)
 	if (myMode == 0) ErrorGen("Invalid option");
 
 	std::string v = window;
+	YabWindow *win;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
-		if(v == yabViewList[i]->GetID())
+		if (win = dynamic_cast<YabWindow*>(yabViewList[i]->window()));
 		{
-			if (YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window()));
+			if(v == win->GetID())
 			{
 				Fl::lock();
 				switch (myMode)
@@ -1403,14 +1405,168 @@ void YabInterface::CreateListBox(BRect frame, const char* id, int scrollbar, con
 	Error(view, "VIEW");
 }
 
-void YabInterface::RemoveItem(const char* title, const char* item)
-{
-	// This is listbox remove
-}
-
 void YabInterface::ClearItems(const char* title)
 {
 	// This is listbox clear
+	std::string id = title;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
+			{
+				if(id == list->GetID())
+				{
+					Fl::lock();
+					list->clear();
+					list->redraw();
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(title, "LISTBOX");
+}
+
+void YabInterface::ListboxAdd(const char* listbox, const char* item)
+{
+	std::string s = listbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
+				if(s == list->GetID())
+				{
+					Fl::lock();
+					std::string t = "@S12"; // B_FONT_SIZE
+					t += item;
+					list->add(t.c_str());
+					Fl::unlock();
+					return;
+				}
+
+	Error(listbox, "LISTBOX");
+}
+
+void YabInterface::ListboxAdd(const char* listbox, int pos, const char* item)
+{
+	std::string s = listbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
+				if(s == list->GetID())
+				{
+					Fl::lock();
+					std::string t = "@S12"; // B_FONT_SIZE
+					t += item;
+					list->insert(pos, t.c_str());
+					Fl::unlock();
+					return;
+				}
+
+	Error(listbox, "LISTBOX");
+}
+
+void YabInterface::ListboxSelect(const char* listbox, int pos)
+{
+	std::string s = listbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
+				if(s == list->GetID())
+				{
+					Fl::lock();
+					if(pos<0) pos = 0;
+					if(pos>list->size()) pos = list->size();
+					list->select(pos);
+					list->middleline(pos);
+					Fl::unlock();
+					return;
+				}
+
+	Error(listbox, "LISTBOX");
+}
+
+void YabInterface::RemoveItem(const char* title, const char* item)
+{
+	// This is listbox remove
+	std::string id = title;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
+			{
+				if(id == list->GetID())
+				{
+					Fl::lock();
+					for (int n=0; n<=list->size(); n++)
+					{
+						const char* entry = list->text(n);
+						if (strcmp(entry, item) == 0)
+						{
+							list->remove(n);
+							list->redraw();
+							break;
+						}
+					}
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(title, "LISTBOX");
+}
+
+void YabInterface::ListboxRemove(const char* listbox, int pos)
+{
+	std::string s = listbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
+				if(s == list->GetID())
+				{
+					Fl::lock();
+					if(pos<0) pos = 0;
+					if(pos>list->size()) pos = list->size();
+					list->remove(pos);
+					Fl::unlock();
+					return;
+				}
+
+	Error(listbox, "LISTBOX");
+}
+
+const char* YabInterface::ListboxGet(const char* listbox, int pos)
+{
+	std::string s = listbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
+				if(s == list->GetID())
+				{
+					Fl::lock();
+					if(pos<0) pos = 0;
+					if(pos>list->size()) pos = list->size();
+					const char* ret = list->text(pos);
+					Fl::unlock();
+					return ret;
+				}
+
+	Error(listbox, "LISTBOX");
+}
+
+int YabInterface::ListboxCount(const char* listbox)
+{
+	std::string s = listbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
+				if(s == list->GetID())
+					return list->size();
+
+	Error(listbox, "LISTBOX");
 }
 
 void YabInterface::CreateDropBox(BRect frame, const char* title, const char* label, const char* view)
@@ -2390,84 +2546,6 @@ const char* YabInterface::ColumnBoxGet(const char* columnbox, int column, int po
 
 int YabInterface::ColumnBoxCount(const char* columnbox)
 {
-}
-
-void YabInterface::ListboxAdd(const char* listbox, const char* item)
-{
-	std::string s = listbox;
-	for (int i = 0; i < yabViewList.size(); i++)
-		for(int j = 0; j < yabViewList[i]->children(); j++)
-			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
-				if(s == list->GetID())
-				{
-					Fl::lock();
-					std::string t = "@S12"; // B_FONT_SIZE
-					t += item;
-					list->add(t.c_str());
-					Fl::unlock();
-					return;
-				}
-
-	Error(listbox, "LISTBOX");
-}
-
-void YabInterface::ListboxAdd(const char* listbox, int pos, const char* item)
-{
-	std::string s = listbox;
-	for (int i = 0; i < yabViewList.size(); i++)
-		for(int j = 0; j < yabViewList[i]->children(); j++)
-			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
-				if(s == list->GetID())
-				{
-					Fl::lock();
-					std::string t = "@S12"; // B_FONT_SIZE
-					t += item;
-					list->insert(pos, t.c_str());
-					Fl::unlock();
-					return;
-				}
-
-	Error(listbox, "LISTBOX");
-}
-
-void YabInterface::ListboxSelect(const char* listbox, int pos)
-{
-	std::string s = listbox;
-	for (int i = 0; i < yabViewList.size(); i++)
-		for(int j = 0; j < yabViewList[i]->children(); j++)
-			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
-				if(s == list->GetID())
-				{
-					Fl::lock();
-					if(pos<0) pos = 0;
-					if(pos>list->size()) pos = list->size();
-					list->select(pos);
-					list->middleline(pos);
-					Fl::unlock();
-					return;
-				}
-
-	Error(listbox, "LISTBOX");
-}
-
-void YabInterface::ListboxRemove(const char* listbox, int pos)
-{
-}
-
-const char* YabInterface::ListboxGet(const char* listbox, int pos)
-{
-}
-
-int YabInterface::ListboxCount(const char* listbox)
-{
-	std::string s = listbox;
-	for (int i = 0; i < yabViewList.size(); i++)
-		for(int j = 0; j < yabViewList[i]->children(); j++)
-			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
-				if(s == list->GetID())
-					return list->size();
-
-	Error(listbox, "LISTBOX");
 }
 
 void YabInterface::DrawSet1(const char* option, const char* window)
