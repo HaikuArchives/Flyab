@@ -1,0 +1,17 @@
+// Statusbar by DasJott
+// this is a testapp.
+
+window open 100, 100 to 400, 400, "W", "StatusWorld"
+
+statusbar 10, 50 to 290, 70, "S", "My status", "", "W"
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+	if (msg$ <> "") print msg$
+
+	cc = cc + 1
+	statusbar set "S", "Your status", "", cc
+	if (cc = 110) cc = 0
+	sleep 0.02
+wend
+exit

@@ -1019,6 +1019,7 @@ void YabInterface::StatusBarSet(const char* id, const char* label1, const char* 
 					Fl::lock();
 					bar->value(state);
 					bar->copy_label(label1);
+					bar->redraw();
 					Fl::unlock();
 					return;
 				}

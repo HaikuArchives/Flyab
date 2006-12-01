@@ -1,7 +1,7 @@
 // Tabview testapp
 // by DasJott
 
-window open 100, 100 to 400, 400, "W", "MenuWorld"
+window open 100, 100 to 400, 400, "W", "TabWorld"
 
 tabview 10, 10 to 290, 290, "tv", "top", "W"
 

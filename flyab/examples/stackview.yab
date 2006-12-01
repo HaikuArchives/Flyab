@@ -1,7 +1,7 @@
 // Stackview testapp
 // by DasJott
 
-window open 100, 100 to 400, 400, "W", "MenuWorld"
+window open 100, 100 to 400, 400, "W", "StackviewWorld"
 
 stackview 10, 10 to 290, 260, "sv", 4, "W"
 
