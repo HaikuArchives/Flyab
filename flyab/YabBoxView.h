@@ -29,17 +29,20 @@ public:
 
 		mainbox = new Fl_Box(x_+2, y_+6, w_-4, h_-8);
 		mainbox->box(BOXTYPE);
-		mainbox->color(fl_rgb_color(0, 0, 0));
+		mainbox->selection_color(fl_rgb_color(10, 10, 10));
 		add(mainbox);
 
-		int lw = 10+(int)fl_width(label);
-		labelbox = new Fl_Box(x+5, y_, lw, lh);
-		labelbox->box(FL_FLAT_BOX);
-		labelbox->color(fl_rgb_color(B_GREY));
-		labelbox->labelsize(12);
-		labelbox->labeltype(FL_ENGRAVED_LABEL);
-		labelbox->copy_label(label);
-		add(labelbox);
+		if (strcmp(label, ""))
+		{
+			int lw = 10+(int)fl_width(label);
+			labelbox = new Fl_Box(x+5, y_, lw, lh);
+			labelbox->box(FL_FLAT_BOX);
+			labelbox->color(fl_rgb_color(B_GREY));
+			labelbox->labelsize(12);
+			labelbox->labeltype(FL_ENGRAVED_LABEL);
+			labelbox->copy_label(label);
+			add(labelbox);
+		}
 
 		redraw();
 	}

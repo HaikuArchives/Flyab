@@ -364,12 +364,15 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *yab)
 BPoint YabInterface::GetWindowCoordinates(Fl_Widget *parent, double x, double y)
 {
 	BPoint ret(x,y);
+printf("ret.x = %f\n", ret.x);
 	while(dynamic_cast<Fl_Window*>(parent) == NULL)
 	{
 		ret.x += (double)parent->x();
 		ret.y += (double)parent->y();
+printf("+%d = %f\n", parent->x(), ret.x);
 		parent = parent->parent();
 	}
+printf("--\n");
 	return ret;
 }
 
@@ -799,7 +802,7 @@ void YabInterface::BoxView(BRect frame, const char* id, const char* text, int li
 			YabView *view = box->AddView();
 			view->color(fl_rgb_color(B_GREY));
 			view->callback(StaticMessageCallback);
-			box->redraw();
+
 			yabViewList.push_back(view);
 			yabViewList[i]->add(box);
 			yabViewList[i]->redraw();
