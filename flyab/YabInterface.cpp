@@ -2137,11 +2137,9 @@ void YabInterface::Slider(BRect frame, const char* id, const char* title, int mi
 			YabSlider *yabslider = new YabSlider(x, y, w, 20, id, title);
 			yabslider->type(FL_HORIZONTAL);	//type(FL_HOR_NICE_SLIDER);
 
+			yabslider->LabelLeft();
 			yabslider->minimum(min);
 			yabslider->maximum(max);
-			yabslider->step(1);
-			yabslider->color(fl_rgb_color(B_GREY));
-			yabslider->labelsize(B_FONT_SIZE);
 			yabslider->callback(StaticMessageCallback);
 			yabslider->redraw();
 
@@ -2172,20 +2170,19 @@ void YabInterface::Slider(BRect frame, const char* id, const char* title, int mi
 			{
 				yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, 20, (int)frame.height, id,title);
 				yabslider->type(FL_VERTICAL);
+				yabslider->LabelTop();
 			}
 			else
 			{
 				yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, (int)frame.width, 20, id,title);
 				yabslider->type(FL_HORIZONTAL);
+				yabslider->LabelLeft();
 				yabslider->slider(FL_DIAMOND_DOWN_BOX);
 				yabslider->selection_color(2);
 			}
 			
 			yabslider->minimum(min);
 			yabslider->maximum(max);
-			yabslider->step(1);
-			yabslider->color(fl_rgb_color(B_GREY));
-			yabslider->labelsize(B_FONT_SIZE);
 			yabslider->callback(StaticMessageCallback);
 			yabslider->redraw();
 			
@@ -2212,7 +2209,7 @@ void YabInterface::SetSlider(const char* id, const char* label1, const char* lab
 				if(s == slider->GetID())
 				{
 					Fl::lock();
-					slider->label(label1);
+					slider->copy_label(label1);
 					slider->redraw_label();
 					Fl::unlock();
 					return;
