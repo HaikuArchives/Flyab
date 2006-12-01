@@ -22,6 +22,7 @@
 #include "global.h"
 #include "YabInterface.h"
 #include "YabAlert.h"
+#include "YabBoxView.h"
 #include "YabButton.h"
 #include "YabCheckButton.h"
 #include "YabColorControl.h"
@@ -769,6 +770,29 @@ int YabInterface::ViewGet(const char* view, const char* option)
 
 void YabInterface::BoxView(BRect frame, const char* id, const char* text, int lineType, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+			YabBoxView *box = new YabBoxView((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, id, lineType, text);
+
+			YabView *view = box->AddView();
+			view->color(fl_rgb_color(B_GREY));
+			view->callback(StaticMessageCallback);
+
+			yabViewList.push_back(view);
+			yabViewList[i]->add(box);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::Tab(BRect frame, const char* id, const char* mode, const char* view)
