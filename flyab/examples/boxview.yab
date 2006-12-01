@@ -3,7 +3,9 @@
 
 window open 100, 100 to 400, 400, "W", "BoxViewWorld"
 
-boxview 10, 10 to 290, 290, "bv", "My boxview", 1, "W"
+boxview 10, 10 to 290, 290, "bv0", "No border", 0, "W"
+	boxview 10, 10 to 240, 240, "bv1", "Simple border", 1, "bv0"
+		boxview 10, 10 to 100, 100, "bv2", "Fancy border", 2, "bv1"
 
 while (not instr(msg$, "Quit"))
 	msg$ = message$

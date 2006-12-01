@@ -24,11 +24,12 @@ public:
 		color(fl_rgb_color(B_GREY));
 
 		Fl_Boxtype BOXTYPE = FL_NO_BOX;
-		if (type = 1) BOXTYPE = FL_ROUNDED_FRAME;
-		if (type = 2) BOXTYPE = FL_PLASTIC_UP_FRAME;
+		if (type == 1) BOXTYPE = FL_BORDER_FRAME;
+		if (type == 2) BOXTYPE = FL_ENGRAVED_FRAME;
 
 		mainbox = new Fl_Box(x_+2, y_+6, w_-4, h_-8);
 		mainbox->box(BOXTYPE);
+		mainbox->color(fl_rgb_color(0, 0, 0));
 		add(mainbox);
 
 		int lw = 10+(int)fl_width(label);
@@ -37,7 +38,7 @@ public:
 		labelbox->color(fl_rgb_color(B_GREY));
 		labelbox->labelsize(12);
 		labelbox->labeltype(FL_ENGRAVED_LABEL);
-		labelbox->label(label);
+		labelbox->copy_label(label);
 		add(labelbox);
 
 		redraw();
@@ -57,10 +58,7 @@ public:
 
 	void draw()
 	{
-//		fl_draw(label, x+5, y-5);
 		Fl_Group::draw();
-//		mainbox->draw();
-//		labelbox->draw();
 	}
 
 private:
