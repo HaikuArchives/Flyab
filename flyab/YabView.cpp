@@ -12,6 +12,10 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	bgcolor = fl_rgb_color(B_GREY);
 	hasmenu = false;
 	highSolid = true;
+
+	bgbox = new Fl_Box(x, y, width, height);
+	bgbox->box(FL_FLAT_BOX);
+	bgbox->color(bgcolor);
 }
 
 YabView::~YabView()

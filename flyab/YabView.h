@@ -1,6 +1,7 @@
 #ifndef YABVIEW_H
 #define YABVIEW_H
 
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Group.H>
 #include <string>
 #include <vector>
@@ -33,6 +34,7 @@ private:
 	bool hasmenu;
 	bool highSolid;
 	Fl_Color bgcolor, lowcolor, highcolor;
+	Fl_Box *bgbox;
 };
 
 #endif
