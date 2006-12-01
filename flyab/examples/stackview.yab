@@ -1,0 +1,40 @@
+// Tabview testapp
+// by DasJott
+
+window open 100, 100 to 400, 400, "W", "MenuWorld"
+
+stackview 10, 10 to 290, 260, "sv", 4, "W"
+
+draw text 20, 50, "First stackview", "sv1"
+draw text 20, 50, "Second stackview", "sv2"
+draw text 20, 50, "Third stackview", "sv3"
+draw text 20, 50, "Fourth stackview", "sv4"
+
+button 10, 270 to 60, 290, "btn1", "1", "W"
+button 70, 270 to 120, 290, "btn2", "2", "W"
+button 130, 270 to 180, 290, "btn3", "3", "W"
+button 190, 270 to 240, 290, "btn4", "4", "W"
+
+sleep 1.5
+
+stackview set "sv", 2
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+
+	switch msg$
+		case "btn1|"
+			stackview set "sv", 1
+			break
+		case "btn2|"
+			stackview set "sv", 2
+			break
+		case "btn3|"
+			stackview set "sv", 3
+			break
+		case "btn4|"
+			stackview set "sv", 4
+			break
+	end switch
+wend
+exit
