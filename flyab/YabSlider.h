@@ -42,8 +42,7 @@ public:
 	{
 		copy_label(label);
 		align(FL_ALIGN_TOP);
-		int lw, lh;
-		fl_measure(label, lw, lh);
+		int lh = fl_height()-2;
 		resize(x, y+lh, w, h-lh);
 	}
 
