@@ -91,7 +91,7 @@ void YabView::draw()
 					fl_pop_matrix();
 					break;
 				case 4: // stroke rect
-					fl_rect(e->x1, e->y1, e->x2, e->y2);
+					fl_rect(e->x1, e->y1, e->x2-e->x1, e->y2-e->y1);
 					break;
 				case 5: // fill rect
 					fl_draw_box(FL_FLAT_BOX, e->x1,e->y1, e->x2-e->x1,e->y2-e->y1, highcolor);
