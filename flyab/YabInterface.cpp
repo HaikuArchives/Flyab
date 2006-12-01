@@ -252,7 +252,6 @@ bool YabInterface::ExitRequested()
 	return true;
 }
 
-//void YabInterface::MessageCallback(Fl_Widget *widget, void *data)
 void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 {
 	std::string t = "";
@@ -355,24 +354,12 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		return;
 	}
 }
-/*
-void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *yab)
-{
-	((YabInterface*)yab)->MessageCallback(widget);
-}
-*/
+
 BPoint YabInterface::GetWindowCoordinates(Fl_Widget *parent, double x, double y)
 {
 	BPoint ret(x,y);
-//printf("ret.x = %f\n", ret.x);
-//	while(dynamic_cast<Fl_Window*>(parent) == NULL)
-//	{
-		ret.x += (double)parent->x();
-		ret.y += (double)parent->y();
-//printf("+%d = %f\n", parent->x(), ret.x);
-//		parent = parent->parent();
-//	}
-//printf("--\n");
+	ret.x += (double)parent->x();
+	ret.y += (double)parent->y();
 	return ret;
 }
 
