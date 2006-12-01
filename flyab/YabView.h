@@ -3,6 +3,7 @@
 
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Group.H>
+#include <FL/Fl_Widget.H>
 #include <string>
 #include <vector>
 #include "YabWidget.h"
@@ -35,7 +36,7 @@ private:
 	bool hasmenu;
 	bool highSolid;
 	Fl_Color bgcolor, lowcolor, highcolor;
-	Fl_Box *bgbox;
+//	Fl_Box *bgbox;
 };
 
 #endif

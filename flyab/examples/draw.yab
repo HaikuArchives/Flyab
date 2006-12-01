@@ -1,0 +1,18 @@
+
+window open 100, 100 to 300, 300, "W", "DrawWorld"
+
+draw text 10, 40, "Hallo Welt", "W"
+
+sleep 1
+
+draw flush "W"
+
+sleep 1
+
+draw text 10, 43, "Hallo Welt nochmal", "W"
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+	if (msg$ <> "") print msg$
+wend
+exit

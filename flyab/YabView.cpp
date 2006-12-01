@@ -1,5 +1,4 @@
 #include <FL/fl_draw.H>
-#include <FL/Fl_Window.H>
 #include <iostream>
 #include "YabView.h"
 #include "global.h"
@@ -13,9 +12,14 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	hasmenu = false;
 	highSolid = true;
 
-	bgbox = new Fl_Box(x, y, width, height);
+	Fl_Box *bgbox = new Fl_Box(x, y, width, height);
 	bgbox->box(FL_FLAT_BOX);
-	bgbox->color(bgcolor);
+	bgbox->color(fl_rgb_color(255,255,255));
+
+	parent()->add(bgbox);
+	hide();
+	show();
+
 }
 
 YabView::~YabView()
@@ -32,7 +36,7 @@ YabView::~YabView()
 
 void YabView::SetColor(int r, int g, int b)
 {
-	bgbox->color(fl_rgb_color(r,g,b));
+	color(fl_rgb_color(r,g,b));
 }
 
 void YabView::AddDrawing(YabDrawing* drawing)
@@ -58,16 +62,6 @@ void YabView::FlushDrawings()
 void YabView::draw()
 {
 	fl_color(0,0,0);
-/*
-	if(flush)
-	{ 
-		// uebler Workaround, aber funktioniert erstmal
-		fl_draw_box(FL_FLAT_BOX, 0,0, (window())->w(),(window())->h(), bgcolor);
-		flush = false;
-		draw();
-	}
-	else
-*/
 	for(int i=0; i<drawList.size(); i++)
 	{
 		YabDrawing *e = drawList[i];
