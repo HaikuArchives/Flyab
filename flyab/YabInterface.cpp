@@ -652,7 +652,7 @@ void YabInterface::WindowSet(const char* option, int r, int g, int b, const char
 						lastlowcolorb = b;
 					}
 					break;
-				case 3: ((Fl_Widget*)yabViewList[i])->color(fl_rgb_color(r,g,b)); //not working ?!?
+				case 3: yabViewList[i]->SetColor(r,g,b); //not working ?!?
 					yabViewList[i]->redraw();
 					break;
 			}

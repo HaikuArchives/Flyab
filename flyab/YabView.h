@@ -25,6 +25,7 @@ public:
 	YabView(int x1, int y1, int width, int height, const char* id);
 	~YabView();
 	void draw();
+	void SetColor(int r, int g, int b);
 	void AddDrawing(YabDrawing* drawing);
 	void FlushDrawings();
 	void HasMenu(bool m);

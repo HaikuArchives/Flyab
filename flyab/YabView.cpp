@@ -30,6 +30,11 @@ YabView::~YabView()
 	drawList.clear();
 }
 
+void YabView::SetColor(int r, int g, int b)
+{
+	bgbox->color(fl_rgb_color(r,g,b));
+}
+
 void YabView::AddDrawing(YabDrawing* drawing)
 {
 	drawList.push_back(drawing);
