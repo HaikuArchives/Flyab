@@ -261,6 +261,9 @@
 		// BPropertyInfo *myProps;
 		// BList *yabbitmaps;
 		// BList *yabcanvas;
+		int lastfont, lastfontsize;
+		int lasthighcolorr, lasthighcolorg, lasthighcolorb;
+		int lastlowcolorr, lastlowcolorg, lastlowcolorb;
 	};
 #else
 	typedef

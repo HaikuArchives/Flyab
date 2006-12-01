@@ -2,7 +2,7 @@
 
 window open 100,100 to 380,410,"MainView","BoxWorld.yab"
 
-window set "MainView", "flags", "not-zoomable, not-h-resizable, not-v-resizable"
+// window set "MainView", "flags", "not-zoomable, not-h-resizable, not-v-resizable"
 
 layout "none", "MainView"
 

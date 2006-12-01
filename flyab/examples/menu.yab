@@ -29,7 +29,7 @@ while (not instr(msg$, "Quit"))
 	if (msg$ <> "") print msg$
 
 	cc = cc + 1
-	statusbar set "S", "Your status", "", cc
+	// statusbar set "S", "Your status", "", cc
 	if (cc = 100) cc = 0
 	sleep 0.02
 wend

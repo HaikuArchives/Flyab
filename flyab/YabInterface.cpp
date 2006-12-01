@@ -117,6 +117,15 @@ YabInterface::YabInterface(int argc, char **argv, const char* signature)
 	Fl::visual(FL_DOUBLE|FL_INDEX|FL_RGB);
 	fl_font(0, B_FONT_SIZE);
 
+	lastfont = 0; 
+	lastfontsize = B_FONT_SIZE;
+	lastlowcolorr = 216;
+	lastlowcolorg = 216;
+	lastlowcolorb = 216;
+	lasthighcolorr = 0;
+	lasthighcolorg = 0;
+	lasthighcolorb = 0;
+
 	// myProps = new BPropertyInfo(prop_list);
 	currentLib = "";
 }
@@ -409,6 +418,7 @@ int YabInterface::CloseWindow(const char* view)
 			Fl::lock();
 			Fl_Window *w = yabViewList[i]->window();
 			w->hide();
+			// delete w; 
 			Fl::unlock();
 			return 1;
 		}
@@ -635,6 +645,9 @@ void YabInterface::WindowSet(const char* option, int r, int g, int b, const char
 						t->g = g;
 						t->b = b;
 						yabViewList[i]->AddDrawing(t);
+						lasthighcolorr = r;
+						lasthighcolorg = g;
+						lasthighcolorb = b;
 					}
 					break;
 				case 2: {
@@ -644,6 +657,9 @@ void YabInterface::WindowSet(const char* option, int r, int g, int b, const char
 						t->g = g;
 						t->b = b;
 						yabViewList[i]->AddDrawing(t);
+						lastlowcolorr = r;
+						lastlowcolorg = g;
+						lastlowcolorb = b;
 					}
 					break;
 				case 3: ((Fl_Widget*)yabViewList[i])->color(fl_rgb_color(r,g,b)); //not working ?!?
@@ -1970,6 +1986,26 @@ void YabInterface::DrawClear(const char* window, bool isExit)
 			BPoint newCoor2 = GetWindowCoordinates(yabViewList[i], yabViewList[i]->w() ,yabViewList[i]->h());
 			yabViewList[i]->DrawBox((int)newCoor1.x, (int)newCoor1.y, (int)newCoor2.x, (int)newCoor2.y);
 			*/
+
+			YabDrawing *t = new YabDrawing();
+			t->command = 6;
+			t->r = lasthighcolorr;
+			t->g = lasthighcolorg;
+			t->b = lasthighcolorb;
+			yabViewList[i]->AddDrawing(t);
+
+			YabDrawing *t2 = new YabDrawing();
+			t2->command = 7;
+			t2->r = lastlowcolorr;
+			t2->g = lastlowcolorg;
+			t2->b = lastlowcolorb;
+			yabViewList[i]->AddDrawing(t2);
+
+			YabDrawing *t3 = new YabDrawing();
+			t3->command = 12;
+			t3->x1 = lastfont;
+			t3->y1 = lastfontsize;
+			yabViewList[i]->AddDrawing(t3);
 
 			yabViewList[i]->redraw();
 			Fl::unlock();
