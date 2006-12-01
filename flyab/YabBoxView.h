@@ -43,8 +43,6 @@ public:
 			labelbox->copy_label(label);
 			add(labelbox);
 		}
-
-		redraw();
 	}
 	~YabBoxView()
 	{
