@@ -30,8 +30,9 @@
 #include "YabMenuBar.h"
 #include "YabProgressBar.h"
 #include "YabRadioButton.h"
-#include "YabSpinControl.h"
 #include "YabSlider.h"
+#include "YabSpinControl.h"
+#include "YabStackView.h"
 #include "YabTabView.h"
 #include "YabTextControl.h"
 #include "YabView.h"
@@ -820,10 +821,6 @@ void YabInterface::TabAdd(const char* id, const char* tabname)
 	Error(id, "TABVIEW");
 }
 
-void YabInterface::TabDel(const char* id, int num)
-{
-}
-
 void YabInterface::TabSet(const char* id, int num)
 {
 	std::string b=id;
@@ -866,6 +863,84 @@ int YabInterface::TabViewGet(const char* id)
 		}
 	}
 	Error(id, "TABVIEW");
+}
+
+void YabInterface::TabDel(const char* id, int num)
+{
+}
+
+void YabInterface::StackViews(BRect frame, const char* id, int number, const char* view)
+{
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+			YabStackView *stack = new YabStackView((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, id);
+
+			for (int j=0; j<number; j++)
+			{
+				YabView *view = stack->NewView();
+				view->color(fl_rgb_color(B_GREY));
+				view->callback(StaticMessageCallback);
+				yabViewList.push_back(view);
+			}
+			stack->end();
+			yabViewList[i]->add(stack);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW");
+}
+
+void YabInterface::StackViews(const char* id, int num)
+{
+	std::string b=id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if (YabStackView *stack = dynamic_cast<YabStackView*>(yabViewList[i]->child(j)))
+			{
+				if (b == stack->GetID())
+				{
+					Fl::lock();
+					stack->Set(num);
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "STACKVIEW");
+}
+
+int YabInterface::StackViewGet(const char* id)
+{
+	std::string b=id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if (YabStackView *stack = dynamic_cast<YabStackView*>(yabViewList[i]->child(j)))
+			{
+				if (b == stack->GetID())
+				{
+					Fl::lock();
+					int num = stack->Get();
+					Fl::unlock();
+					return num;
+				}
+			}
+		}
+	}
+	Error(id, "STACKVIEW");
 }
 
 void YabInterface::CreateButton(BRect frame, const char* id, const char* title, const char* view)
@@ -2804,18 +2879,6 @@ void YabInterface::SplitView(const char* splitView, const char* option, double l
 }
 
 double YabInterface::SplitViewGet(const char* splitView, const char* option)
-{
-}
-
-void YabInterface::StackViews(BRect frame, const char* id, int number, const char* view)
-{
-}
-
-void YabInterface::StackViews(const char* id, int num)
-{
-}
-
-int YabInterface::StackViewGet(const char* id)
 {
 }
 
