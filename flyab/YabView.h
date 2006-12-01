@@ -36,7 +36,7 @@ private:
 	bool hasmenu;
 	bool highSolid;
 	Fl_Color bgcolor, lowcolor, highcolor;
-//	Fl_Box *bgbox;
+	Fl_Box *bgbox;
 };
 
 #endif

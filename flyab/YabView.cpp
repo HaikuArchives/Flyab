@@ -12,14 +12,14 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	hasmenu = false;
 	highSolid = true;
 
-	Fl_Box *bgbox = new Fl_Box(x, y, width, height);
+	bgbox = new Fl_Box(x, y, width, height);
 	bgbox->box(FL_FLAT_BOX);
-	bgbox->color(fl_rgb_color(255,255,255));
-
+	bgbox->color(bgcolor);
 	parent()->add(bgbox);
+	parent()->redraw();
+
 	hide();
 	show();
-
 }
 
 YabView::~YabView()
@@ -32,6 +32,7 @@ YabView::~YabView()
 		delete last;
 	}
 	drawList.clear();
+	delete bgbox;
 }
 
 void YabView::SetColor(int r, int g, int b)
