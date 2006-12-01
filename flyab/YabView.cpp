@@ -18,8 +18,9 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	parent()->add(bgbox);
 	parent()->redraw();
 
-	hide();
-	show();
+	d = new YabDrawing();
+	current(this);
+	this->FlushDrawings();
 }
 
 YabView::~YabView()
@@ -37,7 +38,7 @@ YabView::~YabView()
 
 void YabView::SetColor(int r, int g, int b)
 {
-	color(fl_rgb_color(r,g,b));
+	bgbox->color(fl_rgb_color(r,g,b));
 }
 
 void YabView::AddDrawing(YabDrawing* drawing)

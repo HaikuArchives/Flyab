@@ -10,14 +10,14 @@
 
 struct YabDrawing
 {
-        int command;
-        int x1,y1,x2,y2,x3,y3,x4,y4;
-        int r,g,b,alpha;
-        const char* chardata;
-		int p; // pattern
-        // pattern p;
-        // BBitmap *bitmap;
-        // BFont font;
+	int command;
+	int x1,y1,x2,y2,x3,y3,x4,y4;
+	int r,g,b,alpha;
+	const char* chardata;
+	int p; // pattern
+	// pattern p;
+	// BBitmap *bitmap;
+	// BFont font;
 };
 
 class YabView: public Fl_Group, public YabWidget
@@ -37,6 +37,7 @@ private:
 	bool highSolid;
 	Fl_Color bgcolor, lowcolor, highcolor;
 	Fl_Box *bgbox;
+	YabDrawing *d;
 };
 
 #endif
