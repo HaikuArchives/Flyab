@@ -1,0 +1,13 @@
+// Boxview testapp
+// by DasJott
+
+window open 100, 100 to 400, 400, "W", "BoxViewWorld"
+
+boxview 10, 10 to 290, 290, "bv", "My boxview", 1, "W"
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+	if (msg$ <> "") print msg$
+
+wend
+exit
