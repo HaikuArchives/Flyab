@@ -1,0 +1,20 @@
+
+window open 100, 100 to 400, 400, "W", "Mein Fenster"
+
+ID$		= "DB_test_"
+Label$	= "Waehlen"
+View$	= "W"
+
+DROPBOX 10, 10 TO 200, 30, ID$, Label$, View$
+
+dropbox add ID$, "foo"
+dropbox add ID$, "--"
+dropbox add ID$, "bar"
+dropbox add ID$, "--"
+dropbox add ID$, "baz"
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+	if (msg$ <> "") print msg$
+wend
+exit
