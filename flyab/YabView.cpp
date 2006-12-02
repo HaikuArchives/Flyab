@@ -1,3 +1,4 @@
+#include <FL/Fl.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Tabs.H>
 #include <iostream>
@@ -64,14 +65,14 @@ void YabView::FlushDrawings()
 
 void YabView::draw()
 {
-	if (bgcolor != prev_bgcolor || view_w != w() || view_h != h() || !FL_DRAG)
-	{
+//	if (bgcolor != prev_bgcolor || view_w != w() || view_h != h() || !FL_DRAG)
+//	{
 		fl_draw_box(FL_FLAT_BOX, fx,fy, w(), h(), bgcolor);
-		prev_bgcolor = bgcolor;
+/*		prev_bgcolor = bgcolor;
 		view_w = w();
 		view_h = h();
 	}
-
+*/
 	fl_color(0,0,0);
 	for(int i=0; i<drawList.size(); i++)
 	{
@@ -141,6 +142,12 @@ void YabView::draw()
 					break;
 		}
 	}
+
+	for (int i=0; i<children(); i++)
+	{
+		child(i)->redraw();
+	}
+
 	Fl_Group::draw();
 }
 
