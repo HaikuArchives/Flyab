@@ -10,6 +10,9 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	highcolor = fl_rgb_color(0,0,0);
 	lowcolor = fl_rgb_color(B_GREY);
 	bgcolor = fl_rgb_color(B_GREY);
+	prev_bgcolor = fl_rgb_color(0,0,0);
+	view_w = width;
+	view_h = height;
 	hasmenu = false;
 	highSolid = true;
 
@@ -60,7 +63,14 @@ void YabView::FlushDrawings()
 
 void YabView::draw()
 {
-	fl_draw_box(FL_FLAT_BOX, fx,fy, w(), h(), bgcolor);
+	if (bgcolor != prev_bgcolor || view_w != w() || view_h != h())
+	{
+		fl_draw_box(FL_FLAT_BOX, fx,fy, w(), h(), bgcolor);
+		prev_bgcolor = bgcolor;
+		view_w = w();
+		view_h = h();
+	}
+
 	fl_color(0,0,0);
 	for(int i=0; i<drawList.size(); i++)
 	{

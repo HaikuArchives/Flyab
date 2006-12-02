@@ -38,7 +38,7 @@
 YabSplitView::YabSplitView(int X, int Y, int W, int H, const char* id)
 	: Fl_Group(X, Y, W, H), YabWidget(id)
 {
-printf("FOOBAR\n");
+
 }
 
 // Drag the edges that were initially at oldx,oldy to newx,newy:
