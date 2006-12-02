@@ -36,7 +36,8 @@ private:
 	bool hasmenu;
 	bool highSolid;
 	Fl_Color bgcolor, lowcolor, highcolor, prev_bgcolor;
-	int fx,fy, view_w, view_h;
+	int fx,fy;
+	double view_w, view_h;
 	YabDrawing *d;
 };
 

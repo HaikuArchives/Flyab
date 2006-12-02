@@ -2260,8 +2260,8 @@ void YabInterface::SetSlider(const char* id, const char* label1, const char* lab
 				if(s == slider->GetID())
 				{
 					Fl::lock();
-					slider->copy_label(label1);
-					slider->redraw_label();
+					slider->setlabels(label1, label2);
+//					slider->redraw_label();
 					Fl::unlock();
 					return;
 				}

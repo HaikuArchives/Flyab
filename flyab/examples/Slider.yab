@@ -8,6 +8,8 @@ slider 400,20 to 490,180, "Slider3", "3. Slider vertical", 1, 10, "vertical", "M
 
 slider set "Slider1", 18
 
+slider label "Slider1", "Begin", "End"
+
 print "Slider1 = ", slider get "Slider1"
 
 slider color "Slider1", "barcolor", 66, 170, 75
