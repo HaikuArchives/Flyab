@@ -12,15 +12,19 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	hasmenu = false;
 	highSolid = true;
 
-	bgbox = new Fl_Box(x, y, width, height);
-	bgbox->box(FL_FLAT_BOX);
-	bgbox->color(bgcolor);
-	parent()->add(bgbox);
-	parent()->redraw();
+	// remember the absolute coordinates
+	fx = x;
+	fy = y;
 
-	d = new YabDrawing();
-	current(this);
-	this->FlushDrawings();
+	// bgbox = new Fl_Box(x, y, width, height);
+	// bgbox->box(FL_FLAT_BOX);
+	// bgbox->color(bgcolor);
+	// parent()->add(bgbox);
+	// parent()->redraw();
+
+	// d = new YabDrawing();
+	// current(this);
+	// this->FlushDrawings();
 }
 
 YabView::~YabView()
@@ -33,12 +37,13 @@ YabView::~YabView()
 		delete last;
 	}
 	drawList.clear();
-	delete bgbox;
+	// delete bgbox;
 }
 
 void YabView::SetColor(int r, int g, int b)
 {
-	bgbox->color(fl_rgb_color(r,g,b));
+	// bgbox->color(fl_rgb_color(r,g,b));
+	bgcolor = fl_rgb_color(r,g,b);
 }
 
 void YabView::AddDrawing(YabDrawing* drawing)
@@ -63,6 +68,7 @@ void YabView::FlushDrawings()
 
 void YabView::draw()
 {
+	fl_draw_box(FL_FLAT_BOX, fx,fy, w(), h(), bgcolor);
 	fl_color(0,0,0);
 	for(int i=0; i<drawList.size(); i++)
 	{

@@ -3,7 +3,7 @@
 
 window open 100, 100 to 400, 400, "W", "TabWorld"
 
-tabview 10, 10 to 290, 290, "tv", "top", "W"
+tabview 10, 10 to 290, 290, "tv", "bottom", "W"
 
 tabview add "tv", "First tab"
 tabview add "tv", "Second tab"
