@@ -1,4 +1,5 @@
 #include <FL/fl_draw.H>
+#include <FL/Fl_Tabs.H>
 #include <iostream>
 #include "YabView.h"
 #include "global.h"
@@ -14,7 +15,10 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 
 	// remember the absolute coordinates
 	fx = x;
-	fy = y;
+	if(dynamic_cast<Fl_Tabs*>(parent()))
+		fy = fy+2;
+	else
+		fy = y;
 
 	// bgbox = new Fl_Box(x, y, width, height);
 	// bgbox->box(FL_FLAT_BOX);

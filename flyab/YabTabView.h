@@ -15,8 +15,8 @@ public:
 		:Fl_Tabs(x_, y_, w_, h_), YabWidget(id)
 	{
 		viewname = id;
-		x=x_; y=y_+25;
-		w=w_; h=h_-25;
+		x=x_+2; y=y_+25;
+		w=w_-4; h=h_-27;
 		viewcounter = 0;
 
 		box(FL_UP_BOX);
