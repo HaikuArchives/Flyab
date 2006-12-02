@@ -2186,9 +2186,9 @@ void YabInterface::Slider(BRect frame, const char* id, const char* title, int mi
 			int w = static_cast<int>(frame.width);
 
 			YabSlider *yabslider = new YabSlider(x, y, w, 20, id, title);
-			yabslider->type(FL_HORIZONTAL);	//type(FL_HOR_NICE_SLIDER);
+			yabslider->type(FL_HORIZONTAL);
 
-			yabslider->LabelLeft();
+			yabslider->align(FL_ALIGN_LEFT|FL_ALIGN_TOP);
 			yabslider->minimum(min);
 			yabslider->maximum(max);
 			yabslider->callback(StaticMessageCallback);
@@ -2227,7 +2227,7 @@ void YabInterface::Slider(BRect frame, const char* id, const char* title, int mi
 			{
 				yabslider = new YabSlider((int)newCoor.x, (int)newCoor.y, (int)frame.width, 20, id,title);
 				yabslider->type(FL_HORIZONTAL);
-				yabslider->LabelLeft();
+				yabslider->align(FL_ALIGN_LEFT|FL_ALIGN_TOP);
 				yabslider->slider(FL_DIAMOND_DOWN_BOX);
 				yabslider->selection_color(2);
 			}
