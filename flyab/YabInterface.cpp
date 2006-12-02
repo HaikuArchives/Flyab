@@ -33,6 +33,7 @@
 #include "YabRadioButton.h"
 #include "YabSlider.h"
 #include "YabSpinControl.h"
+#include "YabSplitView.h"
 #include "YabStackView.h"
 #include "YabTabView.h"
 #include "YabTextControl.h"
@@ -2913,6 +2914,41 @@ double YabInterface::ScrollbarGet(const char* scrollview, const char* option)
 
 void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int style, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			std::string viewid = id;
+			BPoint point = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+			int x = (int)point.x; int y = (int)point.y;
+			int w = (int)frame.width; int h = (int)frame.height;
+			YabSplitView *splitview = new YabSplitView(x, y, w, h, id, isVertical, style);
+
+			std::string id1 = viewid+"1";
+			int x1 = x; int y1 = y;
+			int w1 = w/2; int h1 = h;
+
+			std::string id2 = viewid+"2";
+			int x2 = w/2; int y2 = y;
+			int w2 = w/2; int h2 = h;
+
+			YabView *view1 = new YabView(x1, y1, w1, h1, id1.c_str());
+			view1->box(FL_THIN_DOWN_FRAME);
+
+			YabView *view2 = new YabView(x2, y2, w2, h2, id2.c_str());
+			view2->box(FL_THIN_DOWN_FRAME);
+
+			splitview->add(view1);
+			splitview->add(view2);
+
+			yabViewList.push_back(view1);
+			yabViewList.push_back(view2);
+			yabViewList[i]->add(splitview);
+			return;
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::SplitView(const char* splitView, const char* option, double position)

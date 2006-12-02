@@ -15,8 +15,10 @@ public:
 		:Fl_Tabs(x_, y_, w_, h_), YabWidget(id)
 	{
 		viewname = id;
-		x=x_+2; y=y_+25;
-		w=w_-4; h=h_-27;
+//		x=x_+2; y=y_+25;
+//		w=w_-4; h=h_-27;
+		x=x_; y=y_+25;
+		w=w_; h=h_-25;
 		viewcounter = 0;
 
 		box(FL_UP_BOX);
@@ -37,6 +39,7 @@ public:
 		view->end();
 		view->labelsize(B_FONT_SIZE);
 		view->copy_label(label);
+		view->box(FL_UP_FRAME);
 		tabview.push_back(view);
 
 		add(view);

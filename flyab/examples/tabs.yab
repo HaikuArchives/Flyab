@@ -8,8 +8,8 @@ tabview 10, 10 to 290, 290, "tv", "bottom", "W"
 tabview add "tv", "First tab"
 tabview add "tv", "Second tab"
 
-button 10, 10 to 100, 30, "btn1", "Hello", "tv1"
-button 110, 10 to 200, 30, "btn1", "World", "tv2"
+button 110, 10 to 200, 30, "btn1", "Hello", "tv1"
+button 110, 40 to 200, 60, "btn1", "World", "tv2"
 
 draw line 10,10 to 100,100, "tv1"
 draw line 10,100 to 100,10, "tv2"

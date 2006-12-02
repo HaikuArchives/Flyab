@@ -19,16 +19,6 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 		fy = fy+2;
 	else
 		fy = y;
-
-	// bgbox = new Fl_Box(x, y, width, height);
-	// bgbox->box(FL_FLAT_BOX);
-	// bgbox->color(bgcolor);
-	// parent()->add(bgbox);
-	// parent()->redraw();
-
-	// d = new YabDrawing();
-	// current(this);
-	// this->FlushDrawings();
 }
 
 YabView::~YabView()
@@ -41,12 +31,10 @@ YabView::~YabView()
 		delete last;
 	}
 	drawList.clear();
-	// delete bgbox;
 }
 
 void YabView::SetColor(int r, int g, int b)
 {
-	// bgbox->color(fl_rgb_color(r,g,b));
 	bgcolor = fl_rgb_color(r,g,b);
 }
 
