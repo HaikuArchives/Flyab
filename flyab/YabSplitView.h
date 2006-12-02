@@ -1,53 +1,49 @@
+//
+// "$Id: Fl_Split.h,v 1.1 2001/07/23 09:50:04 spitzak Exp $"
+//
+// Renamed to YabSplitView and slightly modified for the flyab project, by TEAM maui.
+//
+// Tile header file for the Fast Light Tool Kit (FLTK).
+//
+// Copyright 1998-1999 by Bill Spitzak and others.
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Library General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Library General Public License for more details.
+//
+// You should have received a copy of the GNU Library General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+// USA.
+//
+// Please report all bugs and problems to "fltk-bugs@easysw.com".
+//
+
 #ifndef YABSPLITVIEW_H
 #define YABSPLITVIEW_H
 
-#include <FL/Fl_Tile.H>
-#include "YabView.h"
+#include <FL/Fl_Group.H>
 #include "YabWidget.h"
-#include <string>
-#include <vector>
 
-using namespace std;
-
-class YabSplitView: public Fl_Tile, public YabWidget
+class YabSplitView: public Fl_Group, public YabWidget
 {
+protected:
+	void layout();
 public:
-	YabSplitView(int x_, int y_, int w_, int h_, const char* id, int mode_, int style_)
-		:Fl_Tile(x_, y_, w_, h_), YabWidget(id)
-	{
-/*		viewid = id;
-		mode = mode_;
-		style = style_;
-		x = x; y = y_;
-		w = w_; h = h_;
-*/
-	}
-	~YabSplitView()
-	{
-	}
-/*
-	YabView *AddView()
-	{
-		sprintf(num, "%d", views.size()+1);
-		YabView *view = new YabView(x, y, w, h);
-		views.push_back(view);
-		return view;
-	}
-
-	draw()
-	{
-		for (int i=0; i<=views.size(); i++)
-		{
-			views(i)->draw();
-		}
-		Fl_Tile::draw();
-	}
-
-private:
-	YabView *view1, *view2;
-	vector<YabView*> views;
-	string viewid;
-	int mode, style;
-*/
+	int handle(int);
+	YabSplitView(int X, int Y, int W, int H, const char* id);
+	void position(int, int, int, int);
+	void resize(int X,int Y,int W,int H);
 };
+
 #endif
+
+//
+// End of "$Id: Fl_Split.h,v 1.1 2001/07/23 09:50:04 spitzak Exp $".
+//

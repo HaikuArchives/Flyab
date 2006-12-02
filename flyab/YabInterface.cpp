@@ -2923,7 +2923,7 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 			BPoint point = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 			int x = (int)point.x; int y = (int)point.y;
 			int w = (int)frame.width; int h = (int)frame.height;
-			YabSplitView *splitview = new YabSplitView(x, y, w, h, id, isVertical, style);
+			YabSplitView *splitview = new YabSplitView(x, y, w, h, id);
 
 			std::string id1 = viewid+"1";
 			int x1 = x; int y1 = y;
@@ -2934,17 +2934,15 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 			int w2 = w/2; int h2 = h;
 
 			YabView *view1 = new YabView(x1, y1, w1, h1, id1.c_str());
-			view1->box(FL_DOWN_FRAME);
+			view1->box(FL_THIN_DOWN_FRAME);
 			view1->end();
 
 			YabView *view2 = new YabView(x2, y2, w2, h2, id2.c_str());
-			view2->box(FL_DOWN_FRAME);
+			view2->box(FL_THIN_DOWN_FRAME);
 			view2->end();
 
 			splitview->add(view1);
 			splitview->add(view2);
-			splitview->resizable(view2);
-			splitview->end();
 			splitview->redraw();
 
 			yabViewList.push_back(view1);
