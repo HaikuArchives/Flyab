@@ -1,6 +1,7 @@
 #ifndef YABTABVIEW_H
 #define YABTABVIEW_H
 
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Tabs.H>
 #include "YabView.h"
 #include "YabWidget.h"
@@ -15,8 +16,6 @@ public:
 		:Fl_Tabs(x_, y_, w_, h_), YabWidget(id)
 	{
 		viewname = id;
-//		x=x_+2; y=y_+25;
-//		w=w_-4; h=h_-27;
 		x=x_; y=y_+25;
 		w=w_; h=h_-25;
 		viewcounter = 0;
@@ -35,14 +34,18 @@ public:
 		std::string newname = viewname;
 		newname += num;
 
-		YabView *view = new YabView(x, y, w, h, newname.c_str());
+		// workaround for a bug in Fl_Tabs
+		Fl_Group *box = new Fl_Group(x, y, w, h);
+		box->box(FL_UP_FRAME);
+		box->labelsize(B_FONT_SIZE);
+		box->copy_label(label);
+
+		YabView *view = new YabView(x+2, y+2, w-4, h-4, newname.c_str());
 		view->end();
-		view->labelsize(B_FONT_SIZE);
-		view->copy_label(label);
-		view->box(FL_UP_FRAME);
 		tabview.push_back(view);
 
-		add(view);
+		box->add(view);
+		add(box);
 		redraw();
 		return view;
 	}
