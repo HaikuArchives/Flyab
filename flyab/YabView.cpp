@@ -57,13 +57,14 @@ void YabView::FlushDrawings()
 	}
 	drawList.clear();
 	// this might be a workaround as well, but with less lines ;P
+	view_w = -1;
 	hide();
 	show();
 }
 
 void YabView::draw()
 {
-	if (bgcolor != prev_bgcolor || view_w != w() || view_h != h())
+	if (bgcolor != prev_bgcolor || view_w != w() || view_h != h() || !FL_DRAG)
 	{
 		fl_draw_box(FL_FLAT_BOX, fx,fy, w(), h(), bgcolor);
 		prev_bgcolor = bgcolor;
