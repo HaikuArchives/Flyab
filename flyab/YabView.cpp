@@ -55,7 +55,6 @@ void YabView::FlushDrawings()
 	}
 	drawList.clear();
 	// this might be a workaround as well, but with less lines ;P
-	view_w = -1;
 	hide();
 	show();
 }
