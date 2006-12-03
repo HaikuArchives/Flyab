@@ -2930,8 +2930,7 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 			BPoint point = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 			int x = (int)point.x; int y = (int)point.y;
 			int w = (int)frame.width; int h = (int)frame.height;
-			// YabSplitView *splitview = new YabSplitView(x, y, w, h, id);
-			//
+
 			YabSplitView *splitview = new YabSplitView(x, y, w, h, id);
 			splitview->end();
 
@@ -2956,20 +2955,33 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 				w2 = w; h2 = h/2;
 			}
 
-			YabView *view1 = new YabView(x1, y1, w1, h1, id1.c_str());
-			// Fl_Box *view1 = new Fl_Box(x1,y1,w1,h1, "A");
-			view1->box(FL_DOWN_FRAME);
+			Fl_Boxtype FRAME = FL_THIN_DOWN_FRAME;
+			if (style) FRAME = FL_DOWN_FRAME;
+
+			// first view here
+			Fl_Group *group1 = new Fl_Group(x1, y1, w1, h1);
+			group1->box(FRAME);
+			group1->color(fl_rgb_color(B_GREY));
+
+			YabView *view1 = new YabView(x1+2, y1+2, w1-4, h1-4, id1.c_str());
 			view1->color(fl_rgb_color(B_GREY));
 			view1->end();
+			group1->add(view1);
+			group1->end();
 
-			YabView *view2 = new YabView(x2, y2, w2, h2, id2.c_str());
-			// Fl_Box *view2 = new Fl_Box(x2,y2,w2,h2, "B");
-			view2->box(FL_DOWN_FRAME);
+			// second view here
+			Fl_Group *group2 = new Fl_Group(x2, y2, w2, h2);
+			group2->box(FRAME);
+			group2->color(fl_rgb_color(B_GREY));
+
+			YabView *view2 = new YabView(x2+2, y2+2, w2-4, h2-4, id2.c_str());
 			view2->color(fl_rgb_color(B_GREY));
 			view2->end();
+			group2->add(view2);
+			group2->end();
 
-			splitview->add(view1);
-			splitview->add(view2);
+			splitview->add(group1);
+			splitview->add(group2);
 
 			yabViewList.push_back(view1);
 			yabViewList.push_back(view2);
