@@ -2950,37 +2950,22 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 	{
 		if(s == yabViewList[i]->GetID())
 		{
+			Fl::lock();
 			std::string viewid = id;
 			BPoint point = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 			int x = (int)point.x; int y = (int)point.y;
 			int w = (int)frame.width; int h = (int)frame.height;
 
-			YabSplitView *splitview = new YabSplitView(x, y, w, h, id, isVertical);
+			YabSplitView *splitview = new YabSplitView(x, y, w, h, id, isVertical, style);
 			splitview->end();
 
-			std::string id1 = viewid+"1";
-			std::string id2 = viewid+"2";
-
 			int x1, x2, y1, y2, w1, w2, h1, h2;
-			if (isVertical)
-			{
-				x1 = x; y1 = y;
-				w1 = w/2; h1 = h;
-
-				x2 = x+(w/2); y2 = y;
-				w2 = w/2; h2 = h;
-			}
-			else
-			{
-				x1 = x; y1 = y;
-				w1 = w; h1 = h/2;
-
-				x2 = x; y2 = y+(h/2);
-				w2 = w; h2 = h/2;
-			}
 
 			// first view here
-			Fl_Group *group1 = new Fl_Group(x1, y1, w1, h1);
+			Fl_Group *group1 = splitview->GetGroup(1);
+			x1 = group1->x(); y1 = group1->y();
+			w1 = group1->w(); h1 = group1->h();
+			std::string id1 = viewid+"1";
 			group1->color(fl_rgb_color(B_GREY));
 
 			YabView *view1;
@@ -3012,9 +2997,13 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 			group1->add(view1);
 			group1->resizable(view1);
 			group1->end();
+			// end of first view
 
 			// second view here
-			Fl_Group *group2 = new Fl_Group(x2, y2, w2, h2);
+			Fl_Group *group2 = splitview->GetGroup(2);
+			x2 = group2->x(); y2 = group2->y();
+			w2 = group2->w(); h2 = group2->h();
+			std::string id2 = viewid+"2";
 			group2->color(fl_rgb_color(B_GREY));
 
 			YabView *view2;
@@ -3046,14 +3035,14 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 			group2->add(view2);
 			group2->resizable(view2);
 			group2->end();
-
-			splitview->add(group1);
-			splitview->add(group2);
+			// end of second view
 
 			yabViewList.push_back(view1);
 			yabViewList.push_back(view2);
 			yabViewList[i]->add(splitview);
 			yabViewList[i]->redraw();
+
+			Fl::unlock();
 			return;
 		}
 	}

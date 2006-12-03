@@ -1,13 +1,42 @@
 #include "YabSplitView.h"
 
-YabSplitView::YabSplitView(int x_, int y_, int w_, int h_, const char* id, int vert)
-	:Fl_Tile(x_, y_, w_, h_), YabWidget(id)
+YabSplitView::YabSplitView(int x, int y, int w, int h, const char* id, int vert, int style)
+	:Fl_Tile(x, y, w, h), YabWidget(id)
 {
 	vertical = vert;
+
+	int x1, x2, y1, y2, w1, w2, h1, h2;
+	if (vertical)
+	{
+		x1 = x; y1 = y;
+		w1 = w/2; h1 = h;
+
+		x2 = x+(w/2); y2 = y;
+		w2 = w/2; h2 = h;
+	}
+	else
+	{
+		x1 = x; y1 = y;
+		w1 = w; h1 = h/2;
+
+		x2 = x; y2 = y+(h/2);
+		w2 = w; h2 = h/2;
+	}
+	group1 = new Fl_Group(x1, y1, w1, h1);
+	group2 = new Fl_Group(x2, y2, w2, h2);
+	add(group1);
+	add(group2);
 }
 
 YabSplitView::~YabSplitView()
 {
+}
+
+Fl_Group* YabSplitView::GetGroup(int n)
+{
+	if (n == 1) return group1;
+	if (n == 2) return group2;
+	return NULL;
 }
 
 void YabSplitView::SetPosition(int pos)
