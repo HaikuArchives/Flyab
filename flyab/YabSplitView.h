@@ -14,12 +14,15 @@ public:
 	void SetPosition(int pos);
 	int GetPosition();
 	Fl_Group *GetGroup(int n);
+	void SetMinimums(double, double);
+//	int handle(int);
 
 private:
 	int vertical;
 	double min1, min2;
+	bool movement;
 	Fl_Group *group1, *group2;
 	YabView *view1, *view2;
-
+	Fl_Box *resizebox;
 };
 #endif

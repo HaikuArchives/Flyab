@@ -3149,6 +3149,26 @@ void YabInterface::SplitView(const char* splitView, const char* option, double p
 
 void YabInterface::SplitView(const char* splitView, const char* option, double left, double right)
 {
+	std::string s = splitView;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabSplitView *sv = dynamic_cast<YabSplitView*>(yabViewList[i]->child(j)))
+			{
+				if(s == sv->GetID())
+				{
+					Fl::lock();
+
+					sv->SetMinimums(left, right);
+
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(splitView, "SPLITVIEW");
 }
 
 double YabInterface::SplitViewGet(const char* splitView, const char* option)

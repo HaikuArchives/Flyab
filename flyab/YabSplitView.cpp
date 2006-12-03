@@ -3,6 +3,9 @@
 YabSplitView::YabSplitView(int x, int y, int w, int h, const char* id, int vert, int style)
 	:Fl_Tile(x, y, w, h), YabWidget(id)
 {
+	min1 = 0;
+	min2 = 0;
+	movement = true;
 	vertical = vert;
 
 	int x1, x2, y1, y2, w1, w2, h1, h2;
@@ -26,6 +29,8 @@ YabSplitView::YabSplitView(int x, int y, int w, int h, const char* id, int vert,
 	group2 = new Fl_Group(x2, y2, w2, h2);
 	add(group1);
 	add(group2);
+	resizebox = new Fl_Box(x, y, w, h);
+	resizable(resizebox);
 }
 
 YabSplitView::~YabSplitView()
@@ -41,10 +46,6 @@ Fl_Group* YabSplitView::GetGroup(int n)
 
 void YabSplitView::SetPosition(int pos)
 {
-	Fl_Group *group1 = dynamic_cast<Fl_Group*>(child(0));
-	Fl_Group *group2 = dynamic_cast<Fl_Group*>(child(1));
-	if (!group1 || !group2) return;
-
 	if (vertical)
 	{
 		int dif_w = group1->w() - pos;
@@ -73,11 +74,36 @@ void YabSplitView::SetPosition(int pos)
 }
 int YabSplitView::GetPosition()
 {
-	if (Fl_Group *group1 = dynamic_cast<Fl_Group*>(child(0)))
+	if (vertical)
+		return group1->w();
+	else
+		return group1->h();
+}
+void YabSplitView::SetMinimums(double minimum1, double minimum2)
+{
+	min1 = minimum1;
+	min2 = minimum2;
+
+	if (vertical)
 	{
-		if (vertical)
-			return group1->w();
-		else
-			return group1->h(); 
+//		resizebox->resize(x()+min1, y(), w()-x()-min1-min2, h());
+	}
+	else
+	{
 	}
 }
+/*
+int YabSplitView::handle(int event)
+{
+	if (event == FL_DRAG)
+	{
+		if (group1->w() <= min1 || group2->w() <= min2)
+			return 0;
+		else
+			return Fl_Tile::handle(event);
+	}
+	else
+		return Fl_Tile::handle(event);
+}
+*/
+
