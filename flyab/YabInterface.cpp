@@ -596,10 +596,11 @@ void YabInterface::WindowSet(const char* option, const char* window)
 				case 4:	// Maximize (zoom) the window.
 					break;
 				case 5:	// Updates the window again after a "Disable-Updates".
-					win->hide();
+					win->show();
+					win->redraw();
 					break;
 				case 6:	// Disables the automatic window updates.
-					win->show();
+					win->hide();
 					break;
 				};
 				Fl::unlock();
