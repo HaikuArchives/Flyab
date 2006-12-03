@@ -12,6 +12,7 @@ class YabColorControl: public Fl_Group, public YabWidget
 public:
 	YabColorControl(int x, int y, int w, int h, const char* id);
 	~YabColorControl();
+	
 	void rgb(int r, int g, int b);
 	void draw();
 	double r();
