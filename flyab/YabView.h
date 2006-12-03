@@ -35,9 +35,8 @@ private:
 	std::vector<YabDrawing*> drawList;
 	bool hasmenu;
 	bool highSolid;
-	Fl_Color bgcolor, lowcolor, highcolor, prev_bgcolor;
+	Fl_Color bgcolor, lowcolor, highcolor;
 	int fx,fy;
-	double view_w, view_h;
 	YabDrawing *d;
 };
 
