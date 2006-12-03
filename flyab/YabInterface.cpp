@@ -128,6 +128,7 @@ YabInterface::YabInterface(int argc, char **argv, const char* signature)
 	lasthighcolorr = 0;
 	lasthighcolorg = 0;
 	lasthighcolorb = 0;
+	highSolid = true;
 
 	// myProps = new BPropertyInfo(prop_list);
 	currentLib = "";
@@ -2006,6 +2007,13 @@ void YabInterface::DrawClear(const char* window, bool isExit)
 			t3->y1 = lastfontsize;
 			yabViewList[i]->AddDrawing(t3);
 
+			if(!highSolid)
+			{
+				YabDrawing *t = new YabDrawing();
+				t->command = 14;
+				yabViewList[i]->AddDrawing(t);
+			}
+
 			yabViewList[i]->redraw();
 			Fl::unlock();
 			return;
@@ -2866,6 +2874,7 @@ void YabInterface::DrawSet2(int fillorstroke, const char* mypattern)
 			YabDrawing *t = new YabDrawing();
 			t->command = 13;
 			yabViewList[i]->AddDrawing(t);
+			highSolid = true;
 		}
 	}
 	else if(t.find("lowsolidfill",0) != std::string::npos)
@@ -2875,6 +2884,7 @@ void YabInterface::DrawSet2(int fillorstroke, const char* mypattern)
 			YabDrawing *t = new YabDrawing();
 			t->command = 14;
 			yabViewList[i]->AddDrawing(t);
+			highSolid = false;
 		}
 	}
 	//else if(t.find("checkeredfill",0) != std::string::npos)

@@ -257,7 +257,7 @@
 		// BubbleHelper *tooltip;
 		int currentLineNumber;
 		const char* mainFileName;
-		bool exiting;
+		bool exiting, highSolid;
 		// BPropertyInfo *myProps;
 		// BList *yabbitmaps;
 		// BList *yabcanvas;
