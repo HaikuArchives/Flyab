@@ -62,8 +62,7 @@ void YabView::FlushDrawings()
 
 void YabView::draw()
 {
-	fx = x(); fy = y();
-	fl_draw_box(FL_FLAT_BOX, fx,fy, w(), h(), bgcolor);
+	fl_draw_box(FL_FLAT_BOX, x(),y(), w(), h(), bgcolor);
 	fl_color(0,0,0);
 	for(int i=0; i<drawList.size(); i++)
 	{
