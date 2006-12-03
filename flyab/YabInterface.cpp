@@ -2940,23 +2940,20 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 
 			YabView *view1 = new YabView(x1, y1, w1, h1, id1.c_str());
 			// Fl_Box *view1 = new Fl_Box(x1,y1,w1,h1, "A");
-			view1->box(FL_DOWN_BOX);
+			view1->box(FL_DOWN_FRAME);
 			view1->color(fl_rgb_color(B_GREY));
-			view1->align(FL_ALIGN_CLIP);
+//			view1->align(FL_ALIGN_CLIP);
 			view1->end();
 
 			YabView *view2 = new YabView(x2, y2, w2, h2, id2.c_str());
 			// Fl_Box *view2 = new Fl_Box(x2,y2,w2,h2, "B");
-			view2->box(FL_DOWN_BOX);
+			view2->box(FL_DOWN_FRAME);
 			view2->color(fl_rgb_color(B_GREY));
-			view2->align(FL_ALIGN_CLIP);
+//			view2->align(FL_ALIGN_CLIP);
 			view2->end();
 
 			splitview->add(view1);
 			splitview->add(view2);
-			// Fl_Box r((int)frame.x1,(int)frame.y1,(int)frame.width,(int)frame.height);
-			// splitview->resizable(r);
-			// splitview->redraw();
 
 			yabViewList.push_back(view1);
 			yabViewList.push_back(view2);
