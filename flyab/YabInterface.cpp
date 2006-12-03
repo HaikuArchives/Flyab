@@ -2925,27 +2925,38 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 			BPoint point = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 			int x = (int)point.x; int y = (int)point.y;
 			int w = (int)frame.width; int h = (int)frame.height;
+			// YabSplitView *splitview = new YabSplitView(x, y, w, h, id);
+			//
 			YabSplitView *splitview = new YabSplitView(x, y, w, h, id);
+			splitview->end();
 
 			std::string id1 = viewid+"1";
 			int x1 = x; int y1 = y;
 			int w1 = w/2; int h1 = h;
 
 			std::string id2 = viewid+"2";
-			int x2 = w/2; int y2 = y;
+			int x2 = x+w/2; int y2 = y;
 			int w2 = w/2; int h2 = h;
 
 			YabView *view1 = new YabView(x1, y1, w1, h1, id1.c_str());
-			view1->box(FL_THIN_DOWN_FRAME);
+			// Fl_Box *view1 = new Fl_Box(x1,y1,w1,h1, "A");
+			view1->box(FL_DOWN_BOX);
+			view1->color(fl_rgb_color(B_GREY));
+			view1->align(FL_ALIGN_CLIP);
 			view1->end();
 
 			YabView *view2 = new YabView(x2, y2, w2, h2, id2.c_str());
-			view2->box(FL_THIN_DOWN_FRAME);
+			// Fl_Box *view2 = new Fl_Box(x2,y2,w2,h2, "B");
+			view2->box(FL_DOWN_BOX);
+			view2->color(fl_rgb_color(B_GREY));
+			view2->align(FL_ALIGN_CLIP);
 			view2->end();
 
 			splitview->add(view1);
 			splitview->add(view2);
-			splitview->redraw();
+			// Fl_Box r((int)frame.x1,(int)frame.y1,(int)frame.width,(int)frame.height);
+			// splitview->resizable(r);
+			// splitview->redraw();
 
 			yabViewList.push_back(view1);
 			yabViewList.push_back(view2);

@@ -33,8 +33,7 @@ public:
 	bool HasMenu();
 private:
 	std::vector<YabDrawing*> drawList;
-	bool hasmenu;
-	bool highSolid;
+	bool hasmenu, highSolid, justFlushed;
 	Fl_Color bgcolor, lowcolor, highcolor;
 	int fx,fy;
 	YabDrawing *d;

@@ -16,6 +16,8 @@ draw set "bgcolor", 255, 255, 255, "tv2"
 draw line 10,10 to 100,100, "tv1"
 draw line 10,100 to 100,10, "tv2"
 
+draw set "bgcolor", 255,0,0, "tv2"
+
 sleep 1
 
 tabview set "tv", 2

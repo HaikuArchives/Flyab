@@ -50,6 +50,7 @@ wend
 msg$ = ""
 
 draw rect 0,0 to 400,330, "DrawView"
+sleep 3
 draw flush "DrawView"
 draw set 1, "HighSolidFill"
 

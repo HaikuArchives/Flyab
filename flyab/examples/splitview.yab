@@ -5,8 +5,8 @@ window open 100, 100 to 400, 400, "W", "SplitViewsWorld"
 
 splitview 10, 10 to 290, 290, "sv", 1, 1, "W"
 
-//draw set "bgcolor", 255, 255, 255, "sv1"
-//draw set "bgcolor", 255, 255, 255, "sv2"
+draw set "bgcolor", 255, 0, 255, "sv1"
+draw set "bgcolor", 255, 255, 0, "sv2"
 
 button 10, 10 to 100, 30, "btn1", "Hello", "sv1"
 button 10, 40 to 100, 60, "btn1", "World", "sv2"
