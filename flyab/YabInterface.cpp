@@ -596,8 +596,10 @@ void YabInterface::WindowSet(const char* option, const char* window)
 				case 4:	// Maximize (zoom) the window.
 					break;
 				case 5:	// Updates the window again after a "Disable-Updates".
+					win->hide();
 					break;
 				case 6:	// Disables the automatic window updates.
+					win->show();
 					break;
 				};
 				Fl::unlock();
@@ -2261,7 +2263,6 @@ void YabInterface::SetSlider(const char* id, const char* label1, const char* lab
 				{
 					Fl::lock();
 					slider->setlabels(label1, label2);
-//					slider->redraw_label();
 					Fl::unlock();
 					return;
 				}
