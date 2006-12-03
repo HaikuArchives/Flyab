@@ -29,12 +29,15 @@ YabSplitView::YabSplitView(int x, int y, int w, int h, const char* id, int vert,
 	group2 = new Fl_Group(x2, y2, w2, h2);
 	add(group1);
 	add(group2);
+	end();
+
 	resizebox = new Fl_Box(x, y, w, h);
 	resizable(resizebox);
 }
 
 YabSplitView::~YabSplitView()
 {
+	delete resizebox;
 }
 
 Fl_Group* YabSplitView::GetGroup(int n)
@@ -86,7 +89,7 @@ void YabSplitView::SetMinimums(double minimum1, double minimum2)
 
 	if (vertical)
 	{
-//		resizebox->resize(x()+min1, y(), w()-x()-min1-min2, h());
+		resizebox->resize(x()+(int)min1, y(), w()-(int)min1-(int)min2, h());
 	}
 	else
 	{
