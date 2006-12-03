@@ -2931,7 +2931,7 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 			int x = (int)point.x; int y = (int)point.y;
 			int w = (int)frame.width; int h = (int)frame.height;
 
-			YabSplitView *splitview = new YabSplitView(x, y, w, h, id);
+			YabSplitView *splitview = new YabSplitView(x, y, w, h, id, isVertical);
 			splitview->end();
 
 			std::string id1 = viewid+"1";
@@ -3038,6 +3038,28 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 
 void YabInterface::SplitView(const char* splitView, const char* option, double position)
 {
+	std::string s = splitView;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabSplitView *sv = dynamic_cast<YabSplitView*>(yabViewList[i]->child(j)))
+			{
+				if(s == sv->GetID())
+				{
+					Fl::lock();
+
+					int pos = (int)position;
+					sv->SetPosition(pos);
+					sv->redraw();
+
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(splitView, "SPLITVIEW");
 }
 
 void YabInterface::SplitView(const char* splitView, const char* option, double left, double right)
@@ -3046,6 +3068,26 @@ void YabInterface::SplitView(const char* splitView, const char* option, double l
 
 double YabInterface::SplitViewGet(const char* splitView, const char* option)
 {
+	std::string s = splitView;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabSplitView *sv = dynamic_cast<YabSplitView*>(yabViewList[i]->child(j)))
+			{
+				if(s == sv->GetID())
+				{
+					Fl::lock();
+
+					int ret = sv->GetPosition();
+
+					Fl::unlock();
+					return ret;
+				}
+			}
+		}
+	}
+	Error(splitView, "SPLITVIEW");
 }
 
 void YabInterface::DrawSet3(const char* option, int transparency)
