@@ -50,7 +50,6 @@ wend
 msg$ = ""
 
 draw rect 0,0 to 400,330, "DrawView"
-sleep 3
 draw flush "DrawView"
 draw set 1, "HighSolidFill"
 
@@ -175,8 +174,6 @@ draw rect 40,200 to 160,280, "DrawView"
 pattern$ = "255239171199001199171239"
 draw set 0, pattern$
 draw rect 240,200 to 360,280, "DrawView"
-draw set 0, "255255255255255255255255"
-draw rect 40,50 to 160,130, "DrawView"
 
 draw set "highcolor", 0,0,0, "DrawView"
 draw set "lowcolor", 255,255,255, "DrawView"

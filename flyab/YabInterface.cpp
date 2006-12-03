@@ -2860,11 +2860,25 @@ void YabInterface::DrawSet2(int fillorstroke, const char* mypattern)
 	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
 
 	if(t.find("highsolidfill",0) != std::string::npos)
-		;
+	{
+		for (int i = 0; i < yabViewList.size(); i++)
+		{
+			YabDrawing *t = new YabDrawing();
+			t->command = 13;
+			yabViewList[i]->AddDrawing(t);
+		}
+	}
 	else if(t.find("lowsolidfill",0) != std::string::npos)
-		;
-	else if(t.find("checkeredfill",0) != std::string::npos)
-		;
+	{
+		for (int i = 0; i < yabViewList.size(); i++)
+		{
+			YabDrawing *t = new YabDrawing();
+			t->command = 14;
+			yabViewList[i]->AddDrawing(t);
+		}
+	}
+	//else if(t.find("checkeredfill",0) != std::string::npos)
+	//	;
 }
 
 int YabInterface::DeskbarParam(const char* option)

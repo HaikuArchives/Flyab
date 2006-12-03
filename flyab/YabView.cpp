@@ -53,6 +53,7 @@ void YabView::FlushDrawings()
 
 void YabView::draw()
 {
+	highSolid = true;
 	fl_draw_box(FL_FLAT_BOX, x(),y(), w(), h(), bgcolor);
 	fl_color(0,0,0);
 	for(int i=0; i<drawList.size(); i++)
@@ -90,7 +91,10 @@ void YabView::draw()
 					fl_rect(e->x1, e->y1, e->x2-e->x1, e->y2-e->y1);
 					break;
 				case 5: // fill rect
-					fl_draw_box(FL_FLAT_BOX, e->x1,e->y1, e->x2-e->x1,e->y2-e->y1, highcolor);
+					if(highSolid) 
+						fl_draw_box(FL_FLAT_BOX, e->x1,e->y1, e->x2-e->x1,e->y2-e->y1, highcolor);
+					else
+						fl_draw_box(FL_FLAT_BOX, e->x1,e->y1, e->x2-e->x1,e->y2-e->y1, lowcolor);
 					break;
 				case 6: // set highcolor
 					highcolor = fl_rgb_color(e->r, e->g, e->b);
@@ -118,6 +122,14 @@ void YabView::draw()
 					break;
 				case 12: // set font
 					fl_font(e->x1, e->y1);
+					break;
+				case 13: // set for highcolor
+					highSolid = true;
+					fl_color(highcolor);
+					break;
+				case 14: // set for lowcolor
+					highSolid = false;
+					fl_color(lowcolor);
 					break;
 				default:
 					break;
