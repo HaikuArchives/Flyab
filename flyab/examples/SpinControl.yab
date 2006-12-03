@@ -9,6 +9,10 @@ while(not quitting)
 	msg$ = message$
 	if(msg$<>"") print msg$
 	
+	value = spincontrol get "sp1"
+	if(value <> old_value) print value
+	old_value = value
+
 	switch msg$
 		case "MainView:_QuitRequested|" 
 			quitting = true 

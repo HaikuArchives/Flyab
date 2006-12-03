@@ -3068,6 +3068,21 @@ void YabInterface::SpinControl(const char* spinControl, int value)
 
 int YabInterface::SpinControlGet(const char *spinControl)
 {
+	std::string s = spinControl;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabSpinControl *spin = dynamic_cast<YabSpinControl*>(yabViewList[i]->child(j)))
+			{
+				if(s == spin->GetID())
+				{
+					return static_cast<int>(spin->value());
+				}
+			}
+		}
+	}
+	Error(spinControl, "SPINCONTROL");
 }
 
 const char* YabInterface::PopUpMenu(double x, double y, const char* menuItems, const char* view)
