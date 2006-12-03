@@ -11,9 +11,6 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	highcolor = fl_rgb_color(0,0,0);
 	lowcolor = fl_rgb_color(B_GREY);
 	bgcolor = fl_rgb_color(B_GREY);
-	prev_bgcolor = fl_rgb_color(0,0,0);
-	view_w = width;
-	view_h = height;
 	hasmenu = false;
 	highSolid = true;
 
