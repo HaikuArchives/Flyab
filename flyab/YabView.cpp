@@ -13,14 +13,6 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	bgcolor = fl_rgb_color(B_GREY);
 	hasmenu = false;
 	highSolid = true;
-
-	// remember the absolute coordinates
-/*	fx = x;
-	if(dynamic_cast<Fl_Tabs*>(parent()))
-		fy = fy+2;
-	else
-		fy = y;
-*/
 }
 
 YabView::~YabView()
@@ -55,7 +47,6 @@ void YabView::FlushDrawings()
 		delete last;
 	}
 	drawList.clear();
-	// this might be a workaround as well, but with less lines ;P
 	hide();
 	show();
 }
