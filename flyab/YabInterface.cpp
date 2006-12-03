@@ -2955,29 +2955,72 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 				w2 = w; h2 = h/2;
 			}
 
-			Fl_Boxtype FRAME = FL_THIN_DOWN_FRAME;
-			if (style) FRAME = FL_DOWN_FRAME;
-
 			// first view here
 			Fl_Group *group1 = new Fl_Group(x1, y1, w1, h1);
-			group1->box(FRAME);
 			group1->color(fl_rgb_color(B_GREY));
 
-			YabView *view1 = new YabView(x1+2, y1+2, w1-4, h1-4, id1.c_str());
+			YabView *view1;
+			if (style)
+			{
+				Fl_Box *box;
+				if (isVertical)
+				{
+					box = new Fl_Box(x1, y1, w1-3, h1);
+					view1 = new YabView(x1+2, y1+2, w1-7, h1-4, id1.c_str());
+				}
+				else
+				{
+					box = new Fl_Box(x1, y1, w1, h1-3);
+					view1 = new YabView(x1+2, y1+2, w1-4, h1-7, id1.c_str());
+				}
+				box->box(FL_THIN_DOWN_FRAME);
+				group1->add(box);
+				group1->resizable(box);
+			}
+			else
+			{
+				group1->box(FL_THIN_DOWN_FRAME);
+				view1 = new YabView(x1+2, y1+2, w1-4, h1-4, id1.c_str());
+			}
+
 			view1->color(fl_rgb_color(B_GREY));
 			view1->end();
 			group1->add(view1);
+			group1->resizable(view1);
 			group1->end();
 
 			// second view here
 			Fl_Group *group2 = new Fl_Group(x2, y2, w2, h2);
-			group2->box(FRAME);
 			group2->color(fl_rgb_color(B_GREY));
 
-			YabView *view2 = new YabView(x2+2, y2+2, w2-4, h2-4, id2.c_str());
+			YabView *view2;
+			if (style)
+			{
+				Fl_Box *box;
+				if (isVertical)
+				{
+					box = new Fl_Box(x2+3, y2, w2-3, h2);
+					view2 = new YabView(x2+5, y2+2, w2-7, h2-4, id2.c_str());
+				}
+				else
+				{
+					box = new Fl_Box(x2, y2+3, w2, h2-3);
+					view2 = new YabView(x2+2, y2+5, w2-4, h2-7, id2.c_str());
+				}
+				box->box(FL_THIN_DOWN_FRAME);
+				group2->add(box);
+				group2->resizable(box);
+			}
+			else
+			{
+				group2->box(FL_THIN_DOWN_FRAME);
+				view2 = new YabView(x2+2, y2+2, w2-4, h2-4, id2.c_str());
+			}
+
 			view2->color(fl_rgb_color(B_GREY));
 			view2->end();
 			group2->add(view2);
+			group2->resizable(view2);
 			group2->end();
 
 			splitview->add(group1);
