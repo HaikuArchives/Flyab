@@ -2633,6 +2633,26 @@ const char* YabInterface::TextGet(const char* title)
 	Error(title, "TEXTEDIT");
 }
 
+const char* YabInterface::TextGet(const char* title, int linenum)
+{
+	std::string s = title;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabTextEdit *textEdit = dynamic_cast<YabTextEdit*>(yabViewList[i]->child(j)))
+			{
+				Fl_Text_Buffer *b = textEdit->buffer();
+				int pos = linenum;
+				if(linenum < 1) pos = 1;
+				if(linenum > b->count_lines(0,b->length())) pos = b->count_lines(0,b->length());
+				return b->line_text(pos);
+			}
+		}
+	}
+	Error(title, "TEXTEDIT");
+}
+
 void YabInterface::TextSet(const char* title, const char* option)
 {
 }
@@ -2662,10 +2682,6 @@ double YabInterface::TextGet(const char* title, const char* option, int line)
 }
 
 int YabInterface::TextGet(const char* title, const char* option)
-{
-}
-
-const char* YabInterface::TextGet(const char* title, int linenum)
 {
 }
 
