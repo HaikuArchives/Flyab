@@ -3044,7 +3044,26 @@ void YabInterface::SpinControl(double x, double y, const char* id, const char* l
 
 
 void YabInterface::SpinControl(const char* spinControl, int value)
-{
+{	
+	std::string s = spinControl;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabSpinControl *spin = dynamic_cast<YabSpinControl*>(yabViewList[i]->child(j)))
+			{
+				if(s == spin->GetID())
+				{
+					Fl::lock();
+					spin->value(value);
+					spin->redraw();
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(spinControl, "SPINCONTROL");
 }
 
 int YabInterface::SpinControlGet(const char *spinControl)

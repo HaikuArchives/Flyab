@@ -1,6 +1,8 @@
 window open 100,100 to 600,300, "MainView", "SpinControl"
 
-spincontrol 10, 20, "sp1", "SpinControl", 10, 50, 5, "MainView"
+spincontrol 10, 20, "sp1", "SpinControl", 0, 50, 5, "MainView"
+
+spincontrol set "sp1", 15
 
 REM MAIN LOOP
 while(not quitting)
