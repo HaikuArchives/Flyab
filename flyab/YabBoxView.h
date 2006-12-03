@@ -25,7 +25,7 @@ public:
 
 		Fl_Boxtype BOXTYPE = FL_NO_BOX;
 		if (type == 1) BOXTYPE = FL_BORDER_FRAME;
-		if (type == 2) BOXTYPE = FL_ENGRAVED_FRAME;
+		if (type == 2) BOXTYPE = FL_EMBOSSED_FRAME;
 
 		mainbox = new Fl_Box(x_+2, y_+6, w_-4, h_-8);
 		mainbox->box(BOXTYPE);

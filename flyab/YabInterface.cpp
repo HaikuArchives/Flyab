@@ -18,6 +18,8 @@
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_File_Icon.H>
 #include <FL/Fl_Value_Slider.H>
+#include <FL/Fl_Group.H>
+
 
 #include "global.h"
 #include "YabInterface.h"
@@ -842,10 +844,12 @@ void YabInterface::TabAdd(const char* id, const char* tabname)
 					YabView *view = tabs->NewTab(tabname);
 					view->color(fl_rgb_color(B_GREY));
 					view->callback(StaticMessageCallback);
-
+					
+					
+					
 					yabViewList[i]->redraw();
 					yabViewList.push_back(view);
-
+					yabViewList[i]->redraw();
 					Fl::unlock();
 					return;
 				}
@@ -1928,6 +1932,7 @@ void YabInterface::DrawText(BPoint coordinates, const char* text, const char* wi
 
 			yabViewList[i]->AddDrawing(t);
 			yabViewList[i]->redraw();
+
 			Fl::unlock();
 			return;
 		}
@@ -1936,7 +1941,7 @@ void YabInterface::DrawText(BPoint coordinates, const char* text, const char* wi
 }
 
 void YabInterface::DrawRect(BRect frame, const char* window)
-{
+{	
 	std::string v = window;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
