@@ -20,7 +20,6 @@
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Group.H>
 
-
 #include "global.h"
 #include "YabInterface.h"
 #include "YabAlert.h"
@@ -39,6 +38,7 @@
 #include "YabStackView.h"
 #include "YabTabView.h"
 #include "YabTextControl.h"
+#include "YabTextEdit.h"
 #include "YabView.h"
 #include "YabWindow.h"
 
@@ -2547,10 +2547,90 @@ void YabInterface::RemoveView(BView *myView)
 
 void YabInterface::TextEdit(BRect frame, const char* title, int scrollbar, const char* window)
 {
+	std::string s = window;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint coord1 = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+
+
+			YabTextEdit *textEdit = new YabTextEdit((int)coord1.x, (int)coord1.y, (int)frame.width, (int)frame.height, title);
+
+			switch(scrollbar)
+			{
+				case 0: break;
+				case 2: textEdit->scrollbar_align(FL_ALIGN_BOTTOM);
+					break;
+				case 3: textEdit->scrollbar_align((Fl_Align)(FL_ALIGN_BOTTOM | FL_ALIGN_RIGHT));
+					break;
+				default: textEdit->scrollbar_align(FL_ALIGN_RIGHT);
+					 break;
+			}
+			textEdit->textsize(B_FONT_SIZE);
+			textEdit->redraw();
+
+			yabViewList[i]->add(textEdit);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(window, "VIEW");
 }
 
 void YabInterface::TextAdd(const char* title, const char* text)
 {
+	std::string s = title;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabTextEdit *textEdit = dynamic_cast<YabTextEdit*>(yabViewList[i]->child(j)))
+			{
+				textEdit->insert(text);
+				return;
+			}
+		}
+	}
+	Error(title, "TEXTEDIT");
+}
+
+void YabInterface::TextClear(const char* title)
+{
+	std::string s = title;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabTextEdit *textEdit = dynamic_cast<YabTextEdit*>(yabViewList[i]->child(j)))
+			{
+				Fl_Text_Buffer *b = textEdit->buffer();
+				b->remove(0,b->length());
+				return;
+			}
+		}
+	}
+	Error(title, "TEXTEDIT");
+}
+
+const char* YabInterface::TextGet(const char* title)
+{
+	std::string s = title;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabTextEdit *textEdit = dynamic_cast<YabTextEdit*>(yabViewList[i]->child(j)))
+			{
+				Fl_Text_Buffer *b = textEdit->buffer();
+				return b->text();
+			}
+		}
+	}
+	Error(title, "TEXTEDIT");
 }
 
 void YabInterface::TextSet(const char* title, const char* option)
@@ -2598,14 +2678,6 @@ const char* YabInterface::DrawGet(const char* option)
 }
 
 int YabInterface::DrawGet(BPoint coord, const char* option, const char* view)
-{
-}
-
-void YabInterface::TextClear(const char* title)
-{
-}
-
-const char* YabInterface::TextGet(const char* title)
 {
 }
 
