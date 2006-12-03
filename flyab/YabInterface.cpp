@@ -817,8 +817,13 @@ void YabInterface::Tab(BRect frame, const char* id, const char* mode, const char
 		{
 			Fl::lock();
 
+			int myMode=0;
+			std::string t = mode;
+			std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+			if(t.find("bottom") != std::string::npos) myMode = 1;
+
 			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
-			YabTabView *tabs = new YabTabView((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, id);
+			YabTabView *tabs = new YabTabView((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, id, myMode);
 
 			yabViewList[i]->add(tabs);
 			yabViewList[i]->redraw();
@@ -3045,7 +3050,6 @@ void YabInterface::SplitView(BRect frame, const char* id, int isVertical, int st
 			int w = (int)frame.width; int h = (int)frame.height;
 
 			YabSplitView *splitview = new YabSplitView(x, y, w, h, id, isVertical, style);
-			splitview->end();
 
 			int x1, x2, y1, y2, w1, w2, h1, h2;
 

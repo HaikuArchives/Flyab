@@ -12,18 +12,20 @@
 class YabTabView: public Fl_Tabs, public YabWidget
 {
 public:
-	YabTabView(int x_, int y_, int w_, int h_, const char* id)
+	YabTabView(int x_, int y_, int w_, int h_, const char* id, int bottomtabs)
 		:Fl_Tabs(x_, y_, w_, h_), YabWidget(id)
 	{
-		viewname = id;
-		x=x_; y=y_+25;
-		w=w_; h=h_-25;
-		viewcounter = 0;
-
 		box(FL_UP_BOX);
 		labelsize(B_FONT_SIZE);
 		color(fl_rgb_color(B_GREY));
 		selection_color(fl_rgb_color(B_GREY));
+
+		tabheight = fl_height() + 10;
+		x=x_; y=y_;
+		w=w_; h=h_-tabheight;
+		if (bottomtabs != 1) y=y_+tabheight;
+		viewname = id;
+		viewcounter = 0;
 	}
 
 	YabView *NewTab(const char* label)
@@ -68,12 +70,17 @@ public:
 		return num;
 	}
 
+	int Height()
+	{
+		return tabheight;
+	}
+
 	~YabTabView()
 	{
 	}
 
 private:
-	int x, y, w, h, viewcounter;
+	int x, y, w, h, viewcounter, tabheight;
 	std::string viewname;
 	std::vector<YabView*> tabview;
 };
