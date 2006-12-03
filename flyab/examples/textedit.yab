@@ -1,11 +1,12 @@
 window open 100,100 to 500,500, "Text", "TextEdit Example"
 
 textedit 10,10 to 390,390, "Text", 3, "Text"
-textedit add "Text", "Hello World"
-textedit add "Text", "\nHallo World"
 
-print textedit get$ "Text", 0
-print textedit get$ "Text", 3
+textedit add "Text", "Hello World"
+textedit add "Text", "\nFoobar"
+
+print textedit get$ "Text", 1
+print textedit get$ "Text", 2
 
 while(not instr(message$, "Quit"))
 wend

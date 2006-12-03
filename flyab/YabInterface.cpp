@@ -2648,10 +2648,20 @@ const char* YabInterface::TextGet(const char* title, int linenum)
 			if(YabTextEdit *textEdit = dynamic_cast<YabTextEdit*>(yabViewList[i]->child(j)))
 			{
 				Fl_Text_Buffer *b = textEdit->buffer();
-				int pos = linenum;
-				if(linenum < 1) pos = 1;
-				if(linenum > b->count_lines(0,b->length())) pos = b->count_lines(0,b->length());
-				return b->line_text(pos);
+
+				if(linenum<1) linenum = 1;
+				int countLines = 1;
+
+				for(int i=0; i<b->length(); i++)
+				{
+					if(countLines == linenum)
+						return b->line_text(i);
+
+					if(b->character(i) == '\n')
+						countLines++;
+				}
+
+				return b->line_text(b->length());
 			}
 		}
 	}
