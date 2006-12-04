@@ -50,7 +50,7 @@ public:
 
 	void deactivate()
 	{
-printf("FOOBAR\n");
+printf("ENABLED\n");
 		value(box_disabled);
 		redraw();
 		Fl_Wizard::deactivate();
@@ -58,6 +58,7 @@ printf("FOOBAR\n");
 
 	void activate()
 	{
+printf("DISABLED\n");
 		value(box_normal);
 		redraw();
 		Fl_Wizard::deactivate();
@@ -72,7 +73,6 @@ printf("FOOBAR\n");
 				is_clicked = true;
 				value(box_clicked);
 				redraw();
-				do_callback();
 				return 1;
 			}
 		}
@@ -83,6 +83,7 @@ printf("FOOBAR\n");
 				is_clicked = false;
 				value(box_normal);
 				redraw();
+				if (Fl::event_inside(this)) do_callback();
 			}
 		}
 		return Fl_Wizard::handle(event);
