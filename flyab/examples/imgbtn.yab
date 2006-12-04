@@ -1,0 +1,19 @@
+// button image demo
+// by dasjott
+
+window open 100, 100 to 400, 300, "W", "ColorControl"
+
+img_path$ = "/home/dasjott/work/yab-interpreter/flyab/examples/img/"
+
+btn_normal$ = img_path$+"button_normal.png"
+btn_pressed$ = img_path$+"button_pressed.png"
+btn_disabled$ = img_path$+"button_disabled"
+
+button image 10, 10, "bi", btn_pressed$, btn_normal$, btn_disabled$, "W"
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+	if (msg$ <> "") print msg$
+
+wend
+exit
