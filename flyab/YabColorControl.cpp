@@ -24,9 +24,7 @@ YabColorControl::YabColorControl(int x, int y, int w, int h, const char* id)
 		slider[i]->step(1);
 		slider[i]->value(0);
 		slider[i]->color(bc[i]);
-//		slider[i]->redraw();
 		slider[i]->callback(cb_common, (void *)data[i]);
-//		add(slider[i]);
 
 		txt[i] = new Fl_Input(x+w-tw, y+(i*sh), tw, sh);
 		txt[i]->type(FL_INT_INPUT);
@@ -34,9 +32,7 @@ YabColorControl::YabColorControl(int x, int y, int w, int h, const char* id)
 		txt[i]->textsize(12);
 		txt[i]->when(FL_WHEN_ENTER_KEY);
 		txt[i]->callback(cb_common, (void *)data[i]);
-//		add(txt[i]);
 	}
-	init_sizes();
 	end();
 	resizable(NULL);
 	redraw();
