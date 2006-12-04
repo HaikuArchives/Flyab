@@ -2,6 +2,10 @@
 // by dasjott
 
 window open 100, 100 to 400, 300, "W", "ColorControl"
+colorcontrol 10,20, "cc", "W"
+
+colorcontrol set "cc", 140,140,240
+
 
 while (not instr(msg$, "Quit"))
 	msg$ = message$
