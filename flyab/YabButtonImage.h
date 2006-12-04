@@ -10,7 +10,7 @@ class YabButtonImage: public Fl_Wizard, public YabWidget
 {
 public:
 	YabButtonImage(int x, int y, const char* id, const char* clicked, const char* normal, const char* disabled)
-		:Fl_Wizard(x, y, 60, 20), YabWidget(id)
+		:Fl_Wizard(x, y, 10, 10), YabWidget(id)
 	{
 		box(FL_NO_BOX);
 		is_clicked = false;
@@ -23,18 +23,15 @@ public:
 
 		box_normal = new Fl_Box(x, y, w, h);
 		box_normal->image(pic_normal);
+		box_normal->deimage(pic_disabled);
 		box_normal->redraw();
 		add(box_normal);
 
 		box_clicked = new Fl_Box(x, y, w, h);
 		box_clicked->image(pic_clicked);
+		box_clicked->deimage(pic_disabled);
 		box_clicked->redraw();
 		add(box_clicked);
-
-		box_disabled = new Fl_Box(x, y, w, h);
-		box_disabled->image(pic_disabled);
-		box_disabled->redraw();
-		add(box_disabled);
 
 		end();
 
@@ -46,22 +43,6 @@ public:
 
 	~YabButtonImage()
 	{
-	}
-
-	void deactivate()
-	{
-printf("ENABLED\n");
-		value(box_disabled);
-		redraw();
-		Fl_Wizard::deactivate();
-	}
-
-	void activate()
-	{
-printf("DISABLED\n");
-		value(box_normal);
-		redraw();
-		Fl_Wizard::deactivate();
 	}
 
 	int handle(int event)
