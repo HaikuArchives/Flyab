@@ -2,6 +2,8 @@
 #define YABBUTTONIMAGE_H
 
 #include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Wizard.H>
 #include <YabWidget.h>
 
@@ -9,50 +11,51 @@ class YabButtonImage: public Fl_Wizard, public YabWidget
 {
 public:
 	YabButtonImage(int x, int y, const char* id, const char* clicked, const char* normal, const char* disabled)
-		:Fl_Wizard(x, y, 20, 20), YabWidget(id)
+		:Fl_Wizard(x, y, 60, 20), YabWidget(id)
 	{
+		box(FL_NO_BOX);
 		is_clicked = false;
 		pic_normal = new Fl_PNG_Image(normal);
 		pic_clicked = new Fl_PNG_Image(clicked);
 		pic_disabled = new Fl_PNG_Image(disabled);
+		end();
 
 		int w = pic_normal->w();
 		int h = pic_normal->h();
-printf("w = %d  -  h = %d\n", w, h);
-		group_normal = new Fl_Group(x, y, w, h);
-		group_normal->image(pic_normal);
-		group_normal->end();
 
-		group_clicked = new Fl_Group(x, y, w, h);
-		group_clicked->image(pic_clicked);
-		group_clicked->end();
+		box_normal = new Fl_Box(x, y, w, h);
+		box_normal->image(pic_normal);
+		box_normal->redraw();
 
-		group_disabled = new Fl_Group(x, y, w, h);
-		group_disabled->image(pic_disabled);
-		group_disabled->end();
+		box_clicked = new Fl_Box(x, y, w, h);
+		box_clicked->image(pic_clicked);
+		box_clicked->redraw();
 
-		add(group_normal);
-		add(group_clicked);
-		add(group_disabled);
+		box_disabled = new Fl_Box(x, y, w, h);
+		box_disabled->image(pic_disabled);
+		box_disabled->redraw();
+
+		add(box_normal);
+		add(box_clicked);
+		add(box_disabled);
 		end();
-		resizable(group_normal);
-		resizable(group_clicked);
-		resizable(group_disabled);
+
 		size(w, h);
 		resizable(NULL);
-		value(group_normal);
+		value(box_normal);
 		redraw();
 	}
 
 	~YabButtonImage()
 	{
 	}
+
 	int handle(int event)
 	{
 		if (event == FL_PUSH && Fl::event_inside(this))
 		{
 			is_clicked = true;
-			value(group_clicked);
+			value(box_clicked);
 			redraw();
 			do_callback();
 			return 1;
@@ -60,7 +63,7 @@ printf("w = %d  -  h = %d\n", w, h);
 		else if (event == FL_RELEASE && is_clicked)
 		{
 			is_clicked = false;
-			value(group_normal);
+			value(box_normal);
 			redraw();
 		}
 		return Fl_Wizard::handle(event);
@@ -68,7 +71,7 @@ printf("w = %d  -  h = %d\n", w, h);
 
 private:
 	bool is_clicked;
-	Fl_Group *group_normal, *group_clicked, *group_disabled;
+	Fl_Box *box_normal, *box_clicked, *box_disabled;
 	Fl_PNG_Image *pic_normal, *pic_clicked, *pic_disabled;
 
 };
