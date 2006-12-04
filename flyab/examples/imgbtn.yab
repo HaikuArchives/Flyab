@@ -3,8 +3,8 @@
 
 window open 100, 100 to 400, 300, "W", "ImageButton"
 
-img_path$ = "/home/dasjott/work/yab-interpreter/flyab/examples/img/"
-//img_path$ = "img/"
+DIR_THIS$ = trim$(system$("pwd"))+"/"
+img_path$ = DIR_THIS$+"examples/img/"
 
 btn_normal$ = img_path$+"button_norm.png"
 btn_pressed$ = img_path$+"button_pressed.png"
