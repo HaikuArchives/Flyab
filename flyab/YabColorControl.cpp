@@ -10,27 +10,13 @@ YabColorControl::YabColorControl(int x, int y, int w, int h, const char* id)
 	bc[1] = fl_rgb_color(100, 254, 100);
 	bc[2] = fl_rgb_color(100, 100, 254);
 
-	int sh=h/3;
 	int tw = 30;
-	int wl = 15;
+	int sh=h/3;
 
 	for (int i=0; i<3; i++)
 	{
 		data[i] = i;
-		
-		txt[i] = new Fl_Input(x+wl, y+(i*sh),tw, sh); 
-		txt[i]->type(FL_INT_INPUT);
-		txt[i]->value("0");
-		txt[i]->labelsize(B_FONT_SIZE);
-		txt[i]->textsize(B_FONT_SIZE);
-		txt[i]->when(FL_WHEN_ENTER_KEY);
-		if(i == 0)txt[i]->label("R:");
-		if(i == 1)txt[i]->label("G:");
-		if(i == 2)txt[i]->label("B:");
-		txt[i]->callback(cb_common, (void *)data[i]);
-		add(txt[i]);
-
-		slider[i] = new Fl_Slider(x+tw+wl+5, y+(i*sh), w-tw-(wl*2), sh); 
+		slider[i] = new Fl_Slider(x, y+(i*sh), w-tw, sh);
 		slider[i]->type(FL_HORIZONTAL);
 		slider[i]->slider_size(0.05);
 		slider[i]->minimum(min);
@@ -38,12 +24,21 @@ YabColorControl::YabColorControl(int x, int y, int w, int h, const char* id)
 		slider[i]->step(1);
 		slider[i]->value(0);
 		slider[i]->color(bc[i]);
-		slider[i]->redraw();
+//		slider[i]->redraw();
 		slider[i]->callback(cb_common, (void *)data[i]);
-		add(slider[i]);
+//		add(slider[i]);
+
+		txt[i] = new Fl_Input(x+w-tw, y+(i*sh), tw, sh);
+		txt[i]->type(FL_INT_INPUT);
+		txt[i]->value("0");
+		txt[i]->textsize(12);
+		txt[i]->when(FL_WHEN_ENTER_KEY);
+		txt[i]->callback(cb_common, (void *)data[i]);
+//		add(txt[i]);
 	}
-	resizable(NULL);
+	init_sizes();
 	end();
+	resizable(NULL);
 	redraw();
 }
 

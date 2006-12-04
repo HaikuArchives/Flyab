@@ -588,11 +588,11 @@ void YabInterface::WindowSet(const char* option, const char* window)
 				switch (myMode)
 				{
 				case 1:	// Activate the window, so it is in the foreground.
-					win->activate();
+					win->take_focus();
 					break;
 				case 2:	// Deactivate the window, so it is in the background.
 					// fltk docu says, deactivate() currently doesn't work for windows
-					win->deactivate();
+//					win->deactivate();
 					break;
 				case 3:	// Minimize the window, or restore the window if it is already minimized.
 					break;
@@ -2375,18 +2375,156 @@ int YabInterface::SliderGet(const char* slider)
 
 void YabInterface::SetOption(const char* id, const char* option, const char* value)
 {
+	// label
+	int myMode = 0;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("label") != std::string::npos) myMode = 1;
+	if (myMode == 0) Error(option, "OPTION");
+
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for (int j=0; j<yabViewList[i]->children(); j++)
+		{
+			if (YabWidget *yw = dynamic_cast<YabWidget*>(yabViewList[i]->child(j)))
+			{
+				if(s == yw->GetID())
+				{
+					if (Fl_Widget *widget = dynamic_cast<Fl_Widget*>(yabViewList[i]->child(j)))
+					{
+						Fl::lock();
+						if (myMode == 1) widget->copy_label(value);
+						widget->redraw();
+						Fl::unlock();
+						return;
+					}
+				}
+			}
+		}
+	}
+	Error(id, "CONTROL");
 }
 
 void YabInterface::SetOption(const char* id, const char* option, int r, int g, int b)
 {
+	int myMode = 0;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("bgcolor") != std::string::npos) myMode = 1;
+	if (myMode == 0) Error(option, "OPTION");
+
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for (int j=0; j<yabViewList[i]->children(); j++)
+		{
+			if (YabWidget *yw = dynamic_cast<YabWidget*>(yabViewList[i]->child(j)))
+			{
+				if(s == yw->GetID())
+				{
+					if (Fl_Widget *widget = dynamic_cast<Fl_Widget*>(yabViewList[i]->child(j)))
+					{
+						Fl::lock();
+						widget->color(fl_rgb_color(r, g, b));
+						widget->redraw();
+						Fl::unlock();
+						return;
+					}
+				}
+			}
+		}
+	}
+	Error(id, "CONTROL");
 }
 
 void YabInterface::SetOption(const char* id, const char* option)
 {
+	int myMode = 0;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("auto-resize") != std::string::npos) myMode = 1;
+	if (myMode == 0) Error(option, "OPTION");
+
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for (int j=0; j<yabViewList[i]->children(); j++)
+		{
+			if (YabWidget *yw = dynamic_cast<YabWidget*>(yabViewList[i]->child(j)))
+			{
+				if(s == yw->GetID())
+				{
+					if (Fl_Widget *widget = dynamic_cast<Fl_Widget*>(yabViewList[i]->child(j)))
+					{
+						Fl::lock();
+						// no function in fltk
+						Fl::unlock();
+						return;
+					}
+				}
+			}
+		}
+	}
+	Error(id, "CONTROL");
 }
 
 void YabInterface::SetOption(const char* id, const char* option, int value)
 {
+	int myMode = 0;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("focus") != std::string::npos) myMode = 1;
+	if(t.find("enabled") != std::string::npos) myMode = 2;
+	if(t.find("visible") != std::string::npos) myMode = 3;
+	if (myMode == 0) Error(option, "OPTION");
+
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for (int j=0; j<yabViewList[i]->children(); j++)
+		{
+			if (YabWidget *yw = dynamic_cast<YabWidget*>(yabViewList[i]->child(j)))
+			{
+				if(s == yw->GetID())
+				{
+					if (Fl_Widget *widget = dynamic_cast<Fl_Widget*>(yabViewList[i]->child(j)))
+					{
+						Fl::lock();
+						switch (myMode)
+						{
+						case 1:
+							if (value == 1)
+								widget->take_focus();
+							else
+								widget->parent()->take_focus();
+							break;
+						case 2:
+							if (value == 1 && !widget->active())
+								widget->activate();
+							else
+								if (widget->active()) widget->deactivate();
+							break;
+						case 3:
+							if (value == 1 && !widget->visible())
+								widget->show();
+							else
+								if (widget->visible()) widget->hide();
+							break;
+						};
+						widget->redraw();
+						Fl::unlock();
+						return;
+					}
+				}
+			}
+		}
+	}
+	Error(id, "CONTROL");
 }
 
 void YabInterface::DropZone(const char* view)
