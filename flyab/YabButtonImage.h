@@ -35,8 +35,8 @@ public:
 
 		end();
 
-		size(w, h);
 		resizable(NULL);
+		size(w, h);
 		value(box_normal);
 		redraw();
 	}
