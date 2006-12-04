@@ -27,6 +27,7 @@
 #include "YabBoxView.h"
 #include "YabButton.h"
 #include "YabButtonImage.h"
+#include "YabCheckboxImage.h"
 #include "YabCheckButton.h"
 #include "YabColorControl.h"
 #include "YabDropBox.h"
@@ -288,6 +289,16 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		localMessage += t;
 		return;
 	}
+	if(YabCheckboxImage *checkimg = dynamic_cast<YabCheckboxImage*>(widget))
+	{
+		t += checkimg->GetID();
+		if(checkimg->value() == 0)
+			t += ":OFF|";
+		else
+			t += ":ON|";
+		localMessage += t;
+		return;
+	}
 	if(YabRadioButton *radio = dynamic_cast<YabRadioButton*>(widget))
 	{
 		t += radio->GetID();
@@ -302,9 +313,9 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		localMessage += t;
 		return;
 	}
-	if(YabButtonImage *button = dynamic_cast<YabButtonImage*>(widget))
+	if(YabButtonImage *buttonimg = dynamic_cast<YabButtonImage*>(widget))
 	{
-		t += button->GetID();
+		t += buttonimg->GetID();
 		t += "|";
 		localMessage += t;
 		return;
@@ -2937,6 +2948,23 @@ void YabInterface::ButtonImage(double x,double y, const char* id,const char* ena
 
 void YabInterface::CheckboxImage(double x, double y,const char* id,const char* enabledon, const char* enabledoff, const char *disabledon, const char *disabledoff, int isActivated, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if (s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint nc = GetWindowCoordinates(yabViewList[i], x, y);
+			YabCheckboxImage *btn = new YabCheckboxImage((int)nc.x, (int)nc.y, id, enabledon, enabledoff, disabledon, disabledoff, isActivated);
+			btn->callback(StaticMessageCallback);
+
+			yabViewList[i]->add(btn);
+			yabViewList[i]->redraw();
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::ToolTips(const char* view, const char* text)

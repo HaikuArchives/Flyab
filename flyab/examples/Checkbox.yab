@@ -1,0 +1,30 @@
+// checkbox image example
+
+window open 100, 100, 300, 300, "W", "Checkboxes"
+//window set "A", "flags", "not-h-resizable, not-v-resizable, not-zoomable"
+
+DIR_THIS$ = trim$(system$("pwd"))+"/"
+img_path$ = DIR_THIS$+"examples/img/"
+
+btn_normal$ = img_path$+"checkbutton_enabledOff.png"
+btn_pressed$ = img_path$+"checkbutton_enabledOn.png"
+btn_disabled$ = img_path$+"checkbutton_disabledOff.png"
+btn_disabled_pressed$ = img_path$+"checkbutton_disabledOn.png"
+
+checkbox 10, 10, "cb", "Enabled", 1, "W"
+checkbox image 10, 40, "bi", btn_pressed$, btn_normal$, btn_disabled_pressed$, btn_disabled$, 0, "W"
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+	if (msg$ <> "") print msg$
+
+	switch msg$
+		case "cb:ON|"
+			option set "bi", "enabled", true
+			break
+		case "cb:OFF|"
+			option set "bi", "enabled", false
+			break
+	end switch
+wend
+exit

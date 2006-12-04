@@ -15,7 +15,7 @@ public:
 
 private:
 	bool is_clicked;
-	Fl_Box *box_normal, *box_clicked, *box_disabled;
+	Fl_Box *box_normal, *box_clicked;
 	Fl_PNG_Image *pic_normal, *pic_clicked, *pic_disabled;
 
 };
