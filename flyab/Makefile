@@ -50,12 +50,12 @@ BISONFLAGS = -d -l -t -v
 ##
 ## Compile and link
 ##
-yab: YabMain.o YabInterface.o YabView.o YabWindow.o YabSplitView.o YabColorControl.o YabAlert.o YabAlertWindow.o YabAlertText.o YabAlertIcon.o flex.o bison.o symbol.o function.o graphic.o io.o main.o
-	$(GPP) $(GPP_OPT) -o yab YabMain.o YabInterface.o YabView.o YabWindow.o YabSplitView.o YabColorControl.o YabAlert.o YabAlertWindow.o YabAlertText.o YabAlertIcon.o main.o function.o io.o graphic.o symbol.o bison.o flex.o $(LIBPATH) $(LIB)
+yab: YabMain.o YabInterface.o YabView.o YabWindow.o YabSplitView.o YabColorControl.o YabButtonImage.o YabAlert.o YabAlertWindow.o YabAlertText.o YabAlertIcon.o flex.o bison.o symbol.o function.o graphic.o io.o main.o
+	$(GPP) $(GPP_OPT) -o yab YabMain.o YabInterface.o YabView.o YabWindow.o YabSplitView.o YabColorControl.o YabButtonImage.o YabAlert.o YabAlertWindow.o YabAlertText.o YabAlertIcon.o main.o function.o io.o graphic.o symbol.o bison.o flex.o $(LIBPATH) $(LIB)
 
 YabMain.o: YabMain.cpp 
 	$(GPP) $(GPP_OPT) -c YabMain.cpp -o YabMain.o
-YabInterface.o: YabInterface.cpp YabInterface.h BRect.h BPoint.h global.h YabMenuBar.h YabTabView.h YabStackView.h YabButtonImage.h
+YabInterface.o: YabInterface.cpp YabInterface.h BRect.h BPoint.h global.h YabMenuBar.h YabTabView.h YabStackView.h
 	$(GPP) $(GPP_OPT) -c YabInterface.cpp -o YabInterface.o
 
 YabView.o: YabView.cpp YabView.h
@@ -66,6 +66,8 @@ YabSplitView.o: YabSplitView.cpp YabSplitView.h
 	$(GPP) $(GPP_OPT) -c YabSplitView.cpp -o YabSplitView.o
 YabColorControl.o: YabColorControl.cpp YabColorControl.h
 	$(GPP) $(GPP_OPT) -c YabColorControl.cpp -o YabColorControl.o
+YabButtonImage.o: YabButtonImage.cpp YabButtonImage.h
+	$(GPP) $(GPP_OPT) -c YabButtonImage.cpp -o YabButtonImage.o
 #YabButton.o: YabButton.cpp YabButton.h
 #	$(GPP) $(GPP_OPT) -c YabButton.cpp -o YabButton.o
 #YabCheckButton.o: YabCheckButton.cpp YabCheckButton.h
