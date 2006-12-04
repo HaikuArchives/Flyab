@@ -1,9 +1,9 @@
 // button image demo
 // by dasjott
 
-window open 100, 100 to 400, 300, "W", "ColorControl"
+window open 100, 100 to 400, 300, "W", "ImageButton"
 
-img_path$ = "/home/stargater/Desktop/yab-interpreter/flyab/examples/img/"
+img_path$ = "/home/dasjott/work/yab-interpreter/flyab/examples/img/"
 //img_path$ = "img/"
 
 btn_normal$ = img_path$+"button_norm.png"
