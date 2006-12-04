@@ -1,29 +1,11 @@
-// colorcontrol demo
+// button image demo
 // by dasjott
 
 window open 100, 100 to 400, 300, "W", "ColorControl"
 
-colorcontrol 15, 10, "CC", "W"
-
-colorcontrol set "CC", 66, 170, 75
-
 while (not instr(msg$, "Quit"))
 	msg$ = message$
 	if (msg$ <> "") print msg$
-
-	// print if something changed
-	if (r <> colorcontrol get "CC", "red") then
-		r = colorcontrol get "CC", "red"
-		print "  Red: ", r
-	fi
-	if (g <> colorcontrol get "CC", "green") then
-		g = colorcontrol get "CC", "green"
-		print "Green: ", g
-	fi
-	if (b <> colorcontrol get "CC", "blue") then
-		b = colorcontrol get "CC", "blue"
-		print " Blue: ", b
-	fi
 
 wend
 exit

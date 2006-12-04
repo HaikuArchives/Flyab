@@ -19,12 +19,14 @@
 #include <FL/Fl_File_Icon.H>
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Group.H>
+#include <FL/Fl_Shared_Image.H>
 
 #include "global.h"
 #include "YabInterface.h"
 #include "YabAlert.h"
 #include "YabBoxView.h"
 #include "YabButton.h"
+#include "YabButtonImage.h"
 #include "YabCheckButton.h"
 #include "YabColorControl.h"
 #include "YabDropBox.h"
@@ -88,6 +90,7 @@ YabInterface::YabInterface(int argc, char **argv, const char* signature)
 {
 	// we want system icons
 	Fl_File_Icon::load_system_icons();
+	fl_register_images();
 
 	Fl::lock();
 	t.argc = argc;
@@ -2697,8 +2700,6 @@ void YabInterface::TextEdit(BRect frame, const char* title, int scrollbar, const
 		{
 			Fl::lock();
 			BPoint coord1 = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
-
-
 			YabTextEdit *textEdit = new YabTextEdit((int)coord1.x, (int)coord1.y, (int)frame.width, (int)frame.height, title);
 
 			switch(scrollbar)
@@ -2908,6 +2909,22 @@ int YabInterface::TreeboxCount(const char* treebox)
 
 void YabInterface::ButtonImage(double x,double y, const char* id,const char* enabledon, const char* enabledoff, const char* disabled, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if (s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint nc = GetWindowCoordinates(yabViewList[i], x, y);
+			YabButtonImage *btn = new YabButtonImage((int)nc.x, (int)nc.y, id, enabledon, enabledoff, disabled);
+
+			yabViewList[i]->add(btn);
+			yabViewList[i]->redraw();
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::CheckboxImage(double x, double y,const char* id,const char* enabledon, const char* enabledoff, const char *disabledon, const char *disabledoff, int isActivated, const char* view)
