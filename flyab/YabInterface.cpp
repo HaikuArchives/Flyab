@@ -302,6 +302,13 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		localMessage += t;
 		return;
 	}
+	if(YabButtonImage *button = dynamic_cast<YabButtonImage*>(widget))
+	{
+		t += button->GetID();
+		t += "|";
+		localMessage += t;
+		return;
+	}
 	if(YabTextControl *txt = dynamic_cast<YabTextControl*>(widget))
 	{
 		t += txt->GetID();
@@ -2917,6 +2924,7 @@ void YabInterface::ButtonImage(double x,double y, const char* id,const char* ena
 			Fl::lock();
 			BPoint nc = GetWindowCoordinates(yabViewList[i], x, y);
 			YabButtonImage *btn = new YabButtonImage((int)nc.x, (int)nc.y, id, enabledon, enabledoff, disabled);
+			btn->callback(StaticMessageCallback);
 
 			yabViewList[i]->add(btn);
 			yabViewList[i]->redraw();
