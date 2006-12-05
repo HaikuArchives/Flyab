@@ -17,9 +17,10 @@
 #include <FL/fl_draw.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_File_Icon.H>
-#include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Group.H>
+#include <FL/Fl_Menu_Button.H>
 #include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_Value_Slider.H>
 
 #include "global.h"
 #include "YabInterface.h"
@@ -442,139 +443,76 @@ int YabInterface::CloseWindow(const char* view)
 
 void YabInterface::WindowSet(const char* option, const char* value, const char* window)
 {
-	int myMode=0;
-	std::string t = option;
-	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
-
-	if(t.find("look") != std::string::npos)
-	{
-		if(t.find("documented") != std::string::npos) myMode = 101;
-		if(t.find("titled") != std::string::npos) myMode = 102;
-		if(t.find("floating") != std::string::npos) myMode = 103;
-		if(t.find("modal") != std::string::npos) myMode = 104;
-		if(t.find("bordered") != std::string::npos) myMode = 105;
-		if(t.find("no-border") != std::string::npos) myMode = 106;
-	}
-
-	if(t.find("feel") != std::string::npos)
-	{
-		if(t.find("normal") != std::string::npos) myMode = 201;
-		if(t.find("modal-app") != std::string::npos) myMode = 202;
-		if(t.find("modal-all") != std::string::npos) myMode = 203;
-		if(t.find("floating-app") != std::string::npos) myMode = 204;
-		if(t.find("floating-all") != std::string::npos) myMode = 205;
-	}
-
-	if(t.find("title") != std::string::npos) myMode = 301;
-
-	if(t.find("flags") != std::string::npos)
-	{
-		if(t.find("not-closable") != std::string::npos) myMode = 401;
-		if(t.find("not-zoomable") != std::string::npos) myMode = 402;
-		if(t.find("not-minimizable") != std::string::npos) myMode = 403;
-		if(t.find("not-h-resizable") != std::string::npos) myMode = 404;
-		if(t.find("not-v-resizable") != std::string::npos) myMode = 405;
-		if(t.find("not-resizable") != std::string::npos) myMode = 406;
-		if(t.find("not-workspace-activation") != std::string::npos) myMode = 407;
-		if(t.find("accept-first-click") != std::string::npos) myMode = 408;
-		if(t.find("reset") != std::string::npos) myMode = 409;
-	}
-
-	if(t.find("workspace") != std::string::npos)
-	{
-		if(t.find("all") != std::string::npos) myMode = 501;
-		if(t.find("current") != std::string::npos) myMode = 502;
-	}
-
-	if (myMode == 0) ErrorGen("Invalid option");
-
+			
 	std::string s = window;
-	YabWindow *win;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
-		if (win = dynamic_cast<YabWindow*>(yabViewList[i]->window()));
+		if (YabWindow *win = dynamic_cast<YabWindow*>(yabViewList[i]->window()))
 		{
 			if(s == win->GetID())
 			{
 				Fl::lock();
-				switch (myMode)
+				int myMode=0;
+				std::string t = option;
+				std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+				if(t.find("look") != std::string::npos)
 				{
-				// look
-					case 101:
-						win->border(1);
-						break;
-					case 102:
-						win->border(1);
-						break;
-					case 103:
-						win->border(1);
-						break;
-					case 104:
-						win->border(1);
-						break;
-					case 105:
-						win->border(1);
-						break;
-					case 106:	// no-border
-						win->border(0);
-						break;
-				// feel
-					case 201:
-						break;
-					case 202:	// modal-app
-						win->set_modal();
-						break;
-					case 203:	// modal-all
-						win->set_modal();
-						break;
-					case 204:
-						break;
-					case 205:
-						break;
-				// title
-					case 301:	// title
-						win->label(value);
-						break;
-				// flags
-					case 401:
-						break;
-					case 402:
-						break;
-					case 403:
-						break;
-					case 404:	// not-h-resizable
-						{
-							int w = win->w();
-							int minh = win->GetMinimumHeight();
-							int maxh = win->GetMaximumHeight();
-							win->MinimumTo(w, minh);
-							win->MaximumTo(w, maxh);
-						}
-						break;
-					case 405:	// not-v-resizable
-						{
-							int h = win->h();
-							int minw = win->GetMinimumWidth();
-							int maxw = win->GetMaximumWidth();
-							win->MinimumTo(minw, h);
-							win->MaximumTo(maxw, h);
-						}
-						break;
-					case 406:	// not-resizable
-						win->resizable(NULL);
-						break;
-					case 407:
-						break;
-					case 408:
-						break;
-					case 409:
-						break;
-				// workspace
-					case 501:
-						break;
-					case 502:
-						break;
-				};
+					if(t.find("documented") != std::string::npos) win->border(1);
+					if(t.find("titled") != std::string::npos) win->border(1);
+					if(t.find("floating") != std::string::npos) win->border(1);
+					if(t.find("modal") != std::string::npos) win->border(1);
+					if(t.find("bordered") != std::string::npos) win->border(1);
+					if(t.find("no-border") != std::string::npos) win->border(0);
+				}
+
+				if(t.find("feel") != std::string::npos)
+				{
+					if(t.find("normal") != std::string::npos) myMode = 201;
+					if(t.find("modal-app") != std::string::npos) win->set_modal();
+					if(t.find("modal-all") != std::string::npos) win->set_modal();
+					if(t.find("floating-app") != std::string::npos) myMode = 204;
+					if(t.find("floating-all") != std::string::npos) myMode = 205;
+				}
+
+				if(t.find("title") != std::string::npos) win->label(value);
+
+				if(t.find("flags") != std::string::npos)
+				{
+					if(t.find("not-closable") != std::string::npos) myMode = 401;
+					if(t.find("not-zoomable") != std::string::npos) myMode = 402;
+					if(t.find("not-minimizable") != std::string::npos) myMode = 403;
+					if(t.find("not-h-resizable") != std::string::npos)
+					{
+						int w = win->w();
+						int minh = win->GetMinimumHeight();
+						int maxh = win->GetMaximumHeight();
+						win->MinimumTo(w, minh);
+						win->MaximumTo(w, maxh);
+					}
+					
+					if(t.find("not-v-resizable") != std::string::npos)
+					{
+						int h = win->h();
+						int minw = win->GetMinimumWidth();
+						int maxw = win->GetMaximumWidth();
+						win->MinimumTo(minw, h);
+						win->MaximumTo(maxw, h);
+					}
+
+					if(t.find("not-resizable") != std::string::npos) win->resizable(NULL);
+					if(t.find("not-workspace-activation") != std::string::npos) myMode = 407;
+					if(t.find("accept-first-click") != std::string::npos) myMode = 408;
+					if(t.find("reset") != std::string::npos) myMode = 409;
+				}
+
+				if(t.find("workspace") != std::string::npos)
+				{
+					if(t.find("all") != std::string::npos) myMode = 501;
+					if(t.find("current") != std::string::npos) myMode = 502;
+				}
+
+				if (myMode == 0) ErrorGen("Invalid option");
 				Fl::unlock();
 				return;
 			}
@@ -1789,6 +1727,18 @@ int YabInterface::ListboxCount(const char* listbox)
 	Error(listbox, "LISTBOX");
 }
 
+int YabInterface::ListboxGetNum(const char* id)
+{
+	std::string s = listbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
+				if(s == list->GetID())
+					return list->value();
+
+	Error(listbox, "LISTBOX");
+}
+
 void YabInterface::CreateDropBox(BRect frame, const char* title, const char* label, const char* view)
 { 
 	std::string s = view;
@@ -1846,7 +1796,30 @@ void YabInterface::CreateItem(const char* id, const char* item)
 
 void YabInterface::DropBoxSelect(const char* dropbox, int position)
 {
-	// printf("-- this command makes no sense in fltk\n");
+	std::string id = dropbox;
+	int p = position-1;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabDropBox *db = dynamic_cast<YabDropBox*>(yabViewList[i]->child(j)))
+			{
+				if(id == db->GetID())
+				{
+					int s = db->size()-1;
+					if(s >= 0 && p <= s && p >= 0)
+					{
+						Fl::lock();
+						db->value(p);
+						db->redraw();
+						Fl::unlock();
+					}
+					return;
+				}
+			}
+		}
+	}
+	Error(dropbox, "DROPBOX");
 }
 
 void YabInterface::DropBoxClear(const char* dropbox)
@@ -1862,8 +1835,8 @@ void YabInterface::DropBoxClear(const char* dropbox)
 				{
 					Fl::lock();
 					db->clear();
-					Fl::unlock();
 					db->redraw();
+					Fl::unlock();
 					return;
 				}
 			}
@@ -1889,8 +1862,8 @@ void YabInterface::DropBoxRemove(const char* dropbox, int position)
 					{
 						Fl::lock();
 						db->remove(p);
-						Fl::unlock();
 						db->redraw();
+						Fl::unlock();
 					}
 					return;
 				}
@@ -1935,6 +1908,26 @@ const char* YabInterface::DropBoxGet(const char* dropbox, int position)
 					if(s >= 0 && p <= s && p >= 0)
 						return db->text(position-1);
 					return "";
+				}
+			}
+		}
+	}
+	Error(dropbox, "DROPBOX");
+}
+
+int YabInterface::DropboxGetNum(const char* id)
+{
+	std::string id = dropbox;
+	int p = position-1;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabDropBox *db = dynamic_cast<YabDropBox*>(yabViewList[i]->child(j)))
+			{
+				if(id == db->GetID())
+				{
+					return db->value();
 				}
 			}
 		}
@@ -2917,6 +2910,10 @@ const char* YabInterface::TreeboxGet(const char* treebox, int pos)
 {
 }
 
+int YabInterface::TreeboxGetNum(const char* id)
+{
+}
+
 int YabInterface::TreeboxCount(const char* treebox)
 {
 }
@@ -3054,6 +3051,10 @@ const char* YabInterface::ColumnBoxGet(const char* columnbox, int column, int po
 }
 
 int YabInterface::ColumnBoxCount(const char* columnbox)
+{
+}
+
+int YabInterface::ColumnboxGetNum(const char* id)
 {
 }
 
@@ -3510,14 +3511,50 @@ int YabInterface::SpinControlGet(const char *spinControl)
 
 const char* YabInterface::PopUpMenu(double x, double y, const char* menuItems, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+
+/*			std::string items="";
+			BPoint nc = GetWindowCoordinates(yabViewList[i], x, y);
+
+			int vw = yabViewList[i]->w();
+			int vh = yabViewList[i]->h();
+			Fl_Menu_Button *menu = new Fl_Menu_Button(x, y, vw-x, vh-y);
+
+			for (int n=0; n<strlen(menuItems); n++)
+			{
+				if (menuItems[n] == 38 || menuItems[n] == 47 || menuItems[n] == 95)
+					items += "\\";
+				items += menuItems[n];
+			}
+			menu->type(Fl_Menu_Button::POPUP3);
+			menu->add(items.c_str());
+			menu->redraw();
+			yabViewList[i]->add(menu);
+			yabViewList[i]->redraw();
+
+			delete popup;
+*/
+			Fl::unlock();
+			return "";
+		}
+	}
+	Error(view, "VIEW");
 }
 
 double YabInterface::MenuHeight()
 {
+	return 20;
 }
 
 double YabInterface::TabHeight()
 {
+	YabTabView *tabs;
+	return tabs->Height();
 }
 
 double YabInterface::ScrollbarWidth()
@@ -3526,6 +3563,15 @@ double YabInterface::ScrollbarWidth()
 
 const int YabInterface::IsMouseIn(const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			return Fl::event_inside(yabViewList[i]);
+		}
+	}
+	Error(view, "VIEW");
 }
 
 const char* GetMMsgInfo(int mouseStateInfo, int mouseLButton, int mouseMButton, int mouseRButton, const char* name)
@@ -3610,6 +3656,7 @@ void YabInterface::SoundWait(int id)
 
 void YabInterface::SetOption(const char* id, const char* option, double x, double y)
 {
+	// still in use?
 }
 
 void YabInterface::DrawSet(const char* option, const char* color,const char* view)
@@ -3621,22 +3668,6 @@ void YabInterface::Treebox13(const char* id,const char* option, int pos)
 }
 
 int YabInterface::TreeboxGetOpt(const char* id, const char* option, int pos)
-{
-}
-
-int YabInterface::ListboxGetNum(const char* id)
-{
-}
-
-int YabInterface::DropboxGetNum(const char* id)
-{
-}
-
-int YabInterface::TreeboxGetNum(const char* id)
-{
-}
-
-int YabInterface::ColumnboxGetNum(const char* id)
 {
 }
 
@@ -3719,7 +3750,7 @@ void YabInterface::Error(const char* id, const char* type)
 void YabInterface::ErrorGen(const char* msg)
 {
 	fprintf(stderr, "---Error in %s, line %d: %s\n", currentLib.c_str(), currentLineNumber, msg);
-	fprintf(stderr,"---Error: Program stopped due to an error \n");
+	fprintf(stderr, "---Error: Program stopped due to an error \n");
 	KillThread(-1);
 	// while(1){}
 }

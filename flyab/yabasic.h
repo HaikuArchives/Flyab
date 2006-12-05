@@ -57,8 +57,8 @@ UNIX and WINDOWS are defined at once; check your compiler settings
 #include <time.h>
 #include <limits.h>
 #include <errno.h>
-#ifdef WINDOWS
 #include <string.h>
+#ifdef WINDOWS
 #include <windows.h>
 #include <io.h>
 #define ARCHITECTURE "windows"

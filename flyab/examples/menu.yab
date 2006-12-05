@@ -24,6 +24,11 @@ submenu set "Edit", "more", 1, "W"
 submenu set "Edit", "more", "is", "mark", "W"
 submenu set "File", "Submenu", "disabled", "Disable", "W"
 
+sleep 2
+
+selected$ = popupmenu 50, 100, "Hello|World|How|Are|You", "W"
+print selected$
+
 while (not instr(msg$, "Quit"))
 	msg$ = message$
 	if (msg$ <> "") print msg$
