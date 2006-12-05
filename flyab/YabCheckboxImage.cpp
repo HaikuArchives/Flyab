@@ -70,42 +70,45 @@ void YabCheckboxImage::value(int is_on)
 
 int YabCheckboxImage::handle(int event)
 {
-	if (Fl::event_buttons() && Fl::event_inside(this))
+	if(active())
 	{
-		is_clicked = true;
-		if (is_checked)
-			Fl_Wizard::value(box_normal);
-		else
-			Fl_Wizard::value(box_clicked);
-
-		redraw();
-		return 1;
-	}
-	else if (!Fl::event_buttons() || !Fl::event_inside(this))
-	{
-		if (is_clicked)
+		if (Fl::event_buttons() && Fl::event_inside(this))
 		{
-			if (Fl::event_inside(this))
-			{
-				if (is_checked)
-				{
-					is_checked = false;
-				}
-				else
-				{
-					is_checked = true;
-				}
-				do_callback();
-			}
-
-			is_clicked = false;
+			is_clicked = true;
 			if (is_checked)
-				Fl_Wizard::value(box_clicked);
-			else
 				Fl_Wizard::value(box_normal);
-
+			else
+				Fl_Wizard::value(box_clicked);
+	
 			redraw();
-
+			return 1;
+		}
+		else if (!Fl::event_buttons() || !Fl::event_inside(this))
+		{
+			if (is_clicked)
+			{
+				if (Fl::event_inside(this))
+				{
+					if (is_checked)
+					{
+						is_checked = false;
+					}
+					else
+					{
+						is_checked = true;
+					}
+					do_callback();
+				}
+	
+				is_clicked = false;
+				if (is_checked)
+					Fl_Wizard::value(box_clicked);
+				else
+					Fl_Wizard::value(box_normal);
+	
+				redraw();
+	
+			}
 		}
 	}
 	return Fl_Wizard::handle(event);

@@ -1,4 +1,5 @@
 #include <FL/Fl.H>
+#include <iostream>
 #include "YabButtonImage.h"
 
 YabButtonImage::YabButtonImage(int x, int y, const char* id, const char* clicked, const char* normal, const char* disabled)
@@ -39,24 +40,27 @@ YabButtonImage::~YabButtonImage()
 
 int YabButtonImage::handle(int event)
 {
-	if (Fl::event_buttons() && Fl::event_inside(this))
+	if(active())
 	{
-		if (!is_clicked)
+		if (Fl::event_buttons() && Fl::event_inside(this))
 		{
-			is_clicked = true;
-			value(box_clicked);
-			redraw();
-			return 1;
+			if (!is_clicked)
+			{
+				is_clicked = true;
+				value(box_clicked);
+				redraw();
+				return 1;
+			}
 		}
-	}
-	else if (!Fl::event_buttons() || !Fl::event_inside(this))
-	{
-		if (is_clicked)
+		else if (!Fl::event_buttons() || !Fl::event_inside(this))
 		{
-			is_clicked = false;
-			value(box_normal);
-			redraw();
-			if (Fl::event_inside(this)) do_callback();
+			if (is_clicked)
+			{
+				is_clicked = false;
+				value(box_normal);
+				redraw();
+				if (Fl::event_inside(this)) do_callback();
+			}
 		}
 	}
 	return Fl_Wizard::handle(event);
