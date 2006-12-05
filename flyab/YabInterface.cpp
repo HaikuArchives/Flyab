@@ -1729,14 +1729,14 @@ int YabInterface::ListboxCount(const char* listbox)
 
 int YabInterface::ListboxGetNum(const char* id)
 {
-	std::string s = listbox;
+	std::string s = id;
 	for (int i = 0; i < yabViewList.size(); i++)
 		for(int j = 0; j < yabViewList[i]->children(); j++)
 			if(YabListBox *list = dynamic_cast<YabListBox*>(yabViewList[i]->child(j)))
 				if(s == list->GetID())
 					return list->value();
 
-	Error(listbox, "LISTBOX");
+	Error(id, "LISTBOX");
 }
 
 void YabInterface::CreateDropBox(BRect frame, const char* title, const char* label, const char* view)
@@ -1917,22 +1917,21 @@ const char* YabInterface::DropBoxGet(const char* dropbox, int position)
 
 int YabInterface::DropboxGetNum(const char* id)
 {
-	std::string id = dropbox;
-	int p = position-1;
+	std::string s = id;
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
 		for(int j = 0; j < yabViewList[i]->children(); j++)
 		{
 			if(YabDropBox *db = dynamic_cast<YabDropBox*>(yabViewList[i]->child(j)))
 			{
-				if(id == db->GetID())
+				if(s == db->GetID())
 				{
 					return db->value();
 				}
 			}
 		}
 	}
-	Error(dropbox, "DROPBOX");
+	Error(id, "DROPBOX");
 }
 
 void YabInterface::DrawText(BPoint coordinates, const char* text, const char* window)
