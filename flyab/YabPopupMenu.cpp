@@ -1,5 +1,3 @@
-#include <FL/Fl.H>
-#include <FL/Fl_Box.H>
 #include "YabPopupMenu.h"
 #include "YabInterface.h"
 #include "global.h"
@@ -19,13 +17,12 @@ YabPopupMenu::YabPopupMenu(int x, int y, const char* contents)
 	selected_item	= -1;
 	end();
 
-//	set_modal();
 	clear_border();
+	box(FL_UP_BOX);
 	color(bgcolor_low);
 
 	list = new Fl_Pack(0, 0, 20, 20);
 	list->spacing(0);
-//	list->box(FL_THIN_UP_FRAME);
 
 	int n=0;
 	string line="";
@@ -56,8 +53,6 @@ YabPopupMenu::YabPopupMenu(int x, int y, const char* contents)
 	w = line_w + 10;
 
 	add(list);
-
-	box(FL_UP_BOX);
 
 	resizable(list);
 	size(w, h);
@@ -95,7 +90,6 @@ void YabPopupMenu::draw()
 	{
 		if (Fl::event_inside(itembox[n]))
 		{
-printf("IS IN\n");
 			itembox[n]->labelcolor(textcolor_high);
 			if (Fl::event_buttons())
 				itembox[n]->box(FL_THIN_DOWN_BOX);
@@ -114,7 +108,6 @@ printf("IS IN\n");
 
 int YabPopupMenu::handle(int event)
 {
-	int ret;
 	switch (event)
 	{
 	case FL_DRAG:
@@ -123,7 +116,6 @@ int YabPopupMenu::handle(int event)
 			if (Fl::event_inside(itembox[n]))
 			{
 				clicked_item = n;
-				ret = 1;
 				break;
 			}
 		}
@@ -134,7 +126,6 @@ int YabPopupMenu::handle(int event)
 	case FL_UNFOCUS:
 		selected_item = -1;
 		running = false;
-		ret = 1;
 		break;
 	case FL_PUSH:
 		for (int n=0; n<itembox.size(); n++)
@@ -143,7 +134,6 @@ int YabPopupMenu::handle(int event)
 			{
 				clicked_item = n;
 				redraw();
-				ret = 1;
 				break;
 			}
 		}
@@ -157,7 +147,6 @@ int YabPopupMenu::handle(int event)
 				{
 					selected_item = n;
 					running = false;
-					ret = 1;
 					break;
 				}
 			}
