@@ -455,36 +455,38 @@ void YabInterface::WindowSet(const char* option, const char* value, const char* 
 			{
 				Fl::lock();
 				int myMode=0;
-				std::string t = option;
-				std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
 
-				if(t.find("look") != std::string::npos)
+				std::string o = option, v = value;
+				std::transform(o.begin(),o.end(),o.begin(),(int (*)(int))std::tolower);
+				std::transform(v.begin(),v.end(),v.begin(),(int (*)(int))std::tolower);
+
+				if(o.find("look") != std::string::npos)
 				{
-					if(t.find("documented") != std::string::npos) win->border(1);
-					if(t.find("titled") != std::string::npos) win->border(1);
-					if(t.find("floating") != std::string::npos) win->border(1);
-					if(t.find("modal") != std::string::npos) win->border(1);
-					if(t.find("bordered") != std::string::npos) win->border(1);
-					if(t.find("no-border") != std::string::npos) win->border(0);
+					if(v.find("documented") != std::string::npos) win->border(1);
+					if(v.find("titled") != std::string::npos) win->border(1);
+					if(v.find("floating") != std::string::npos) win->border(1);
+					if(v.find("modal") != std::string::npos) win->border(1);
+					if(v.find("bordered") != std::string::npos) win->border(1);
+					if(v.find("no-border") != std::string::npos) win->border(0);
 				}
 
-				if(t.find("feel") != std::string::npos)
+				if(o.find("feel") != std::string::npos)
 				{
-					if(t.find("normal") != std::string::npos) myMode = 201;
-					if(t.find("modal-app") != std::string::npos) win->set_modal();
-					if(t.find("modal-all") != std::string::npos) win->set_modal();
-					if(t.find("floating-app") != std::string::npos) myMode = 204;
-					if(t.find("floating-all") != std::string::npos) myMode = 205;
+					if(v.find("normal") != std::string::npos) myMode = 201;
+					if(v.find("modal-app") != std::string::npos) win->set_modal();
+					if(v.find("modal-all") != std::string::npos) win->set_modal();
+					if(v.find("floating-app") != std::string::npos) myMode = 204;
+					if(v.find("floating-all") != std::string::npos) myMode = 205;
 				}
 
-				if(t.find("title") != std::string::npos) win->label(value);
+				if(o.find("title") != std::string::npos) win->label(value);
 
-				if(t.find("flags") != std::string::npos)
+				if(o.find("flags") != std::string::npos)
 				{
-					if(t.find("not-closable") != std::string::npos) myMode = 401;
-					if(t.find("not-zoomable") != std::string::npos) myMode = 402;
-					if(t.find("not-minimizable") != std::string::npos) myMode = 403;
-					if(t.find("not-h-resizable") != std::string::npos)
+					if(v.find("not-closable") != std::string::npos) myMode = 401;
+					if(v.find("not-zoomable") != std::string::npos) myMode = 402;
+					if(v.find("not-minimizable") != std::string::npos) myMode = 403;
+					if(v.find("not-h-resizable") != std::string::npos)
 					{
 						int w = win->w();
 						int minh = win->GetMinimumHeight();
@@ -493,7 +495,7 @@ void YabInterface::WindowSet(const char* option, const char* value, const char* 
 						win->MaximumTo(w, maxh);
 					}
 					
-					if(t.find("not-v-resizable") != std::string::npos)
+					if(v.find("not-v-resizable") != std::string::npos)
 					{
 						int h = win->h();
 						int minw = win->GetMinimumWidth();
@@ -502,19 +504,20 @@ void YabInterface::WindowSet(const char* option, const char* value, const char* 
 						win->MaximumTo(maxw, h);
 					}
 
-					if(t.find("not-resizable") != std::string::npos) win->resizable(NULL);
-					if(t.find("not-workspace-activation") != std::string::npos) myMode = 407;
-					if(t.find("accept-first-click") != std::string::npos) myMode = 408;
-					if(t.find("reset") != std::string::npos) myMode = 409;
+					if(v.find("not-resizable") != std::string::npos) win->resizable(NULL);
+					if(v.find("not-workspace-activation") != std::string::npos) myMode = 407;
+					if(v.find("accept-first-click") != std::string::npos) myMode = 408;
+					if(v.find("reset") != std::string::npos) myMode = 409;
 				}
 
-				if(t.find("workspace") != std::string::npos)
+				if(o.find("workspace") != std::string::npos)
 				{
-					if(t.find("all") != std::string::npos) myMode = 501;
-					if(t.find("current") != std::string::npos) myMode = 502;
+					if(v.find("all") != std::string::npos) myMode = 501;
+					if(v.find("current") != std::string::npos) myMode = 502;
 				}
 
 				if (myMode == 0) ErrorGen("Invalid option");
+
 				Fl::unlock();
 				return;
 			}

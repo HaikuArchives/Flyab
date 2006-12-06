@@ -15,11 +15,6 @@ YabPopupMenu::YabPopupMenu(int x, int y, const char* contents)
 	bgcolor_high	= FL_SELECTION_COLOR;
 	clicked_item	= -1;
 	selected_item	= -1;
-	end();
-
-	clear_border();
-	box(FL_UP_BOX);
-	color(bgcolor_low);
 
 	list = new Fl_Pack(0, 0, 20, 20);
 	list->spacing(0);
@@ -52,8 +47,10 @@ YabPopupMenu::YabPopupMenu(int x, int y, const char* contents)
 	}
 	w = line_w + 10;
 
-	add(list);
-
+	end();
+	clear_border();
+	box(FL_UP_BOX);
+	color(bgcolor_low);
 	resizable(list);
 	size(w, h);
 	redraw();
