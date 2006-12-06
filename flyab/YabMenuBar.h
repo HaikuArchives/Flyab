@@ -26,7 +26,7 @@ class YabMenuBar: public Fl_Menu_Bar
 {
 public:
 	YabMenuBar(int x, int y, int w, int h)
-		: Fl_Menu_Bar(0, 0, w, h)
+		: Fl_Menu_Bar(x, y, w, h)
 	{
 		box(FL_THIN_UP_BOX);
 		labelsize(B_FONT_SIZE);
@@ -123,6 +123,7 @@ public:
 				Fl_Menu_Bar::add(item.c_str(), sc.c_str(), cb, (void *)ret[n].c_str());
 			}
 		}
+		redraw();
 	}
 private:
 	vector<string> ret;

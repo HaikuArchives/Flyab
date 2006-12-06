@@ -1049,8 +1049,7 @@ void YabInterface::CreateMenu(const char* menuhead, const char* menuitem, const 
 			YabMenuBar *menu;
 			if (yabViewList[i]->HasMenu() == false)
 			{
-				BPoint newCoor = GetWindowCoordinates(yabViewList[i], 0, 0);
-				menu = new YabMenuBar((int)newCoor.x, (int)newCoor.y, yabViewList[i]->w(), 20);
+				menu = new YabMenuBar(yabViewList[i]->x(), yabViewList[i]->y(), yabViewList[i]->w(), 20);
 				yabViewList[i]->add(menu);
 				yabViewList[i]->HasMenu(true);
 			}
