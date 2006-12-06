@@ -57,6 +57,8 @@ YabPopupMenu::YabPopupMenu(int x, int y, const char* contents)
 
 	add(list);
 
+	box(FL_UP_BOX);
+
 	resizable(list);
 	size(w, h);
 	redraw();

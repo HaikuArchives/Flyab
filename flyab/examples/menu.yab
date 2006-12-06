@@ -24,23 +24,16 @@ submenu set "Edit", "more", 1, "W"
 submenu set "Edit", "more", "is", "mark", "W"
 submenu set "File", "Submenu", "disabled", "Disable", "W"
 
-sleep 1
-selected$ = popupmenu 50, 100, "Hello|World|How|Are|You", "W"
-print selected$
-sleep 1
-selected$ = popupmenu 50, 100, "Hello|World|How|Are|You", "W"
-print selected$
-sleep 1
-selected$ = popupmenu 50, 100, "Hello|World|How|Are|You", "W"
-print selected$
+button 30,100 to 230,120, "Button", "Press for Popupmenu", "W"
 
 while (not instr(msg$, "Quit"))
 	msg$ = message$
 	if (msg$ <> "") print msg$
 
-	cc = cc + 1
-	// statusbar set "S", "Your status", "", cc
-	if (cc = 100) cc = 0
-	sleep 0.02
+	if(instr(msg$, "Button")) then
+		selected$ = popupmenu 40, 120, "Hello|World Foobar|How|Are|You", "W"
+		print selected$
+	endif
 wend
-exit
+
+window close "W"
