@@ -25,21 +25,27 @@ YabPopupMenu::YabPopupMenu(int x, int y, const char* contents)
 	{
 		if (contents[i] == 124 || contents[i] == 0)
 		{
-			Fl_Box *b = new Fl_Box(0, h, 20, line_h);
-			b->box(FL_NO_BOX);
-			b->color(bgcolor_high);
-			b->labelsize(B_FONT_SIZE);
-			b->labelcolor(textcolor_low);
-			b->align(FL_ALIGN_CENTER);
-			b->copy_label(line.c_str());
+			if (line == "--")
+			{
+				Fl_Box *b = new Fl_Box(0, h, 20, 2);
+				b->box(FL_THIN_DOWN_BOX);
+				h += 2;
+			}
+			else
+			{
+				Fl_Box *b = new Fl_Box(0, h, 20, line_h);
+				b->box(FL_NO_BOX);
+				b->color(bgcolor_high);
+				b->labelsize(B_FONT_SIZE);
+				b->labelcolor(textcolor_low);
+				b->align(FL_ALIGN_CENTER);
+				b->copy_label(line.c_str());
+				itembox.push_back(b);
+				items.push_back(line);
 
-			itembox.push_back(b);
-			items.push_back(line);
-
-			list->add(b);
-
-			if (fl_width(line.c_str()) > line_w) line_w = (int)fl_width(line.c_str());
-			h += line_h;
+				if (fl_width(line.c_str()) > line_w) line_w = (int)fl_width(line.c_str());
+				h += line_h;
+			}
 			line = "";
 		}
 		else
@@ -47,6 +53,7 @@ YabPopupMenu::YabPopupMenu(int x, int y, const char* contents)
 	}
 	w = line_w + 10;
 
+	list->end();
 	end();
 	clear_border();
 	box(FL_UP_BOX);

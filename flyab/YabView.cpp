@@ -4,7 +4,7 @@
 #include <iostream>
 #include "YabView.h"
 #include "global.h"
-	
+
 YabView::YabView(int x, int y, int width, int height, const char* id)
 	: Fl_Group(x,y,width,height), YabWidget(id)
 {
@@ -13,6 +13,7 @@ YabView::YabView(int x, int y, int width, int height, const char* id)
 	bgcolor = fl_rgb_color(B_GREY);
 	hasmenu = false;
 	highSolid = true;
+	
 }
 
 YabView::~YabView()

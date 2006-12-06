@@ -31,7 +31,7 @@ while (not instr(msg$, "Quit"))
 	if (msg$ <> "") print msg$
 
 	if(instr(msg$, "Button")) then
-		selected$ = popupmenu 40, 120, "Hello|World Foobar|How|Are|You", "W"
+		selected$ = popupmenu 40, 120, "Hello|World|--|Foobar|Last entry", "W"
 		print selected$
 	endif
 wend
