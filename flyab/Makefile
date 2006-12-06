@@ -50,8 +50,8 @@ BISONFLAGS = -d -l -t -v
 ##
 ## Compile and link
 ##
-yab: YabMain.o YabInterface.o YabView.o YabWindow.o YabSplitView.o YabColorControl.o YabButtonImage.o YabCheckboxImage.o YabAlert.o YabAlertWindow.o YabAlertText.o YabAlertIcon.o flex.o bison.o symbol.o function.o graphic.o io.o main.o
-	$(GPP) $(GPP_OPT) -o yab YabMain.o YabInterface.o YabView.o YabWindow.o YabSplitView.o YabColorControl.o YabButtonImage.o YabCheckboxImage.o YabAlert.o YabAlertWindow.o YabAlertText.o YabAlertIcon.o main.o function.o io.o graphic.o symbol.o bison.o flex.o $(LIBPATH) $(LIB)
+yab: YabMain.o YabInterface.o YabView.o YabWindow.o YabSplitView.o YabColorControl.o YabButtonImage.o YabCheckboxImage.o YabAlert.o YabAlertWindow.o YabAlertText.o YabAlertIcon.o YabPopupMenu.o flex.o bison.o symbol.o function.o graphic.o io.o main.o
+	$(GPP) $(GPP_OPT) -o yab YabMain.o YabInterface.o YabView.o YabWindow.o YabSplitView.o YabColorControl.o YabButtonImage.o YabCheckboxImage.o YabAlert.o YabAlertWindow.o YabAlertText.o YabAlertIcon.o YabPopupMenu.o main.o function.o io.o graphic.o symbol.o bison.o flex.o $(LIBPATH) $(LIB)
 
 YabMain.o: YabMain.cpp 
 	$(GPP) $(GPP_OPT) -c YabMain.cpp -o YabMain.o
@@ -87,8 +87,8 @@ YabAlertText.o: YabAlertText.cpp YabAlertText.h
 YabAlertIcon.o: YabAlertIcon.cpp YabAlertIcon.h imagedata.h global.h
 	$(GPP) $(GPP_OPT) -c YabAlertIcon.cpp -o YabAlertIcon.o
 
-#YabFilePanel.o: YabFilePanel.cpp YabFilePanel.h
-#	$(GPP) $(GPP_OPT) -c YabFilePanel.cpp -o YabFilePanel.o
+YabPopupMenu.o: YabPopupMenu.cpp YabPopupMenu.h
+	$(GPP) $(GPP_OPT) -c YabPopupMenu.cpp -o YabPopupMenu.o
 
 bison.o: bison.c yabasic.h config.h 
 	$(GCC) $(GCC_OPT) -c bison.c -o bison.o

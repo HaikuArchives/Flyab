@@ -24,8 +24,13 @@ submenu set "Edit", "more", 1, "W"
 submenu set "Edit", "more", "is", "mark", "W"
 submenu set "File", "Submenu", "disabled", "Disable", "W"
 
-sleep 2
-
+sleep 1
+selected$ = popupmenu 50, 100, "Hello|World|How|Are|You", "W"
+print selected$
+sleep 1
+selected$ = popupmenu 50, 100, "Hello|World|How|Are|You", "W"
+print selected$
+sleep 1
 selected$ = popupmenu 50, 100, "Hello|World|How|Are|You", "W"
 print selected$
 

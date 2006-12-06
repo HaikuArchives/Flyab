@@ -31,9 +31,11 @@
 #include "YabCheckboxImage.h"
 #include "YabCheckButton.h"
 #include "YabColorControl.h"
+//#include "YabColumnBox.h"
 #include "YabDropBox.h"
 #include "YabListBox.h"
 #include "YabMenuBar.h"
+#include "YabPopupMenu.h"
 #include "YabProgressBar.h"
 #include "YabRadioButton.h"
 #include "YabSlider.h"
@@ -724,6 +726,7 @@ void YabInterface::View(BRect frame, const char* id, const char* view)
 			newView->color(fl_rgb_color(B_GREY));
 			newView->callback(StaticMessageCallback);
 			yabViewList[i]->add(newView);
+			yabViewList[i]->resizable(newView);
 			yabViewList[i]->window()->show();
 			yabViewList.push_back(newView);
 			
@@ -3019,6 +3022,27 @@ void YabInterface::ListSort(const char* view)
 
 void YabInterface::FileBox(BRect frame, const char* id, bool hasHScrollbar, const char* option, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if (s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint nc = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+//			YabColumnBox *box = new YabColumnBox((int)nc.x, (int)nc.y, (int)frame.width, (int)frame.height, id, hasHScrollbar, option);
+//			box->callback(StaticMessageCallback);
+
+//			yabViewList[i]->add(box);
+			yabViewList[i]->redraw();
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW");
+}
+
+void YabInterface::FileBoxClear(const char* columnbox)
+{
 }
 
 void YabInterface::ColumnBoxAdd(const char* id, int column, int position, int height, const char* text)
@@ -3026,10 +3050,6 @@ void YabInterface::ColumnBoxAdd(const char* id, int column, int position, int he
 }
 
 void YabInterface::FileBoxAdd(const char* columnbox, const char* name, int pos, double minWidth, double maxWidth, double width, const char* option)
-{
-}
-
-void YabInterface::FileBoxClear(const char* columnbox)
 {
 }
 
@@ -3517,29 +3537,24 @@ const char* YabInterface::PopUpMenu(double x, double y, const char* menuItems, c
 		{
 			Fl::lock();
 
-/*			std::string items="";
+			std::string items="";
 			BPoint nc = GetWindowCoordinates(yabViewList[i], x, y);
 
-			int vw = yabViewList[i]->w();
-			int vh = yabViewList[i]->h();
-			Fl_Menu_Button *menu = new Fl_Menu_Button(x, y, vw-x, vh-y);
+			int x = static_cast<int>(nc.x + yabViewList[i]->window()->x());
+			int y = static_cast<int>(nc.y + yabViewList[i]->window()->y());
 
-			for (int n=0; n<strlen(menuItems); n++)
-			{
-				if (menuItems[n] == 38 || menuItems[n] == 47 || menuItems[n] == 95)
-					items += "\\";
-				items += menuItems[n];
-			}
-			menu->type(Fl_Menu_Button::POPUP3);
-			menu->add(items.c_str());
-			menu->redraw();
-			yabViewList[i]->add(menu);
-			yabViewList[i]->redraw();
-
-			delete popup;
-*/
+			YabPopupMenu *menu = new YabPopupMenu(x, y, menuItems);
+			menu->show();
 			Fl::unlock();
-			return "";
+
+			int n = menu->Wait();
+
+			Fl::lock();
+			menu->hide();
+			const char* ret = menu->text(n);
+			delete menu;
+			Fl::unlock();
+			return ret;
 		}
 	}
 	Error(view, "VIEW");
