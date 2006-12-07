@@ -28,7 +28,7 @@ public:
 	void LabelTop()
 	{
 		copy_label(label);
-		int lh = fl_height()-2;
+		int lh = (int)labelsize();
 
 		if (type() == FL_HORIZONTAL)
 			resize(x, y+lh, w, h);
