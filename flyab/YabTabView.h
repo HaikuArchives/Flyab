@@ -20,7 +20,7 @@ public:
 		color(fl_rgb_color(B_GREY));
 		selection_color(fl_rgb_color(B_GREY));
 
-		tabheight = fl_height() + 10;
+		tabheight = (int)labelsize() + 10;
 		x=x_; y=y_;
 		w=w_; h=h_-tabheight;
 		if (bottomtabs != 1) y=y_+tabheight;
