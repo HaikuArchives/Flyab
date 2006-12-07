@@ -1,6 +1,7 @@
 #ifndef YABSLIDER_H
 #define YABSLIDER_H
 
+#include <FL/fl_draw.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Slider.H>
 #include <string>
@@ -18,39 +19,26 @@ public:
 		h = height;
 		label = label_;
 
+		labelsize(B_FONT_SIZE);
 		copy_label(label);
 		step(1);
 		color(fl_rgb_color(B_GREY));
-		labelsize(B_FONT_SIZE);
 	}
 
 	void LabelTop()
 	{
 		copy_label(label);
-		align(FL_ALIGN_TOP);
 		int lh = fl_height()-2;
-		resize(x, y+lh, w, h-lh);
+
+		if (type() == FL_HORIZONTAL)
+			resize(x, y+lh, w, h);
+		else
+			resize(x, y+lh, w, h-lh);
 	}
 
 	void setlabels(const char* label1, const char* label2)
 	{
 		copy_label(label1);
-
-/*		if (strcmp(label2, "") != 0)
-		{
-			int lw, lh;
-			fl_measure(label2, lw, lh);
-			if (!box)
-			{
-				box = new Fl_Box(w-lw, y, lw, lh);
-				add(box);
-			}
-			else
-				box->resize(w-lw, y, lw, lh);
-
-			box->copy_label(label2);
-		}
-*/
 	}
 
 private:
