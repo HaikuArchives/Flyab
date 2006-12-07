@@ -78,12 +78,13 @@ int YabPopupMenu::value()
 	return selected_item;
 }
 
-int YabPopupMenu::Wait()
+int YabPopupMenu::Run()
 {
 	YabInterface *yi;
 	while (running)
 	{
-		yi->Snooze(0.5);
+		if (!shown()) break;
+		yi->Snooze(1);
 	}
 	return selected_item;
 }
@@ -115,6 +116,7 @@ int YabPopupMenu::handle(int event)
 	switch (event)
 	{
 	case FL_DRAG:
+		clicked_item = -1;
 		for (int n=0; n<itembox.size(); n++)
 		{
 			if (Fl::event_inside(itembox[n]))
@@ -125,6 +127,7 @@ int YabPopupMenu::handle(int event)
 		}
 	case FL_MOVE:
 	case FL_LEAVE:
+		selected_item = -1;
 		redraw();
 		break;
 	case FL_UNFOCUS:

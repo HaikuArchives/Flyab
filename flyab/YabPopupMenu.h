@@ -18,14 +18,14 @@ public:
 	~YabPopupMenu();
 	int value();
 	const char* text(int n);
-	int Wait();
+	int Run();
 	void draw();
 
 private:
 	int handle(int);
 
 	bool running;
-	int w, h, line_h, line_w, over_item, clicked_item, selected_item;
+	int w, h, line_h, line_w, clicked_item, selected_item;
 	Fl_Color textcolor_low, textcolor_high, bgcolor_low, bgcolor_high;
 	Fl_Pack *list;
 	vector<Fl_Box*> itembox;

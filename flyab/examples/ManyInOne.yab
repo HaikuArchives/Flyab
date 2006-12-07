@@ -145,9 +145,7 @@ while(not quitting)
 	msg$ = message$
 	if(instr(msg$, "Popup")) then
 		// popupmenu
-print msg$
-		select$ = popupmenu 120,270, "Foo|--|Bar", "Box2"
-print select$
+		select$ = popupmenu 120,290, "Foobar|Foobaz|--|TEAM|maui", "Box2"
 	elsif(instr(msg$, "File")) then
 		// filepanel
 		select$ = filepanel "Load-File", "Example Filepanel", "/boot/home"

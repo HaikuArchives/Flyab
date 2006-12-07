@@ -1556,6 +1556,7 @@ void YabInterface::CreateListBox(BRect frame, const char* id, int scrollbar, con
 					 break;
 			}
 			list->labelsize(B_FONT_SIZE);
+			list->textsize(B_FONT_SIZE);
 
 			yabViewList[i]->add(list);
 			yabViewList[i]->redraw();
@@ -3534,23 +3535,21 @@ const char* YabInterface::PopUpMenu(double x, double y, const char* menuItems, c
 		if(s == yabViewList[i]->GetID())
 		{
 			Fl::lock();
-
-			std::string items="";
 			BPoint nc = GetWindowCoordinates(yabViewList[i], x, y);
-
 			int x = static_cast<int>(nc.x + yabViewList[i]->window()->x());
 			int y = static_cast<int>(nc.y + yabViewList[i]->window()->y());
 
-			YabPopupMenu *menu = new YabPopupMenu(x, y, menuItems);
-			menu->show();
+			YabPopupMenu *popup = new YabPopupMenu(x, y, menuItems);
+			popup->show();
 			Fl::unlock();
 
-			int n = menu->Wait();
+			Snooze(0.1);	// needs to be done for whatever reasons (else on fast Computers the popup doesn't appear)
+			int n = popup->Run();
 
 			Fl::lock();
-			menu->hide();
-			const char* ret = menu->text(n);
-			delete menu;
+			popup->hide();
+			const char* ret = popup->text(n);
+			delete popup;
 			Fl::unlock();
 			return ret;
 		}
