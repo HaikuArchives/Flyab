@@ -3461,22 +3461,15 @@ void YabInterface::SpinControl(double x, double y, const char* id, const char* l
 
 			BPoint newCoor = GetWindowCoordinates(yabViewList[i], x, y);
 
-			int w = (int)fl_width(label);
+			YabSpinControl *spin = new YabSpinControl((int)newCoor.x,(int)newCoor.y, max, id, label);
 
-			YabSpinControl *spin = new YabSpinControl((int)newCoor.x+w,(int)newCoor.y, id, label);
-			
 			spin->value(min);
 			spin->range(min,max);
 			spin->step(step);
 			
 			spin->callback(StaticMessageCallback);
 
-			spin->color(fl_rgb_color(B_GREY));
-			spin->labelsize(B_FONT_SIZE);
-			spin->textsize(B_FONT_SIZE);
-
 			yabViewList[i]->add(spin);
-
 			yabViewList[i]->redraw();
 
 			Fl::unlock();

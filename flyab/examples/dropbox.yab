@@ -1,17 +1,27 @@
 
-window open 100, 100 to 400, 400, "W", "Mein Fenster"
+View$	= "W"
+window open 100, 100 to 400, 400, View$, "Mein Fenster"
 
 ID$		= "DB_test_"
 Label$	= "Waehlen"
-View$	= "W"
 
 DROPBOX 10, 10 TO 200, 30, ID$, Label$, View$
+	dropbox add ID$, "foo"
+	dropbox add ID$, "--"
+	dropbox add ID$, "bar"
+	dropbox add ID$, "--"
+	dropbox add ID$, "baz"
 
-dropbox add ID$, "foo"
-dropbox add ID$, "--"
-dropbox add ID$, "bar"
-dropbox add ID$, "--"
-dropbox add ID$, "baz"
+ID$		= "DB_test_2"
+Label$	= "Waehlen"
+DROPBOX 30, 40 TO 200, 60, ID$, Label$, View$
+	dropbox add ID$, "foo"
+	dropbox add ID$, "--"
+	dropbox add ID$, "bar"
+	dropbox add ID$, "--"
+	dropbox add ID$, "baz"
+
+draw rect 30, 62 to 200, 70, View$
 
 while (not instr(msg$, "Quit"))
 	msg$ = message$

@@ -43,7 +43,7 @@ radiobutton 10,150, "Radio2", "2. Radiobutton", false, "Box1"
 dropbox 10,175 to 100,195, "Drop", "Dropbox", "Box1"
 dropbox add "Drop", "Foo"
 dropbox add "Drop", "Bar"
-//tooltip "Drop", "DROPBOX"
+tooltip "Drop", "DROPBOX"
 
 // listbox
 listbox 10,210 to 100,290, "List", 1, "Box1"
@@ -96,8 +96,8 @@ tabview add "Tab", "Second"
 
 // splitview
 splitview 120,110 to 260,195, "Split", true, false, "Box2"
-//draw set "bgcolor", "Panel-Background-Color, Darken-1-Tint", "Split1"
-//draw set "bgcolor", "Panel-Background-Color, Lighten-1-Tint", "Split2"
+draw set "bgcolor", "Panel-Background-Color, Darken-1-Tint", "Split1"
+draw set "bgcolor", "Panel-Background-Color, Lighten-1-Tint", "Split2"
 //tooltip "Split", "SPLITVIEW"
 
 // colorcontrol
@@ -117,7 +117,7 @@ view 280,10 to 500,100, "Menu", "Box2"
 menu "Menu", "Foo", "", "Menu"
 menu "Menu", "--", "", "Menu"
 menu "Menu", "Bar", "", "Menu"
-//draw set "bgcolor", "Panel-Background-Color, Darken-1-Tint", "Menu"
+draw set "bgcolor", "Panel-Background-Color, Darken-1-Tint", "Menu"
 draw text 20,35, "View with menu", "Menu"
 //tooltip "Menu", "MENU"
 
