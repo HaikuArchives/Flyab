@@ -1556,7 +1556,7 @@ void YabInterface::CreateListBox(BRect frame, const char* id, int scrollbar, con
 					 break;
 			}
 			list->labelsize(B_FONT_SIZE);
-			list->textsize(B_FONT_SIZE);
+			list->textsize(10);
 
 			yabViewList[i]->add(list);
 			yabViewList[i]->redraw();
@@ -1602,9 +1602,7 @@ void YabInterface::ListboxAdd(const char* listbox, const char* item)
 				if(s == list->GetID())
 				{
 					Fl::lock();
-					std::string t = "@S12"; // B_FONT_SIZE
-					t += item;
-					list->add(t.c_str());
+					list->add(item);
 					Fl::unlock();
 					return;
 				}
