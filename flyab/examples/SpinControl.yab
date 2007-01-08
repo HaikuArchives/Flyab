@@ -4,10 +4,6 @@ spincontrol 10, 20, "sp1", "SpinControl", 0, 50, 5, "MainView"
 
 spincontrol set "sp1", 15
 
-TEXT 0,50, "t1", "Hallo_1", "MainView"
-
-TEXT 0,90 TO 100,110, "t2", "Hallo_2", "MainView"
-
 REM MAIN LOOP
 while(not quitting)
 	msg$ = message$
