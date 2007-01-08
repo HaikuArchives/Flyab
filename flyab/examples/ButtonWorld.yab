@@ -8,6 +8,7 @@ button 30,10 to 120,30, "EmptyAlert_", "Empty Alert", "MainView1"
 layout "bottom, right", "MainView1"
 button 30,40 to 120,60, "InfoAlert_", "Info Alert", "MainView1"
 button 30,70 to 120,90, "IdeaAlert_", "Idea Alert", "MainView1"
+option set "InfoAlert_", "Enabled",IsDisable
 
 button 30,10 to 120,30, "WarningAlert_", "Warning Alert", "MainView2"
 button 30,40 to 120,60, "StopAlert_", "Stop Alert", "MainView2"

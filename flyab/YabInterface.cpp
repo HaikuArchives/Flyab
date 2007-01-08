@@ -2198,10 +2198,57 @@ void YabInterface::DrawCurve(double x1, double y1, double x2, double y2, double 
 
 void YabInterface::CreateText(double x, double y, const char* id, const char* text, const char* view)
 {
+	std::string v = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+
+			int w = (int)fl_width(text);
+
+			Fl_Box *box = new Fl_Box(x+5,y,x+w,y);		
+			box->box(FL_NO_BOX);
+			box->label(text);
+			box->labelsize(B_FONT_SIZE);
+
+			yabViewList[i]->add(box);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW or WINDOW");
 }
 
 void YabInterface::Text2(BRect frame, const char* id, const char* text, const char* view)
 {
+	std::string v = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(v == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
+			int x = static_cast<int>(newCoor.x);
+			int y = static_cast<int>(newCoor.y);
+			int w = static_cast<int>(frame.width);
+			int h = static_cast<int>(frame.height);
+
+			Fl_Box *box = new Fl_Box(x,y,w,h);		
+			box->box(FL_NO_BOX);
+			box->label(text);
+			box->labelsize(h);
+			
+			yabViewList[i]->add(box);
+			yabViewList[i]->redraw();
+	
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW or WINDOW");
 }
 
 void YabInterface::TextAlign(const char* txt, const char* option)
