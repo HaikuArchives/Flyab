@@ -1,0 +1,21 @@
+window open 100,100 to 500,300, "MainView", "text"
+
+TEXT 0,50, "t1", "Hallo_1", "MainView"
+
+//when add this text , then lost the first text a text$
+//TEXT 0,90 TO 100,110, "t2", "Hallo_2", "MainView"
+
+REM MAIN LOOP
+while(not quitting)
+	msg$ = message$
+	if(msg$<>"") print msg$
+
+	switch msg$
+		case "MainView:_QuitRequested|" 
+			quitting = true 
+			break
+		
+	end switch
+wend
+
+window close "MainView"
