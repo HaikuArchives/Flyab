@@ -2204,14 +2204,15 @@ void YabInterface::CreateText(double x, double y, const char* id, const char* te
 		if(v == yabViewList[i]->GetID())
 		{
 			Fl::lock();
-
+			
 			int w = (int)fl_width(text);
+			int h = B_FONT_SIZE;
 
-			Fl_Box *box = new Fl_Box(x+5,y,x+w,y);		
+			Fl_Box *box = new Fl_Box(x+5,y,x+w,y+h);		
 			box->box(FL_NO_BOX);
+			box->labelsize(B_FONT_SIZE);			
 			box->label(text);
-			box->labelsize(B_FONT_SIZE);
-
+			
 			yabViewList[i]->add(box);
 			yabViewList[i]->redraw();
 
@@ -2230,6 +2231,7 @@ void YabInterface::Text2(BRect frame, const char* id, const char* text, const ch
 		if(v == yabViewList[i]->GetID())
 		{
 			Fl::lock();
+			
 			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 			int x = static_cast<int>(newCoor.x);
 			int y = static_cast<int>(newCoor.y);

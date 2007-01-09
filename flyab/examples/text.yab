@@ -1,9 +1,13 @@
 window open 100,100 to 500,300, "MainView", "text"
 
-TEXT 0,50, "t1", "Hallo_1", "MainView"
+TEXT 0,10, "t1", "Hallo_1", "MainView"
+TEXT 0,20, "t2", "Hallo_2", "MainView"
+TEXT 0,30, "t3", "Hallo_3", "MainView"
 
-//when add this text , then lost the first text a text$
-//TEXT 0,90 TO 100,110, "t2", "Hallo_2", "MainView"
+
+//TEXT 0,90 TO 400,110, "t2", "Hallo_2", "MainView"
+//text set "t2","align-center"
+
 
 REM MAIN LOOP
 while(not quitting)
