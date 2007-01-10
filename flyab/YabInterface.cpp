@@ -26,6 +26,7 @@
 #include "YabInterface.h"
 #include "YabAlert.h"
 #include "YabBoxView.h"
+#include "YabStringView.h"
 #include "YabButton.h"
 #include "YabButtonImage.h"
 #include "YabCheckboxImage.h"
@@ -2208,10 +2209,10 @@ void YabInterface::CreateText(double x, double y, const char* id, const char* te
 			int w = (int)fl_width(text);
 			int h = B_FONT_SIZE;
 
-			Fl_Box *box = new Fl_Box(x+5,y,x+w,y+h);		
+			YabStringView *box = new YabStringView((int)x,(int)y,w,h, id, text);		
 			box->box(FL_NO_BOX);
 			box->labelsize(B_FONT_SIZE);			
-			box->label(text);
+			box->copy_label(text);
 			
 			yabViewList[i]->add(box);
 			yabViewList[i]->redraw();
@@ -2238,9 +2239,10 @@ void YabInterface::Text2(BRect frame, const char* id, const char* text, const ch
 			int w = static_cast<int>(frame.width);
 			int h = static_cast<int>(frame.height);
 
-			Fl_Box *box = new Fl_Box(x,y,w,h);		
+			
+			YabStringView *box = new YabStringView(x,y,w,h, id, text);		
 			box->box(FL_NO_BOX);
-			box->label(text);
+			box->copy_label(text);
 			box->labelsize(h);
 			
 			yabViewList[i]->add(box);
