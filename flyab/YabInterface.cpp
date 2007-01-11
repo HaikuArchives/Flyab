@@ -2238,12 +2238,11 @@ void YabInterface::Text2(BRect frame, const char* id, const char* text, const ch
 			int y = static_cast<int>(newCoor.y);
 			int w = static_cast<int>(frame.width);
 			int h = static_cast<int>(frame.height);
-
 			
 			YabStringView *box = new YabStringView(x,y,w,h, id, text);		
-			box->box(FL_NO_BOX);
+			//box->box(FL_NO_BOX);
+			box->labelsize(B_FONT_SIZE);
 			box->copy_label(text);
-			box->labelsize(h);
 			
 			yabViewList[i]->add(box);
 			yabViewList[i]->redraw();
