@@ -5,7 +5,7 @@ TEXT 0,25, "t2", "Hallo_2", "MainView"
 TEXT 0,40, "t3", "Hallo_3", "MainView"
 
 
-TEXT 0,90 TO 400,110, "t4", "Hallo_4llllllllllllkkkkkkkkkkkkkkkkkko", "MainView"
+TEXT 0,90 TO 400,110, "t4", "Hallo_4", "MainView"
 //text set "t2","align-center"
 
 
