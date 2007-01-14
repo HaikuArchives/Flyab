@@ -2241,7 +2241,7 @@ void YabInterface::Text2(BRect frame, const char* id, const char* text, const ch
 			
 			int wt = (int)fl_width(text);
 
-			YabStringView *box = new YabStringView(x+(wt+4),y,w,h, id, text);
+			YabStringView *box = new YabStringView(x+(wt+4),y,w-(wt*2+7),h, id, text);
 			box->align(FL_ALIGN_LEFT);			
 			box->box(FL_NO_BOX);		
 			
@@ -2259,6 +2259,43 @@ void YabInterface::Text2(BRect frame, const char* id, const char* text, const ch
 
 void YabInterface::TextAlign(const char* txt, const char* option)
 {
+	int myMode = 0;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+
+	if(t.find("align-center") != std::string::npos) myMode = 1;
+	if(t.find("align-right") != std::string::npos) myMode = 2;
+	if(t.find("align-left") != std::string::npos) myMode = 3;
+	if (myMode == 0) Error(option, "OPTION");
+
+	std::string b=txt;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if (YabStringView *box = dynamic_cast<YabStringView*>(yabViewList[i]->child(j)))
+			{
+				if (b == box->GetID())
+				{
+					Fl::lock();
+			
+					switch(myMode)
+					{
+						case 1: box->align(FL_ALIGN_CENTER);
+							break;
+						case 2: box->align(FL_ALIGN_RIGHT);
+							break;
+						case 3: box->align(FL_ALIGN_LEFT);
+							break;
+					}
+
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(txt, "TextAlign");
 }
 
 void YabInterface::Slider(BRect frame, const char* id, const char* title, int min, int max, const char* view)
