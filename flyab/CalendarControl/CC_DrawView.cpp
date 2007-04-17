@@ -1,7 +1,7 @@
 //CC_DrawView.cpp
 
 #include <FL/Fl_Group.H> 
-#include "CC_DayView.cpp"
+//#include "CC_DayView.cpp"
 
 #ifndef CC_DRAWVIEW_H
 #define CC_DRAWVIEW_H
@@ -16,6 +16,9 @@ class CC_DrawView : public Fl_Group
 		static void year_up(Fl_Widget *, void *);
 		static void year_down(Fl_Widget *, void *);
 		static void test();
+		Fl_Box *mb; //month box
+		Fl_Box *yb; //year box
+		
 	private:
 		
 		Fl_Box *dbt; //day titel box
@@ -23,9 +26,6 @@ class CC_DrawView : public Fl_Group
 		CC_Infos::CC_Infos *info; //obj DateInfos
 };
 #endif
-
-Fl_Box *mb; //month box
-Fl_Box *yb; //year box
 
 static const char *MonthName[12] = {
     "Januar","Februar","Maerz","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"

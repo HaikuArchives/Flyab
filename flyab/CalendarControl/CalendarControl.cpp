@@ -18,6 +18,7 @@
 
 #include "CalendarControl.h"
 #include "CC_Infos.h"
+#include "CC_DayView.cpp"
 #include "CC_DrawView.cpp"
 
 using namespace std;
@@ -35,7 +36,7 @@ CalendarControl::CalendarControl(int x,
 	CC_Infos::CC_Infos *info = new CC_Infos;	
 	info->posx_ = x;
 	info->posy_ = y;
-
+	
 	//DrawView::test(); // ok
 
 	//test DateInfos
@@ -81,6 +82,7 @@ void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
 	cout << "extern: " << info->posx_ << " : " << info->posy_ << ":" << info->mb_  << endl;
 	//cout << "extern: " << info->d << " : " << info->m << " : " << info->y << endl;
+	
 
 	int winx = widget->window()->x()+info->posx_;
 	int winy = widget->window()->y()+info->posy_+22;
@@ -93,16 +95,17 @@ void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 	Fl::lock();
 
 	CC_DrawView *dv = new CC_DrawView(0,0,170,170); //CC_DrawView.cpp
-	win->add(dv);
+	
 	
 	std::stringstream s_month;
 	s_month << MonthName[info->m-1];
-	mb->copy_label(s_month.str().c_str());
+	dv->mb->copy_label(s_month.str().c_str());
 
 	std::stringstream s_year;
 	s_year << info->y;
-	yb->copy_label(s_year.str().c_str());
-
+	dv->yb->copy_label(s_year.str().c_str());
+	
+	win->add(dv);
 	win->end();
 	win->show();
 	
