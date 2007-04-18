@@ -3,7 +3,7 @@ CalendarControl lib
 
 TODO:
 This Lib is not finish and have any bugs and missing functions!!!
-Any pointer objects and int are global.
+
 Delete the CC_DayView when select a new month ore year dont go in my test trunk
 and i have  no idear we can this make.
 e.d:
