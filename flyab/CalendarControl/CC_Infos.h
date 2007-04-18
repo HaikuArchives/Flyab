@@ -12,6 +12,12 @@ class CC_Infos {
 		Fl_Box *yb_;
 	
 		int d,m,y;
+
+/*
+		int g_day ; 
+		int g_month; 
+		int g_year ;
+*/
 		
 };
 

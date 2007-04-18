@@ -9,31 +9,38 @@
 class CC_DayView : public Fl_Group
 {
 	public:
-     		CC_DayView(int x, int y, int w, int h); 
+     		CC_DayView(int x, int y, int w, int h, void *); 
 		~CC_DayView();
-		void DeleteDayButtons();
+		void DeleteDayButtons(void *);
 	private:
 		Fl_Button *dd[31]; //button day 1-31
 		Fl_Group *cdg; //day area group
+		
 		 
      		
 };
 #endif
-
+/*
 int g_day;
 int g_month;
 int g_year;
+*/
 
-CC_DayView::CC_DayView(int x, int y, int w, int h): Fl_Group(x,y,w,h) 
+CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h) 
 {
+	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
+	cout << "extern in CC_DayView::CC_DayView: " << info->posx_ << " : " << info->posy_ << ":" << info->mb_  << endl;
+	cout << "extern in CC_DayView::CC_DayView: " << info->d << " : " << info->m << " : " << info->y << endl;
+
+
 	cdg = new Fl_Group(x,y,w,h);
 	//cdg->box(FL_BORDER_BOX);
 	cdg->box(FL_NO_BOX);
 	cdg->begin();
 
 	int x_ = x;
-	cout << "hh " << g_month << endl;
-	CC_Date::CC_Date date(g_day,g_month,g_year);
+	cout << "hh " << info->m << endl;
+	CC_Date::CC_Date date(info->d,info->m,info->y);
 	
 	switch (date.get_weekday(1))
 	{
@@ -73,9 +80,11 @@ CC_DayView::~CC_DayView()
 }
 
 // this is a a test workaround!!!
-void CC_DayView::DeleteDayButtons()
-{
-	CC_Date::CC_Date date(g_day,g_month,g_year);
+void CC_DayView::DeleteDayButtons(void *data)
+{	
+	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
+	
+	CC_Date::CC_Date date(info->d,info->m,info->y);
 
 	for(int i = 1;i <= date.month_days()-1;i++){
 

@@ -18,6 +18,8 @@ class CalendarControl: public Fl_Widget
 		~CalendarControl();
 		
 		
+		
+		
 	protected:
 		void draw();
 		
@@ -26,6 +28,7 @@ class CalendarControl: public Fl_Widget
 		std::stringstream s_day;
 		std::stringstream s_month;
 		std::stringstream s_year;
+		
 		
 };	
 
