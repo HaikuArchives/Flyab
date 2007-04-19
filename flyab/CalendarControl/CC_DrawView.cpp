@@ -53,6 +53,10 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	yb->labelsize(10);
 	info->yb_ = yb;
 	
+	dbt = new Fl_Box(5,25,160,20);
+	dbt->box(FL_NO_BOX);
+	dbt->labelsize(10);
+	dbt->label("Mo    Di    Mi    Do    Fr    Sa    So");
 
 	Fl_Button *Mbutdo = new Fl_Button(2,(int)2.5,20,20,"<<");
 	Mbutdo->box(FL_NO_BOX);
@@ -70,10 +74,7 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	Ybutup->box(FL_NO_BOX);
 	Ybutup->callback(year_up, (void *)info);
 				
-	dbt = new Fl_Box(5,25,160,20);
-	dbt->box(FL_NO_BOX);
-	dbt->labelsize(10);
-	dbt->label("Mo    Di    Mi    Do    Fr    Sa    So");
+	
 
 	dayview = new CC_DayView(3,45,163,95, (void *)info);
 	//dayview->DeleteDayButtons((void *)info); //OK
