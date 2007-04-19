@@ -13,24 +13,19 @@ class CC_DayView : public Fl_Group
 		~CC_DayView();
 		void DeleteDayButtons(void *);
 	private:
-		Fl_Button *dd[31]; //button day 1-31
+		Fl_Button *dd[31+1]; //button day 1-31 //bug fix 31 to 31+1 (32) set, else by 31 month 1,3,10,12 chrashed!!!
 		Fl_Group *cdg; //day area group
 		
 		 
      		
 };
 #endif
-/*
-int g_day;
-int g_month;
-int g_year;
-*/
 
 CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h) 
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
-	cout << "extern in CC_DayView::CC_DayView: " << info->posx_ << " : " << info->posy_ << ":" << info->mb_  << endl;
-	cout << "extern in CC_DayView::CC_DayView: " << info->d << " : " << info->m << " : " << info->y << endl;
+	//cout << "extern in CC_DayView::CC_DayView: " << info->posx_ << " : " << info->posy_ << ":" << info->mb_  << endl;
+	//cout << "extern in CC_DayView::CC_DayView: " << info->d << " : " << info->m << " : " << info->y << endl;
 
 
 	cdg = new Fl_Group(x,y,w,h);
@@ -52,7 +47,7 @@ CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h)
 			break;
 	}
  
-	for(int i = 1;i <= date.month_days();i++){
+	for(int i = 1;i <= date.month_days();i++){ 
 
 		dd[i] = new Fl_Button(x_,y,20,10);
 		dd[i]->box(FL_NO_BOX);
@@ -86,9 +81,9 @@ void CC_DayView::DeleteDayButtons(void *data)
 	
 	CC_Date::CC_Date date(info->d,info->m,info->y);
 
-	for(int i = 1;i <= date.month_days()-1;i++){
+	for(int i = 1;i <= date.month_days();i++){
 
-		delete dd[5]; // not work 
+		//delete dd[i]; // not work 
 		dd[i]->copy_label("");
 		
 		

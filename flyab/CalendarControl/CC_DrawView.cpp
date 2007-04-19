@@ -1,7 +1,6 @@
 //CC_DrawView.cpp
 
 #include <FL/Fl_Group.H> 
-//#include "CC_DayView.cpp"
 
 #ifndef CC_DRAWVIEW_H
 #define CC_DRAWVIEW_H
@@ -20,10 +19,9 @@ class CC_DrawView : public Fl_Group
 		Fl_Box *yb; //year box
 		
 	private:
-		
 		Fl_Box *dbt; //day titel box
 		CC_DayView::CC_DayView *dayview; //obj dayview
-		//CC_Infos::CC_Infos *info; //obj DateInfos
+		
 		
 		
 };
@@ -35,8 +33,8 @@ static const char *MonthName[12] = {
 
 CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,w,h) 
 {
-	test(); // OK
-	//info = new CC_Infos;
+	//test(); // OK
+	
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
 	cout << "extern in CC_DrawView::CC_DrawView: " << info->posx_ << " : " << info->posy_ << ":" << info->mb_  << endl;
 	cout << "extern in CC_DrawView::CC_DrawView: " << info->d << " : " << info->m << " : " << info->y << endl;
@@ -76,9 +74,9 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	dbt->box(FL_NO_BOX);
 	dbt->labelsize(10);
 	dbt->label("Mo    Di    Mi    Do    Fr    Sa    So");
-	
+
 	dayview = new CC_DayView(3,45,163,95, (void *)info);
-	
+	//dayview->DeleteDayButtons((void *)info); //OK
 
  	
 	Fl_Box *cdb = new Fl_Box(5,148,160,20);
@@ -131,17 +129,23 @@ void CC_DrawView::year_up(Fl_Widget *widget, void *data)
 	//std::cout << "Das Jahr ist nun: " << g_year << "\n";
 	CC_Date::CC_Date date(info->d,info->m,info->y);
 	//date.ausgabe;
+	//CC_DayView::DeleteDayButtons((void *)info); //error
+
+	//TODO: delate dayview and make new dayview with new month/year etc...
+	
 }
 
 void CC_DrawView::year_down(Fl_Widget *widget, void *data)
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
 	std::cout << "OK year_down" << "\n";
-
+	
 	std::stringstream t;
 	t << info->y-1;
 	info->yb_->copy_label(t.str().c_str());
 	info->y = info->y-1;
+
+	//TODO: delate dayview and make new dayview with new month/year etc...
 	
 }
 
@@ -163,7 +167,7 @@ void CC_DrawView::month_up(Fl_Widget *widget, void *data)
 		info->mb_->copy_label(t.str().c_str());
 		info->m = info->m+1;
 		
-		//TODO: delate dayview and make new dayview with new month etc...
+		//TODO: delate dayview and make new dayview with new month/year etc...
 		
 	} 
 	
@@ -186,5 +190,7 @@ void CC_DrawView::month_down(Fl_Widget *widget, void *data)
 		t << MonthName[(info->m-1)-1];
 		info->mb_->copy_label(t.str().c_str());
 		info->m = info->m-1;
+		
+		//TODO: delate dayview and make new dayview with new month/year etc...
 	}
 }
