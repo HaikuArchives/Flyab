@@ -12,6 +12,7 @@ class CC_DayView : public Fl_Group
      		CC_DayView(int x, int y, int w, int h, void *); 
 		~CC_DayView();
 		void DeleteDayButtons(void *);
+		static void SelectDay(Fl_Widget *);
 	private:
 		Fl_Button *dd[31+1]; //button day 1-31 //bug fix 31 to 31+1 (32) set, else by 31 month 1,3,10,12 chrashed!!!
 		Fl_Group *cdg; //day area group
@@ -52,6 +53,10 @@ CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h)
 		dd[i] = new Fl_Button(x_,y,20,10);
 		dd[i]->box(FL_NO_BOX);
 		dd[i]->labelsize(10);
+
+		if(i == date.get_day()){
+			dd[i]->box(FL_BORDER_BOX);
+		}
 	
 		std::stringstream s;
 		s << i;
@@ -72,6 +77,11 @@ CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h)
 
 CC_DayView::~CC_DayView()
 {
+}
+
+void CC_DayView::SelectDay(Fl_Widget *widget)
+{
+	
 }
 
 // this is a a test workaround!!!
