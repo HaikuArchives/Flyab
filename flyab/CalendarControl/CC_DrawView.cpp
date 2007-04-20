@@ -39,8 +39,8 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	cout << "extern in CC_DrawView::CC_DrawView: " << info->posx_ << " : " << info->posy_ << ":" << info->mb_  << endl;
 	cout << "extern in CC_DrawView::CC_DrawView: " << info->d << " : " << info->m << " : " << info->y << endl;
 
-	Fl_Box *dv = new Fl_Box(0,0,w,h);
-	dv->box(FL_UP_BOX);
+	Fl_Box *dvb = new Fl_Box(0,0,w,h);
+	dvb->box(FL_UP_BOX);
 
 	mb = new Fl_Box(5,3,90,20);
 	mb->box(FL_NO_BOX);
@@ -74,7 +74,6 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	Ybutup->box(FL_NO_BOX);
 	Ybutup->callback(year_up, (void *)info);
 				
-	
 
 	dayview = new CC_DayView(3,45,163,95, (void *)info);
 	//dayview->DeleteDayButtons((void *)info); //OK
