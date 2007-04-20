@@ -100,7 +100,16 @@ int CC_Date::month_days() const
 
 int CC_Date::get_weekday(int d) const
 {
-	
+	/*Weekdays:
+		0 = So
+		1 = Mo
+		2 = Di
+		3 = Mi
+		4 = Do
+		5 = Fr
+		6 = Sa
+	See the weekday Calc from Gaußsche , url =  "http://de.wikipedia.org/wiki/Gau%C3%9Fsche_Wochentagsformel" */
+
 	int c = year/100;
 	int y = year%100;
 	
