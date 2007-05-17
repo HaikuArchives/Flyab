@@ -96,6 +96,7 @@ void CC_DayView::SelectDay(Fl_Widget *widget,void *data)
 	s << info->y;
 	
 	info->input_->value(s.str().c_str());	
+	info->d = atoi(b_lab);
 	
 	info->win_->Fl_Window::~Fl_Window(); 
 	
