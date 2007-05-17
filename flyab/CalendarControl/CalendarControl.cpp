@@ -62,6 +62,7 @@ CalendarControl::CalendarControl(int x,
 
 	input->textsize(10);
 	input->value(s.str().c_str());
+	info->input_ = input;
 	button->callback(CalendarControl::CC_DateWindow, (void *)info);
 	
 }
@@ -85,6 +86,7 @@ void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 	Fl_Window* win = new Fl_Window(winx,winy,170,170, "dateview");
 	win->border(0); //0 = no border
 	win->set_modal();
+	info->win_ = win;
 
 	Fl::lock();
 
@@ -102,6 +104,7 @@ void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 	win->add(dv);
 	win->end();
 	win->show();
+	
 	
 	Fl::unlock();
 	return;

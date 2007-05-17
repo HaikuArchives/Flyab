@@ -12,7 +12,7 @@ class CC_DayView : public Fl_Group
      		CC_DayView(int x, int y, int w, int h, void *); 
 		~CC_DayView();
 		void DeleteDayButtons(void *);
-		static void SelectDay(Fl_Widget *);
+		static void SelectDay(Fl_Widget *, void *);
 	private:
 		Fl_Button *dd[31+1]; //button day 1-31 //bug fix 31 to 31+1 (32) set, else by 31 month 1,3,10,12 chrashed!!!
 		Fl_Group *cdg; //day area group
@@ -53,6 +53,7 @@ CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h)
 		dd[i] = new Fl_Button(x_,y,20,10);
 		dd[i]->box(FL_NO_BOX);
 		dd[i]->labelsize(10);
+		dd[i]->callback(CC_DayView::SelectDay, (void *)info);
 
 		if(i == date.get_day()){
 			dd[i]->box(FL_BORDER_BOX);
@@ -63,6 +64,7 @@ CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h)
 		dd[i]->copy_label(s.str().c_str());	
 
 		cdg->add(dd[i]);
+
 		
 		x_ = x_+23;
 		//cout << "weekday in loop: " << i << ": "<< date.get_weekday(i) << endl;
@@ -79,8 +81,23 @@ CC_DayView::~CC_DayView()
 {
 }
 
-void CC_DayView::SelectDay(Fl_Widget *widget)
-{
+void CC_DayView::SelectDay(Fl_Widget *widget,void *data)
+{	
+	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
+	const char* b_lab = widget->label();
+	
+	std::cout << "Test: Button " << b_lab << " is select!" << endl;
+	
+	std::stringstream s;
+	s << b_lab; 
+	s << ".";
+	s << info->m;  
+	s << ".";
+	s << info->y;
+	
+	info->input_->value(s.str().c_str());	
+	
+	info->win_->Fl_Window::~Fl_Window(); 
 	
 }
 

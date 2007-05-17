@@ -12,6 +12,9 @@ class CC_Infos {
 		Fl_Box *mb_;
 		Fl_Box *yb_;
 		int d,m,y;
+		Fl_Window *win_;
+		Fl_Input *input_;
+		
 		
 };
 
