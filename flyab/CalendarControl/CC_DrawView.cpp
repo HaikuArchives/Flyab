@@ -17,10 +17,12 @@ class CC_DrawView : public Fl_Group
 		static void test();
 		Fl_Box *mb; //month box
 		Fl_Box *yb; //year box
+		CC_DayView::CC_DayView *dayview; //obj dayview
+		static void DateWindowUpdate(void *);
 		
 	private:
 		Fl_Box *dbt; //day titel box
-		CC_DayView::CC_DayView *dayview; //obj dayview
+		//CC_DayView::CC_DayView *dayview; //obj dayview
 		
 		
 		
@@ -46,7 +48,10 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	mb->box(FL_NO_BOX);
 	mb->labelsize(10);
 	info->mb_ = mb;
-	
+	//info->xx = x;
+	//info->yy = y;	
+	//info->ww = w;
+	//info->hh = h;
 
 	yb = new Fl_Box(85,3,95,20);
 	yb->box(FL_NO_BOX);
@@ -76,7 +81,7 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 				
 
 	dayview = new CC_DayView(3,45,163,95, (void *)info);
-	//dayview->DeleteDayButtons((void *)info); //OK
+	//info->dayview_ = dayview;
 
  	
 	Fl_Box *cdb = new Fl_Box(5,148,160,20);
@@ -129,9 +134,8 @@ void CC_DrawView::year_up(Fl_Widget *widget, void *data)
 	//std::cout << "Das Jahr ist nun: " << g_year << "\n";
 	CC_Date::CC_Date date(info->d,info->m,info->y);
 	//date.ausgabe;
-	//CC_DayView::DeleteDayButtons((void *)info); //error
 
-	//TODO: delate dayview and make new dayview with new month/year etc...
+	DateWindowUpdate((void *)info);
 	
 }
 
@@ -145,7 +149,7 @@ void CC_DrawView::year_down(Fl_Widget *widget, void *data)
 	info->yb_->copy_label(t.str().c_str());
 	info->y = info->y-1;
 
-	//TODO: delate dayview and make new dayview with new month/year etc...
+	DateWindowUpdate((void *)info);
 	
 }
 
@@ -167,7 +171,7 @@ void CC_DrawView::month_up(Fl_Widget *widget, void *data)
 		info->mb_->copy_label(t.str().c_str());
 		info->m = info->m+1;
 		
-		//TODO: delate dayview and make new dayview with new month/year etc...
+		DateWindowUpdate((void *)info);
 		
 	} 
 	
@@ -191,6 +195,43 @@ void CC_DrawView::month_down(Fl_Widget *widget, void *data)
 		info->mb_->copy_label(t.str().c_str());
 		info->m = info->m-1;
 		
-		//TODO: delate dayview and make new dayview with new month/year etc...
+		DateWindowUpdate((void *)info);
 	}
+}
+
+void CC_DrawView::DateWindowUpdate(void *data)
+{
+	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
+	//update dates windows
+	
+	std::cout << "Test: " << "open old windows: "<< info->num << "\n";
+	
+	info->oldwin[info->num] = info->win_;
+	
+	Fl::lock();
+		
+	Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "dateview");
+	win->border(0); //0 = no border
+	win->set_modal();
+	info->win_ = win;
+	
+	CC_DrawView *dv = new CC_DrawView(0,0,170,170, (void *)info); //CC_DrawView.cpp
+	//info->dv_ = dv;
+		
+	std::stringstream s_month;
+	s_month << MonthName[info->m-1];
+	dv->mb->copy_label(s_month.str().c_str());
+
+	std::stringstream s_year;
+	s_year << info->y;
+	dv->yb->copy_label(s_year.str().c_str());
+	
+	win->add(dv);
+	win->end();
+	win->show();
+
+	info->num = info->num+1;
+
+	Fl::unlock();
+	return;	
 }

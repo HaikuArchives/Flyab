@@ -11,7 +11,6 @@ class CC_DayView : public Fl_Group
 	public:
      		CC_DayView(int x, int y, int w, int h, void *); 
 		~CC_DayView();
-		void DeleteDayButtons(void *);
 		static void SelectDay(Fl_Widget *, void *);
 	private:
 		Fl_Button *dd[31+1]; //button day 1-31 //bug fix 31 to 31+1 (32) set, else by 31 month 1,3,10,12 chrashed!!!
@@ -97,25 +96,13 @@ void CC_DayView::SelectDay(Fl_Widget *widget,void *data)
 	
 	info->input_->value(s.str().c_str());	
 	info->d = atoi(b_lab);
-	
+
+	for(int i = 0;i <= info->num-1;i++){
+		info->oldwin[i]->Fl_Window::~Fl_Window(); 
+	}
+	info->num = 0;
 	info->win_->Fl_Window::~Fl_Window(); 
 	
 }
 
-// this is a a test workaround!!!
-void CC_DayView::DeleteDayButtons(void *data)
-{	
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
-	
-	CC_Date::CC_Date date(info->d,info->m,info->y);
-
-	for(int i = 1;i <= date.month_days();i++){
-
-		//delete dd[i]; // not work 
-		dd[i]->copy_label("");
-		
-		
-	}
-}
-// end workaround
 

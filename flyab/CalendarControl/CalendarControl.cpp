@@ -82,32 +82,12 @@ void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 	int winx = widget->window()->x()+info->posx_;
 	int winy = widget->window()->y()+info->posy_+22;
 	widget->redraw();
+	
+	info->winx_ = winx;
+	info->winy_ = winy;
+	info->num = info->num-1;
 
-	Fl_Window* win = new Fl_Window(winx,winy,170,170, "dateview");
-	win->border(0); //0 = no border
-	win->set_modal();
-	info->win_ = win;
-
-	Fl::lock();
-
-	CC_DrawView *dv = new CC_DrawView(0,0,170,170, (void *)info); //CC_DrawView.cpp
-	
-	
-	std::stringstream s_month;
-	s_month << MonthName[info->m-1];
-	dv->mb->copy_label(s_month.str().c_str());
-
-	std::stringstream s_year;
-	s_year << info->y;
-	dv->yb->copy_label(s_year.str().c_str());
-	
-	win->add(dv);
-	win->end();
-	win->show();
-	
-	
-	Fl::unlock();
-	return;
+	CC_DrawView::DateWindowUpdate((void *)info);
 }
 
 void CalendarControl::draw() 
