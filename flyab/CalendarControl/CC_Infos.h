@@ -14,15 +14,7 @@ class CC_Infos {
 		Fl_Window *win_;
 		Fl_Window *oldwin[10000];
 		Fl_Input *input_;
-		//void *dayview_;
-		//void *dv_;
-		//int xx,yy,ww,hh;
 		int winx_,winy_;
-		int num;
-
-		
-		
-		
+		int num;		
 };
-
 #endif

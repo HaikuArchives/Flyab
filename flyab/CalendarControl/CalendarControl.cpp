@@ -29,7 +29,7 @@ CalendarControl::CalendarControl(int x,
                    int month,
                    int year,
 		   const char* type)
-	 :Fl_Widget(x,y,200,200)	
+	 	:Fl_Widget(x,y,200,200)	
 {
 	CC_Date date(day,month,year);
 
@@ -37,14 +37,9 @@ CalendarControl::CalendarControl(int x,
 	info->posx_ = x;
 	info->posy_ = y;
 	
-	//cout << "intern in CalendarControl::CalendarControl : " << info->posx_ << " : " << info->posy_ << endl;
-	
-	
-
 	info->d = date.get_day();
 	info->m = date.get_month();
 	info->y = date.get_year();
-	//cout << "intern in CalendarControl::CalendarControl : " << info->d << " : " << info->m << " : " << info->y << endl;
 
 	std::stringstream s;
 	s << date.get_day(); s_day << date.get_day();
@@ -53,9 +48,7 @@ CalendarControl::CalendarControl(int x,
 	s << ".";
 	s << date.get_year(); s_year << date.get_year();
 	
-
-	type = "MMDDYY."; //no funktion yet
-	
+	type = "MMDDYY."; //no function yet
 
 	Fl_Input *input = new Fl_Input(x,y,65,20);
 	Fl_Button *button = new Fl_Button(x+68,y,13,20);
@@ -75,9 +68,6 @@ void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 {
 
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
-	//cout << "extern in CalendarControl::CC_DateWindow: " << info->posx_ << " : " << info->posy_ << ":" << info->mb_  << endl;
-	//cout << "extern in CalendarControl::CC_DateWindow: " << info->d << " : " << info->m << " : " << info->y << endl;
-	
 
 	int winx = widget->window()->x()+info->posx_;
 	int winy = widget->window()->y()+info->posy_+22;

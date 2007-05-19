@@ -14,18 +14,12 @@ class CC_DrawView : public Fl_Group
 		static void month_down(Fl_Widget *, void *);
 		static void year_up(Fl_Widget *, void *);
 		static void year_down(Fl_Widget *, void *);
-		static void test();
+		static void DateWindowUpdate(void *);
 		Fl_Box *mb; //month box
 		Fl_Box *yb; //year box
-		CC_DayView::CC_DayView *dayview; //obj dayview
-		static void DateWindowUpdate(void *);
-		
 	private:
 		Fl_Box *dbt; //day titel box
-		//CC_DayView::CC_DayView *dayview; //obj dayview
-		
-		
-		
+		CC_DayView::CC_DayView *dayview; //obj dayview		
 };
 #endif
 
@@ -35,11 +29,8 @@ static const char *MonthName[12] = {
 
 CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,w,h) 
 {
-	//test(); // OK
 	
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
-	cout << "extern in CC_DrawView::CC_DrawView: " << info->posx_ << " : " << info->posy_ << ":" << info->mb_  << endl;
-	cout << "extern in CC_DrawView::CC_DrawView: " << info->d << " : " << info->m << " : " << info->y << endl;
 
 	Fl_Box *dvb = new Fl_Box(0,0,w,h);
 	dvb->box(FL_UP_BOX);
@@ -48,10 +39,6 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	mb->box(FL_NO_BOX);
 	mb->labelsize(10);
 	info->mb_ = mb;
-	//info->xx = x;
-	//info->yy = y;	
-	//info->ww = w;
-	//info->hh = h;
 
 	yb = new Fl_Box(85,3,95,20);
 	yb->box(FL_NO_BOX);
@@ -79,15 +66,11 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	Ybutup->box(FL_NO_BOX);
 	Ybutup->callback(year_up, (void *)info);
 				
-
 	dayview = new CC_DayView(3,45,163,95, (void *)info);
-	//info->dayview_ = dayview;
-
  	
 	Fl_Box *cdb = new Fl_Box(5,148,160,20);
 	cdb->box(FL_NO_BOX);
 	cdb->labelsize(10);
-
 
 	struct tm *tmnow;
 	time_t tnow;
@@ -107,11 +90,6 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	cdb->copy_label(s.str().c_str());
 }
 
-void CC_DrawView::test()
-{
-	cout << "TEST" << endl;
-}
-
 void CC_DrawView::draw()
 {
 	Fl_Group::draw();
@@ -123,7 +101,7 @@ void CC_DrawView::draw()
 void CC_DrawView::year_up(Fl_Widget *widget, void *data)
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
-	std::cout << "OK year_up | new label" << "\n";
+	//std::cout << "OK year_up | new label" << "\n";
 	
 
 	std::stringstream t;
@@ -131,7 +109,6 @@ void CC_DrawView::year_up(Fl_Widget *widget, void *data)
 	info->yb_->copy_label(t.str().c_str());
 	info->y = info->y+1;
 	
-	//std::cout << "Das Jahr ist nun: " << g_year << "\n";
 	CC_Date::CC_Date date(info->d,info->m,info->y);
 	//date.ausgabe;
 
@@ -142,7 +119,7 @@ void CC_DrawView::year_up(Fl_Widget *widget, void *data)
 void CC_DrawView::year_down(Fl_Widget *widget, void *data)
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
-	std::cout << "OK year_down" << "\n";
+	//std::cout << "OK year_down" << "\n";
 	
 	std::stringstream t;
 	t << info->y-1;
@@ -156,7 +133,7 @@ void CC_DrawView::year_down(Fl_Widget *widget, void *data)
 void CC_DrawView::month_up(Fl_Widget *widget, void *data)
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
-	std::cout << "month_up" << "\n";
+	//std::cout << "month_up" << "\n";
 
 
 	std::stringstream t;
@@ -180,7 +157,7 @@ void CC_DrawView::month_up(Fl_Widget *widget, void *data)
 void CC_DrawView::month_down(Fl_Widget *widget, void *data)
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
-	std::cout << "month_down" << "\n";
+	//std::cout << "month_down" << "\n";
 
 	std::stringstream t;
 
@@ -202,9 +179,10 @@ void CC_DrawView::month_down(Fl_Widget *widget, void *data)
 void CC_DrawView::DateWindowUpdate(void *data)
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
+
 	//update dates windows
-	
-	std::cout << "Test: " << "open old windows: "<< info->num << "\n";
+
+	//std::cout << "Test: " << "open old windows: "<< info->num << "\n";
 	
 	info->oldwin[info->num] = info->win_;
 	
@@ -216,7 +194,6 @@ void CC_DrawView::DateWindowUpdate(void *data)
 	info->win_ = win;
 	
 	CC_DrawView *dv = new CC_DrawView(0,0,170,170, (void *)info); //CC_DrawView.cpp
-	//info->dv_ = dv;
 		
 	std::stringstream s_month;
 	s_month << MonthName[info->m-1];
