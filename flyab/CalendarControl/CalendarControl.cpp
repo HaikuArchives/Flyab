@@ -75,7 +75,6 @@ void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 	
 	info->winx_ = winx;
 	info->winy_ = winy;
-	info->num = info->num-1;
 
 	CC_DrawView::DateWindowUpdate((void *)info);
 }

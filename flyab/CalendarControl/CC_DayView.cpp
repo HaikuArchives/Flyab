@@ -89,7 +89,7 @@ void CC_DayView::SelectDay(Fl_Widget *widget,void *data)
 	info->input_->value(s.str().c_str());	
 	info->d = atoi(b_lab);
 
-	for(int i = 0;i <= info->num-1;i++){
+	for(int i = 0+1;i <= info->num-1;i++){
 		info->oldwin[i]->Fl_Window::~Fl_Window(); 
 	}
 	info->num = 0;
