@@ -4,7 +4,6 @@
 #define CALENDARCONTROL_H
 
 #include <FL/Fl_Widget.H> 
-#include <sstream>
 
 class CalendarControl: public Fl_Widget	
 {
@@ -25,11 +24,6 @@ class CalendarControl: public Fl_Widget
 		
 	private:
 		static void CC_DateWindow(Fl_Widget *,  void *);
-		std::stringstream s_day;
-		std::stringstream s_month;
-		std::stringstream s_year;
-		
-		
 };	
 
 #endif

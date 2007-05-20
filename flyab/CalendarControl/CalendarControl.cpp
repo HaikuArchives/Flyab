@@ -42,11 +42,11 @@ CalendarControl::CalendarControl(int x,
 	info->y = date.get_year();
 
 	std::stringstream s;
-	s << date.get_day(); s_day << date.get_day();
+	s << date.get_day(); 
 	s << ".";
-	s << date.get_month(); s_month << MonthName[date.get_month()-1];  
+	s << date.get_month();   
 	s << ".";
-	s << date.get_year(); s_year << date.get_year();
+	s << date.get_year(); 
 	
 	type = "MMDDYY."; //no function yet
 
