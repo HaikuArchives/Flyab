@@ -5,6 +5,23 @@
 #ifndef CC_DRAWVIEW_H
 #define CC_DRAWVIEW_H
 
+using namespace std;
+
+namespace Umlaut
+{
+	const unsigned char AE = static_cast<unsigned char>(196);
+        const unsigned char ae = static_cast<unsigned char>(228);
+        const unsigned char OE = static_cast<unsigned char>(214);
+        const unsigned char oe = static_cast<unsigned char>(246);
+        const unsigned char UE = static_cast<unsigned char>(220);
+        const unsigned char ue = static_cast<unsigned char>(252);
+        const unsigned char ss = static_cast<unsigned char>(223);
+}
+
+static const char *MonthName[12] = {
+    "Januar","Februar","Maerz","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"
+};
+
 class CC_DrawView : public Fl_Group
 {
 	public:
@@ -22,10 +39,6 @@ class CC_DrawView : public Fl_Group
 		CC_DayView::CC_DayView *dayview; //obj dayview		
 };
 #endif
-
-static const char *MonthName[12] = {
-    "Januar","Februar","Maerz","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"
-};
 
 CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,w,h) 
 {
@@ -103,14 +116,11 @@ void CC_DrawView::year_up(Fl_Widget *widget, void *data)
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
 	//std::cout << "OK year_up | new label" << "\n";
 	
-
 	std::stringstream t;
 	t << info->y+1;
 	info->yb_->copy_label(t.str().c_str());
+
 	info->y = info->y+1;
-	
-	CC_Date::CC_Date date(info->d,info->m,info->y);
-	//date.ausgabe;
 
 	DateWindowUpdate((void *)info);
 	
@@ -119,22 +129,18 @@ void CC_DrawView::year_up(Fl_Widget *widget, void *data)
 void CC_DrawView::year_down(Fl_Widget *widget, void *data)
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
-	//std::cout << "OK year_down" << "\n";
 	
 	std::stringstream t;
 	t << info->y-1;
 	info->yb_->copy_label(t.str().c_str());
 	info->y = info->y-1;
 
-	DateWindowUpdate((void *)info);
-	
+	DateWindowUpdate((void *)info);	
 }
 
 void CC_DrawView::month_up(Fl_Widget *widget, void *data)
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
-	//std::cout << "month_up" << "\n";
-
 
 	std::stringstream t;
 
@@ -148,16 +154,13 @@ void CC_DrawView::month_up(Fl_Widget *widget, void *data)
 		info->mb_->copy_label(t.str().c_str());
 		info->m = info->m+1;
 		
-		DateWindowUpdate((void *)info);
-		
-	} 
-	
+		DateWindowUpdate((void *)info);		
+	} 	
 }
 
 void CC_DrawView::month_down(Fl_Widget *widget, void *data)
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
-	//std::cout << "month_down" << "\n";
 
 	std::stringstream t;
 
@@ -196,7 +199,12 @@ void CC_DrawView::DateWindowUpdate(void *data)
 	CC_DrawView *dv = new CC_DrawView(0,0,170,170, (void *)info); //CC_DrawView.cpp
 		
 	std::stringstream s_month;
-	s_month << MonthName[info->m-1];
+	if(info->m == 3){
+		s_month << "M" << Umlaut::ae << "rz";
+	}
+	else{
+		s_month << MonthName[info->m-1];
+	}
 	dv->mb->copy_label(s_month.str().c_str());
 
 	std::stringstream s_year;
