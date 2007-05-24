@@ -1,6 +1,7 @@
 //CC_DayView.cpp
 
 #include <FL/Fl_Group.H> 
+#include <Fl/Enumerations.H>
 #include "CC_Date.cpp"
 
 #ifndef CC_DAYVIEW_H
@@ -50,6 +51,7 @@ CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h)
 
 		if(i == date.get_day()){
 			dd[i]->box(FL_BORDER_BOX);
+			dd[i]->color(FL_BLUE);
 		}
 	
 		std::stringstream s;

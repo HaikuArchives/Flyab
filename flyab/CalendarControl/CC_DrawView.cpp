@@ -51,19 +51,7 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	yb->box(FL_NO_BOX);
 	yb->labelsize(10);
 	info->yb_ = yb;
-
-	Fl_Button *d[6];  
-	int x_ = 5;
-	for(int i = 0;i <= 6;i++){
-
-		d[i] = new Fl_Button(x_,25,18,18);
-                d[i]->box(FL_NO_BOX);
-                d[i]->labelsize(10); 
-		d[i]->copy_label(DayName[i]);
-                                
-		x_ = x_+23;
-	}
-
+	
 	Fl_Button *Mbutdo = new Fl_Button(2,(int)2.5,20,20,"<<");
 	Mbutdo->box(FL_NO_BOX);
 	Mbutdo->callback(month_down, (void *)info);	
@@ -79,7 +67,19 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
      	Fl_Button *Ybutup = new Fl_Button(148,(int)2.5,20,20,">>");
 	Ybutup->box(FL_NO_BOX);
 	Ybutup->callback(year_up, (void *)info);
-				
+		
+	Fl_Button *d[6];  
+	int x_ = 5;
+	for(int i = 0;i <= 6;i++){
+
+		d[i] = new Fl_Button(x_,25,18,18);
+                d[i]->box(FL_NO_BOX);
+                d[i]->labelsize(10); 
+		d[i]->copy_label(DayName[i]);
+                               
+		x_ = x_+23;
+	}
+		
 	dayview = new CC_DayView(3,45,163,95, (void *)info);
  	
 	Fl_Box *cdb = new Fl_Box(5,148,160,20);
