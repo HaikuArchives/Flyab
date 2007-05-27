@@ -55,7 +55,7 @@ yab: YabMain.o YabInterface.o YabView.o YabWindow.o YabSplitView.o YabColorContr
 
 YabMain.o: YabMain.cpp 
 	$(GPP) $(GPP_OPT) -c YabMain.cpp -o YabMain.o
-YabInterface.o: YabInterface.cpp YabInterface.h BRect.h BPoint.h global.h YabMenuBar.h YabTabView.h YabStackView.h YabDropBox.h YabSlider.h
+YabInterface.o: YabInterface.cpp YabInterface.h BRect.h BPoint.h global.h YabMenuBar.h YabTabView.h YabStackView.h YabDropBox.h YabSlider.h 
 	$(GPP) $(GPP_OPT) -c YabInterface.cpp -o YabInterface.o
 
 YabView.o: YabView.cpp YabView.h
@@ -87,8 +87,8 @@ YabAlertText.o: YabAlertText.cpp YabAlertText.h
 YabAlertIcon.o: YabAlertIcon.cpp YabAlertIcon.h imagedata.h global.h
 	$(GPP) $(GPP_OPT) -c YabAlertIcon.cpp -o YabAlertIcon.o
 
-CalendarControl.o: CalendarControl.cpp CalendarControl.h
-	$(GPP) $(GPP_OPT) -c CalendarControl.cpp -o CalendarControl.o
+CalendarControl.o: CalendarControl/CalendarControl.cpp CalendarControl/CalendarControl.h
+	$(GPP) $(GPP_OPT) -c CalendarControl/CalendarControl.cpp -o CalendarControl/CalendarControl.o
 
 YabPopupMenu.o: YabPopupMenu.cpp YabPopupMenu.h
 	$(GPP) $(GPP_OPT) -c YabPopupMenu.cpp -o YabPopupMenu.o

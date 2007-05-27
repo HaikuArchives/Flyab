@@ -31,6 +31,7 @@
 #include "YabButtonImage.h"
 #include "YabCheckboxImage.h"
 #include "YabCheckButton.h"
+#include "YabCalendar.h"
 #include "YabColorControl.h"
 //#include "YabColumnBox.h"
 #include "YabDropBox.h"
@@ -48,8 +49,7 @@
 #include "YabTextEdit.h"
 #include "YabView.h"
 #include "YabWindow.h"
-//#include "CalendarControl/CalendarControl.h"
-#include "YabCalendar.h"
+//#include "YabCalendar.h"
 
 static bool localize = false;
 static bool quitting = false;
@@ -3333,16 +3333,19 @@ void YabInterface::Calendar(double x, double y, const char* id, const char* form
 		if(s == yabViewList[i]->GetID())
 		{
 			Fl::lock();
-			BPoint point = GetWindowCoordinates(yabViewList[i], x, y);
 
-			//CalendarControl *cl1 = new CalendarControl(20, 20, 14,4,2007,"MMDDYY");
-			YabCalendar *cc = new YabCalendar(x,y,id,format,date);	
-			//control->rgb(0, 0, 0);
-			//control->redraw();
-			//cc->redraw();
+			YabCalendar *cc = new YabCalendar(x,y,id,format,date);
+
+			//YabButton *button = new YabButton((int)x, (int)y+30, 50,20, id, "oki");	
+			//Fl_Input *input = new Fl_Input((int)x, (int)y,65,20);
+
+			std::cout << "test: YABINTERFACE; on View: " << s << endl;
 
 			yabViewList[i]->add(cc);
+			//yabViewList[i]->add(input);
+			//yabViewList[i]->add(button);
 			yabViewList[i]->redraw();
+
 			Fl::unlock();
 			return;
 		}
