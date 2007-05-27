@@ -23,6 +23,7 @@
 
 using namespace std;
 
+
 CalendarControl::CalendarControl(int x,
 		   int y,
 		   int day,
@@ -31,22 +32,64 @@ CalendarControl::CalendarControl(int x,
 		   const char* type)
 	 	:Fl_Widget(x,y,200,200)	
 {
-	CC_Date date(day,month,year);
+	CC_Date date1(day,month,year);
 
 	CC_Infos::CC_Infos *info = new CC_Infos;	
 	info->posx_ = x;
 	info->posy_ = y;
 	
-	info->d = date.get_day();
-	info->m = date.get_month();
-	info->y = date.get_year();
+	info->d = date1.get_day();
+	info->m = date1.get_month();
+	info->y = date1.get_year();
 
 	std::stringstream s;
-	s << date.get_day(); 
+	s << date1.get_day(); 
 	s << ".";
-	s << date.get_month();   
+	s << date1.get_month();   
 	s << ".";
-	s << date.get_year(); 
+	s << date1.get_year(); 
+	
+	type = "MMDDYY."; //no function yet
+
+	Fl_Input *input = new Fl_Input(x,y,65,20);
+	Fl_Button *button = new Fl_Button(x+68,y,13,20);
+
+	input->textsize(10);
+	input->value(s.str().c_str());
+	info->input_ = input;
+	button->callback(CalendarControl::CC_DateWindow, (void *)info);
+	
+}
+
+CalendarControl::CalendarControl(int x,
+		   int y,
+		   const char* date,
+		   const char* type)
+	 	:Fl_Widget(x,y,200,200)	
+{
+	//??
+	int day,month,year;
+	sscanf(date, "%2d.%2d.%4d", &day, &month, &year);
+	
+	std::cout << "TEST Constructer2: " << day << " " << month << " " << year << endl;
+
+	//
+	CC_Date date1(day,month,year);
+
+	CC_Infos::CC_Infos *info = new CC_Infos;	
+	info->posx_ = x;
+	info->posy_ = y;
+	
+	info->d = date1.get_day();
+	info->m = date1.get_month();
+	info->y = date1.get_year();
+
+	std::stringstream s;
+	s << date1.get_day(); 
+	s << ".";
+	s << date1.get_month();   
+	s << ".";
+	s << date1.get_year(); 
 	
 	type = "MMDDYY."; //no function yet
 

@@ -14,6 +14,10 @@ class CalendarControl: public Fl_Widget
                   	 int month,
                   	 int year,
 		 	 const char* type);
+		CalendarControl(int x,
+			 int y,
+			 const char* date,
+		 	 const char* type);
 		~CalendarControl();
 		
 		

@@ -12,7 +12,7 @@ YabColorControl::YabColorControl(int x, int y, int w, int h, const char* id)
 
 	int tw = 30;
 	int sh=h/3;
-
+	
 	for (int i=0; i<3; i++)
 	{
 		data[i] = i;
