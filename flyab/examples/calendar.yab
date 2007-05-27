@@ -1,0 +1,8 @@
+window open 100,100 to 300,200, "Example", "Example"
+calendar 10,10, "MyCalendar", "MMDDYYYY/", "04.06.1975", "Example"
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+	if (msg$ <> "") print msg$
+wend
+window close "Example"
