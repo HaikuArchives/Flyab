@@ -169,7 +169,7 @@ void CC_DrawView::DateWindowUpdate(void *data)
 	
 	info->oldwin[info->num] = info->win_;
 	
-	Fl::lock();
+	//Fl::lock();
 		
 	Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");
 	win->border(0); //0 = no border
@@ -197,6 +197,6 @@ void CC_DrawView::DateWindowUpdate(void *data)
 
 	info->num = info->num+1;
 
-	Fl::unlock();
+	//Fl::unlock();
 	return;	
 }

@@ -19,12 +19,13 @@ class CalendarControl: public Fl_Widget
 			 const char* date,
 		 	 const char* type);
 		~CalendarControl();
+		void draw();
 		
 		
 		
 		
 	protected:
-		void draw();
+		//void draw();
 		
 	private:
 		static void CC_DateWindow(Fl_Widget *,  void *);
