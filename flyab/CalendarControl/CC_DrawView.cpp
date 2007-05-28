@@ -41,6 +41,7 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 
 	Fl_Box *dvb = new Fl_Box(0,0,w,h);
 	dvb->box(FL_UP_BOX);
+	dvb->color(fl_rgb_color(216,216,216));
 
 	mb = new Fl_Box(5,3,90,20);
 	mb->box(FL_NO_BOX);
@@ -54,18 +55,22 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	
 	Fl_Button *Mbutdo = new Fl_Button(2,(int)2.5,20,20,"<<");
 	Mbutdo->box(FL_NO_BOX);
+	Mbutdo->labelsize(10);
 	Mbutdo->callback(month_down, (void *)info);	
 
 	Fl_Button *Mbutup = new Fl_Button(75,(int)2.5,20,20,">>");
 	Mbutup->box(FL_NO_BOX);
+	Mbutup->labelsize(10);
 	Mbutup->callback(month_up,(void *) info);
 
 	Fl_Button *Ybutdo = new Fl_Button(95,(int)2.5,20,20,"<<");
 	Ybutdo->box(FL_NO_BOX);
+	Ybutdo->labelsize(10);
 	Ybutdo->callback(year_down, (void *)info);
 
      	Fl_Button *Ybutup = new Fl_Button(148,(int)2.5,20,20,">>");
 	Ybutup->box(FL_NO_BOX);
+	Ybutup->labelsize(10);
 	Ybutup->callback(year_up, (void *)info);
 		
 	Fl_Button *d[6];  
@@ -106,10 +111,14 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 
 void CC_DrawView::draw()
 {
+	Fl_Group::redraw();
 	Fl_Group::draw();
-        fl_color(170,170,170);
+	Fl_Group::show();
+
+	fl_color(170,170,170);
 	fl_line(3, 25, 165, 25);
 	fl_line(3, 145, 165, 145);
+       	
 }
 
 void CC_DrawView::year_up(Fl_Widget *widget, void *data)
@@ -169,7 +178,7 @@ void CC_DrawView::DateWindowUpdate(void *data)
 	
 	info->oldwin[info->num] = info->win_;
 	
-	//Fl::lock();
+	Fl::lock();
 		
 	Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");
 	win->border(0); //0 = no border
@@ -196,7 +205,7 @@ void CC_DrawView::DateWindowUpdate(void *data)
 	win->show();
 
 	info->num = info->num+1;
-
-	//Fl::unlock();
+	
+	Fl::unlock();
 	return;	
 }

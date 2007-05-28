@@ -30,7 +30,7 @@ CalendarControl::CalendarControl(int x,
                    int month,
                    int year,
 		   const char* type)
-	 	:Fl_Widget(x,y,200,200)	
+	 	:Fl_Group(x,y,200,200)
 {
 	CC_Date date1(day,month,year);
 
@@ -53,7 +53,6 @@ CalendarControl::CalendarControl(int x,
 
 	Fl_Input *input = new Fl_Input(x,y,65,20);
 	Fl_Button *button = new Fl_Button(x+68,y,13,20);
-	
 
 	input->textsize(10);
 	input->value(s.str().c_str());
@@ -66,14 +65,14 @@ CalendarControl::CalendarControl(int x,
 		   int y,
 		   const char* date,
 		   const char* type)
-	 	:Fl_Widget(x,y,200,200)	
+	 	:Fl_Group(x,y,200,200)	
 {
-	//??
+	//
 	int day,month,year;
 	sscanf(date, "%2d.%2d.%4d", &day, &month, &year);
 	
-	std::cout << "TEST Constructer2: day month year " << day << " " << month << " " << year << endl;
-	std::cout << "TEST Constructer2: x y "<< x << y << endl;
+	//std::cout << "TEST Constructer2: day month year " << day << " " << month << " " << year << endl;
+	//std::cout << "TEST Constructer2: x y "<< x << y << endl;
 
 	//
 	CC_Date date1(day,month,year);
@@ -98,13 +97,14 @@ CalendarControl::CalendarControl(int x,
 	Fl_Input *input = new Fl_Input(x,y,65,20);
 	Fl_Button *button = new Fl_Button(x+68,y,13,20);
 	
-	std::cout << "TEST Constructer2: input "<< input << endl;	
+	//std::cout << "TEST Constructer2: input "<< input << endl;	
 	
 	input->textsize(10);
 	input->value(s.str().c_str());
 	info->input_ = input;
 	
 	button->callback(CalendarControl::CC_DateWindow, (void *)info);
+	end();
 	
 }
 
@@ -114,6 +114,7 @@ CalendarControl::~CalendarControl()
 
 void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 {
+	//std::cout << "Hello" << endl;
 
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
 
@@ -129,4 +130,7 @@ void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 
 void CalendarControl::draw() 
 {
+	Fl_Group::redraw();
+	Fl_Group::draw();
+	Fl_Group::show();
 }

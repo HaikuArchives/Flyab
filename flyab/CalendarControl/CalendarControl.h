@@ -3,9 +3,9 @@
 #ifndef CALENDARCONTROL_H
 #define CALENDARCONTROL_H
 
-#include <FL/Fl_Widget.H> 
+#include <FL/Fl_Group.H> 
 
-class CalendarControl: public Fl_Widget	
+class CalendarControl: public Fl_Group	
 {
 	public: 
 		CalendarControl(int x,
@@ -19,7 +19,7 @@ class CalendarControl: public Fl_Widget
 			 const char* date,
 		 	 const char* type);
 		~CalendarControl();
-		
+		//void draw();
 		
 		
 		

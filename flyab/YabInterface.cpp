@@ -3335,17 +3335,13 @@ void YabInterface::Calendar(double x, double y, const char* id, const char* form
 			Fl::lock();
 
 			YabCalendar *cc = new YabCalendar(x,y,id,format,date);
-			
-			//YabButton *button = new YabButton((int)x, (int)y+30, 50,20, id, "oki");	
-			//Fl_Input *input = new Fl_Input((int)x, (int)y,65,20);
+			cc->redraw();
 
-			std::cout << "test: YABINTERFACE; on View: " << s << endl;
+			//std::cout << "test: YABINTERFACE; on View: " << s << endl;
 
 			yabViewList[i]->add(cc);
-			//yabViewList[i]->add(input);
-			//yabViewList[i]->add(button);
 			yabViewList[i]->redraw();
-
+			
 			Fl::unlock();
 			return;
 		}
