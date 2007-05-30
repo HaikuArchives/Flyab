@@ -1,6 +1,6 @@
 window open 100,100 to 300,200, "mainview", "Example"
 
-calendar 10,10, "MyCalendar", "DDMMYYYY.", "28.05.2007", "mainview"
+calendar 10,10, "MyCalendar", "", "", "mainview"
 calendar 10,40, "dd", "DDMMYYYY.", "11.10.1973", "mainview"
 
 while (not instr(msg$, "Quit"))

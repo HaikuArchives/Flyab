@@ -13,7 +13,7 @@ class CC_Date
      		bool isLeapYear(int j) const;
      		bool isValid(int t, int m, int j) const;
     	public:
-     		CC_Date(int t=1, int m=1, int j=1970);
+     		CC_Date(int t, int m, int j);
      		void setDate(int t, int m, int j);
      		void ausgabe() const;
 
@@ -22,6 +22,7 @@ class CC_Date
 		int get_month() const;
 		int get_year() const;
 		int get_weekday(int d) const;
+		int get_realdate(int x) const;
 
      		bool operator<(const CC_Date &d) const;
      		void operator++();
@@ -80,9 +81,10 @@ void CC_Date::setDate(int t, int m, int j)
   	}
   	else
   	{
-    		day = 1;
-    		month = 1;
-    		year = 1970;
+		
+    		day = get_realdate(1);
+    		month = get_realdate(2);
+    		year = get_realdate(3);
   	}
 }
 
@@ -150,6 +152,36 @@ int CC_Date::get_year() const
 {
   	return year; 
 }
+
+int CC_Date::get_realdate(int x) const
+{
+	
+	struct tm *tmnow;
+	time_t tnow;
+	time(&tnow);
+	tmnow = localtime(&tnow);
+	
+	int rd = tmnow->tm_mday;
+	int rm = tmnow->tm_mon + 1;
+	int ry = tmnow->tm_year + 1900;
+	
+	switch (x)
+	{
+		case 1:
+			return rd;
+			break;
+		case 2:
+			return rm;
+			break;
+		case 3:
+			return ry;
+			break;
+		
+		 default:
+		     	break;
+	}
+}
+
 /////
 
 bool CC_Date::operator<(const CC_Date &d) const

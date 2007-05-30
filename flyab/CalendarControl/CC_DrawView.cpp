@@ -41,7 +41,7 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 
 	Fl_Box *dvb = new Fl_Box(0,0,w,h);
 	dvb->box(FL_UP_BOX);
-	dvb->color(fl_rgb_color(216,216,216));
+	dvb->color(fl_rgb_color(216,216,216)); 
 
 	mb = new Fl_Box(5,3,90,20);
 	mb->box(FL_NO_BOX);
@@ -91,15 +91,18 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	cdb->box(FL_NO_BOX);
 	cdb->labelsize(10);
 
+	/*
 	struct tm *tmnow;
 	time_t tnow;
 	time(&tnow);
 	tmnow = localtime(&tnow);
+	*/
+	CC_Date rdd(0,0,00);
+	int rd = rdd.CC_Date::get_realdate(1);
+	int rm = rdd.CC_Date::get_realdate(2);
+	int ry = rdd.CC_Date::get_realdate(3);
 	
-	int rd = tmnow->tm_mday;
-	int rm = tmnow->tm_mon + 1;
-	int ry = tmnow->tm_year + 1900;
-	
+
 	std::stringstream s;
 	s << rd;
 	s << " ";
