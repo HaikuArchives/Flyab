@@ -10,18 +10,9 @@ class CalendarControl: public Fl_Group
 	public: 
 		CalendarControl(int x,
 			 int y,
-			 int day,
-                  	 int month,
-                  	 int year,
-		 	 const char* type);
-		CalendarControl(int x,
-			 int y,
 			 const char* date,
 		 	 const char* type);
 		~CalendarControl();
-		//void draw();
-		
-		
 		
 	protected:
 		void draw();

@@ -23,44 +23,6 @@
 
 using namespace std;
 
-
-CalendarControl::CalendarControl(int x,
-		   int y,
-		   int day,
-                   int month,
-                   int year,
-		   const char* type)
-	 	:Fl_Group(x,y,200,200)
-{
-	CC_Date date1(day,month,year);
-
-	CC_Infos::CC_Infos *info = new CC_Infos;	
-	info->posx_ = x;
-	info->posy_ = y;
-	
-	info->d = date1.get_day();
-	info->m = date1.get_month();
-	info->y = date1.get_year();
-
-	std::stringstream s;
-	s << date1.get_day(); 
-	s << ".";
-	s << date1.get_month();   
-	s << ".";
-	s << date1.get_year(); 
-	
-	type = "MMDDYY."; //no function yet
-
-	Fl_Input *input = new Fl_Input(x,y,65,20);
-	Fl_Button *button = new Fl_Button(x+68,y,13,20);
-
-	input->textsize(10);
-	input->value(s.str().c_str());
-	info->input_ = input;
-	button->callback(CalendarControl::CC_DateWindow, (void *)info);
-	
-}
-
 CalendarControl::CalendarControl(int x,
 		   int y,
 		   const char* date,
@@ -120,11 +82,12 @@ void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 
 	int winx = widget->window()->x()+info->posx_;
 	int winy = widget->window()->y()+info->posy_+22;
-	widget->redraw();
 	
 	info->winx_ = winx;
 	info->winy_ = winy;
 
+	//std::cout << "test CC " << winx << ":" << winy << std::endl;	
+	
 	CC_DrawView::DateWindowUpdate((void *)info);
 }
 

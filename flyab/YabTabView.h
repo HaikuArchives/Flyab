@@ -15,6 +15,7 @@ public:
 	YabTabView(int x_, int y_, int w_, int h_, const char* id, int bottomtabs)
 		:Fl_Tabs(x_, y_, w_, h_), YabWidget(id)
 	{
+
 		box(FL_UP_BOX);
 		labelsize(B_FONT_SIZE);
 		color(fl_rgb_color(B_GREY));
@@ -26,6 +27,8 @@ public:
 		if (bottomtabs != 1) y=y_+tabheight;
 		viewname = id;
 		viewcounter = 0;
+
+		show();
 	}
 
 	YabView *NewTab(const char* label)
@@ -35,7 +38,8 @@ public:
 		sprintf(num, "%d", viewcounter);
 		std::string newname = viewname;
 		newname += num;
-
+		
+		
 		// workaround for a bug in Fl_Tabs
 		Fl_Group *box = new Fl_Group(x, y, w, h);
 		box->box(FL_UP_FRAME);
@@ -49,6 +53,8 @@ public:
 		box->add(view);
 		add(box);
 		redraw();
+		end();
+
 		return view;
 	}
 
@@ -78,6 +84,7 @@ public:
 	~YabTabView()
 	{
 	}
+
 
 private:
 	int x, y, w, h, viewcounter, tabheight;

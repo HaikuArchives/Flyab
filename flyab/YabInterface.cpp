@@ -31,7 +31,7 @@
 #include "YabButtonImage.h"
 #include "YabCheckboxImage.h"
 #include "YabCheckButton.h"
-#include "YabCalendar.h"
+//#include "YabCalendar.h"
 #include "YabColorControl.h"
 //#include "YabColumnBox.h"
 #include "YabDropBox.h"
@@ -47,6 +47,7 @@
 #include "YabTabView.h"
 #include "YabTextControl.h"
 #include "YabTextEdit.h"
+#include "YabCalendar.h"
 #include "YabView.h"
 #include "YabWindow.h"
 //#include "YabCalendar.h"
@@ -3333,15 +3334,16 @@ void YabInterface::Calendar(double x, double y, const char* id, const char* form
 		if(s == yabViewList[i]->GetID())
 		{
 			Fl::lock();
+			BPoint point = GetWindowCoordinates(yabViewList[i], x, y);
 
-			YabCalendar *cc = new YabCalendar(x,y,id,format,date);
+			YabCalendar *cc = new YabCalendar(point.x,point.y,id,format,date);
 			cc->redraw();
-
-			//std::cout << "test: YABINTERFACE; on View: " << s << endl;
-
+			
+			//std::cout << "test: YABINTERFACE; on View: " << yabViewList[i]->GetID() << endl;
+			
 			yabViewList[i]->add(cc);
 			yabViewList[i]->redraw();
-			
+
 			Fl::unlock();
 			return;
 		}

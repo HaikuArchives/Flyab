@@ -202,8 +202,10 @@ void CC_DrawView::DateWindowUpdate(void *data)
 	std::stringstream s_year;
 	s_year << info->y;
 	dv->yb->copy_label(s_year.str().c_str());
-	
+	//dv->end();
+
 	win->add(dv);
+	win->redraw();
 	win->end();
 	win->show();
 

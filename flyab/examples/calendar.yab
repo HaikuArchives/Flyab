@@ -1,7 +1,17 @@
-window open 100,100 to 300,200, "mainview", "Example"
+window open 100,100 to 300+300,200+300, "mainview", "Example"
 
-calendar 10,10, "MyCalendar", "", "", "mainview"
-calendar 10,40, "dd", "DDMMYYYY.", "11.10.1973", "mainview"
+tabview 10,10 to 200,100, "Box", "top", "mainview"
+tabview add "Box", "Widgets"
+tabview add "Box", "Views and More"
+
+//boxview 10,10 to 200,100, "Boxview", "Boxview", 2, "mainview"
+
+//splitview 10,10 to 200,200, "Split", true, false, "mainview"
+//draw set "bgcolor", "Panel-Background-Color, Darken-1-Tint", "Split1"
+//draw set "bgcolor", "Panel-Background-Color, Lighten-1-Tint", "Split2"
+
+calendar 10,10, "MyCalendar", "", "", "Box1"
+calendar 10,40, "dd", "DDMMYYYY.", "11.10.1973", "Box2"
 
 while (not instr(msg$, "Quit"))
 	msg$ = message$

@@ -19,10 +19,9 @@ int main(int argc, char **argv)
 
 	Fl_Window* window = new Fl_Window(100,100,400,300, "Calendar Test App!");
 	
-	CalendarControl *cl1 = new CalendarControl(20,20, 14,4,2007,"MMDDYY.");
-	CalendarControl *cl2 = new CalendarControl(20,50, "10.11.1973","MMDDYY.");	
+	CalendarControl *cl1 = new CalendarControl(10,20, "10.11.1973","MMDDYY.");	
 	
-	//CalendarControl *cl2 = new CalendarControl(80,50, 11,2,2007,"MMDDYY.");	
+	CalendarControl *cl2 = new CalendarControl(10,50, "","MMDDYY.");	
 	
 	//
 	

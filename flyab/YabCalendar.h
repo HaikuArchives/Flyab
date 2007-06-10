@@ -2,6 +2,7 @@
 #define YABCALENDAR_H
 
 #include "CalendarControl/CalendarControl.h"
+#include "global.h"
 #include <string>
 #include "YabWidget.h"
 
@@ -13,8 +14,10 @@ public:
 		: CalendarControl((int)x,(int)y,date,format), YabWidget(id)
 	{
 		//	
+		//std::cout << "test YABCALENDAR_H: " << x << ":" << y << std::endl;
+		
 	}
+	
 };
 
 #endif
-
