@@ -27,7 +27,7 @@ public:
 		if (bottomtabs != 1) y=y_+tabheight;
 		viewname = id;
 		viewcounter = 0;
-
+		end();
 		show();
 	}
 
@@ -80,7 +80,8 @@ public:
 	{
 		return tabheight;
 	}
-
+	
+	
 	~YabTabView()
 	{
 	}

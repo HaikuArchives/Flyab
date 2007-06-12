@@ -13,6 +13,7 @@ class CC_Infos {
 		int d,m,y;
 		Fl_Window *win_;
 		Fl_Window *oldwin[10000];
+		Fl_Window *dumy_win_;
 		Fl_Input *input_;
 		int winx_,winy_;
 		int num;		

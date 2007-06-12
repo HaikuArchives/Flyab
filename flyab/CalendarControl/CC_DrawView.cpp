@@ -110,13 +110,14 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	s << " ";
 	s << ry;
 	cdb->copy_label(s.str().c_str());
+	end();
 }
 
 void CC_DrawView::draw()
 {
-	Fl_Group::redraw();
+	//Fl_Group::redraw();
 	Fl_Group::draw();
-	Fl_Group::show();
+	//Fl_Group::show();
 
 	fl_color(170,170,170);
 	fl_line(3, 25, 165, 25);
@@ -175,42 +176,92 @@ void CC_DrawView::DateWindowUpdate(void *data)
 {
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
 
-	//update dates windows
-
 	//std::cout << "Test: " << "open old windows: "<< info->num << "\n";
 	
 	info->oldwin[info->num] = info->win_;
 	
-	Fl::lock();
+	//When used Calendar in Tab-,Spit- ore Boxview froze the yab, so i make a dirty Workaround.
+	//Bugfix_Workaround from DateWindowUpdate when used Calendar in Tab-,Spit- ore Boxview. 
+	if(info->num == 0) {
+		Fl::lock();
 		
-	Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");
-	win->border(0); //0 = no border
-	win->set_modal();
-	info->win_ = win;
+		Fl_Window::Fl_Window* dumy_win = new Fl_Window(0,0,0,0, ""); //a dumy window
+		dumy_win->end();
+		dumy_win->show();
+		dumy_win->redraw();
+		dumy_win->hide();
+		info->dumy_win_ = dumy_win;
+		
+		Fl_Window::Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");//a true window
+		win->border(0); //0 = no border
+		win->set_modal();
 	
-	CC_DrawView *dv = new CC_DrawView(0,0,170,170, (void *)info); 
+		info->win_ = win;
+	
+
+		CC_DrawView *dv = new CC_DrawView(0,0,170,170, (void *)info); 
 		
-	std::stringstream s_month;
-	if(info->m == 3){
-		s_month << "M" << umlaut_ae << "rz";
-	}
-	else{
+		std::stringstream s_month;
+		if(info->m == 3){
+			s_month << "M" << umlaut_ae << "rz";
+		}
+		else{
 		s_month << MonthName[info->m-1];
-	}
-	dv->mb->copy_label(s_month.str().c_str());
+		}
+		dv->mb->copy_label(s_month.str().c_str());
 
-	std::stringstream s_year;
-	s_year << info->y;
-	dv->yb->copy_label(s_year.str().c_str());
-	//dv->end();
+		std::stringstream s_year;
+		s_year << info->y;
+		dv->yb->copy_label(s_year.str().c_str());
+		dv->end();
 
-	win->add(dv);
-	win->redraw();
-	win->end();
-	win->show();
 
-	info->num = info->num+1;
+		win->add(dv);
+		win->redraw();
+		win->end();
+		win->show();
+
+
+		info->num = info->num+1;
 	
-	Fl::unlock();
-	return;	
+		Fl::unlock();
+		return;
+	}
+	//Workaround end and add a ture DateWindowUpdate
+	else {
+
+		Fl::lock();
+		Fl_Window::Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");
+		win->border(0); //0 = no border
+		win->set_modal();
+	
+		info->win_ = win;
+	
+		CC_DrawView *dv = new CC_DrawView(0,0,170,170, (void *)info); 
+		
+		std::stringstream s_month;
+		if(info->m == 3){
+			s_month << "M" << umlaut_ae << "rz";
+		}
+		else{
+			s_month << MonthName[info->m-1];
+		}
+		dv->mb->copy_label(s_month.str().c_str());
+
+		std::stringstream s_year;
+		s_year << info->y;
+		dv->yb->copy_label(s_year.str().c_str());
+		dv->end();
+
+		win->add(dv);
+		win->redraw();
+		win->end();
+		win->show();
+
+		info->num = info->num+1;
+	
+		Fl::unlock();
+		return;
+	}	
 }
+

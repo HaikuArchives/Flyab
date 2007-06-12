@@ -96,6 +96,7 @@ void CC_DayView::SelectDay(Fl_Widget *widget,void *data)
 	}
 	info->num = 0;
 	info->win_->Fl_Window::~Fl_Window(); 
+	info->dumy_win_->Fl_Window::~Fl_Window(); 
 	
 }
 

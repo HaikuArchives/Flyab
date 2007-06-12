@@ -410,8 +410,9 @@ void YabInterface::OpenWindow(const BRect frame, const char* id, const char* tit
 	YabView *winView = new YabView(0,0, (int)frame.width, (int)frame.height, id);
 	winView->callback(StaticMessageCallback);
 	yabViewList.push_back(winView);
-
+	window->end();
 	window->show();
+	
 	Fl::unlock();
 	// Fl::awake();
 
@@ -793,9 +794,10 @@ void YabInterface::Tab(BRect frame, const char* id, const char* mode, const char
 
 			BPoint newCoor = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 			YabTabView *tabs = new YabTabView((int)newCoor.x, (int)newCoor.y, (int)frame.width, (int)frame.height, id, myMode);
-
+			tabs->end();
 			yabViewList[i]->add(tabs);
 			yabViewList[i]->redraw();
+			
 			Fl::unlock();
 			return;
 		}
@@ -3337,7 +3339,7 @@ void YabInterface::Calendar(double x, double y, const char* id, const char* form
 			BPoint point = GetWindowCoordinates(yabViewList[i], x, y);
 
 			YabCalendar *cc = new YabCalendar(point.x,point.y,id,format,date);
-			cc->redraw();
+			
 			
 			//std::cout << "test: YABINTERFACE; on View: " << yabViewList[i]->GetID() << endl;
 			
