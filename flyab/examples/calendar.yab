@@ -10,8 +10,13 @@ tabview add "Box", "Views and More"
 //draw set "bgcolor", "Panel-Background-Color, Darken-1-Tint", "Split1"
 //draw set "bgcolor", "Panel-Background-Color, Lighten-1-Tint", "Split2"
 
-calendar 10,10, "MyCalendar", "", "", "Box1"
-calendar 10,40, "dd", "DDMMYYYY.", "11.10.1973", "Box2"
+calendar 10,10, "MyCalendar", "", "11.10.1973", "Box1"
+calendar 10,40, "dd", "DDMMYYYY.", "", "Box1"
+
+CALENDAR SET "dd", "11.11.2000"
+
+d$ = CALENDAR GET$ "MyCalendar"
+print d$
 
 while (not instr(msg$, "Quit"))
 	msg$ = message$

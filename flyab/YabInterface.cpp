@@ -3355,10 +3355,49 @@ void YabInterface::Calendar(double x, double y, const char* id, const char* form
 
 const char* YabInterface::Calendar(const char* id)
 {
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabCalendar *cc = dynamic_cast<YabCalendar*>(yabViewList[i]->child(j)))
+			{
+				if(s == cc->GetID())
+				{
+					Fl::lock();
+					//cc->test();	
+					cc->redraw();
+					Fl::unlock();
+					return id;
+				}
+			}
+		}
+	}
+	Error(id, "CALENDAR");
 }
 
 void YabInterface::Calendar(const char* id, const char* date)
 {
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabCalendar *cc = dynamic_cast<YabCalendar*>(yabViewList[i]->child(j)))
+			{
+				if(s == cc->GetID())
+				{
+					Fl::lock();
+					//cc->test();
+					//SetDate in CalendarControl.* is missing
+					cc->redraw();
+					Fl::unlock();
+					return;
+				}
+			}
+		}
+	}
+	Error(id, "CALENDAR");
 }
 
 void YabInterface::Scrollbar(const char* id, int format, const char* view)

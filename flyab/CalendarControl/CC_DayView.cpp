@@ -24,7 +24,6 @@ CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h)
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
 
 	cdg = new Fl_Group(x,y,w,h);
-	//cdg->box(FL_BORDER_BOX);
 	cdg->box(FL_NO_BOX);
 	cdg->begin();
 

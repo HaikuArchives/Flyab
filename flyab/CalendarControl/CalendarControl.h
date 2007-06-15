@@ -13,6 +13,7 @@ class CalendarControl: public Fl_Group
 			 const char* date,
 		 	 const char* type);
 		~CalendarControl();
+		void test();
 		
 	protected:
 		void draw();

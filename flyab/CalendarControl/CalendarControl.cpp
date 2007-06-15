@@ -21,6 +21,8 @@
 #include "CC_DayView.cpp"
 #include "CC_DrawView.cpp"
 
+//CC_Date ndd(0,0,00); 
+
 using namespace std;
 
 CalendarControl::CalendarControl(int x,
@@ -29,14 +31,9 @@ CalendarControl::CalendarControl(int x,
 		   const char* type)
 	 	:Fl_Group(x,y,200,200)	
 {
-	//
 	int day,month,year;
 	sscanf(date, "%2d.%2d.%4d", &day, &month, &year);
 	
-	//std::cout << "TEST Constructer2: day month year " << day << " " << month << " " << year << endl;
-	//std::cout << "TEST Constructer2: x y "<< x << y << endl;
-
-	//
 	CC_Date date1(day,month,year);
 
 	CC_Infos::CC_Infos *info = new CC_Infos;
@@ -60,9 +57,7 @@ CalendarControl::CalendarControl(int x,
 	type = "MMDDYY."; //no function yet
 
 	Fl_Input *input = new Fl_Input(x,y,65,20);
-	Fl_Button *button = new Fl_Button(x+68,y,13,20);
-	
-	//std::cout << "TEST Constructer2: input "<< input << endl;	
+	Fl_Button *button = new Fl_Button(x+68,y,13,20);	
 	
 	input->textsize(10);
 	input->value(s.str().c_str());
@@ -72,38 +67,30 @@ CalendarControl::CalendarControl(int x,
 	
 	redraw();
 	end();
-	
-	
+
 }
 
 CalendarControl::~CalendarControl()
 {
+	//CC_Date date1(0,0,0);
 }
 
 void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 {
-	//std::cout << "Hello" << endl;
-
 	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
 	
-	int winx = widget->window()->x()+info->posx_;
-	int winy = widget->window()->y()+info->posy_+22;
-	
-	
-	//info->winx_ = winx;
-	//info->winy_ = winy;
 	info->winx_ = widget->window()->x()+info->posx_;
 	info->winy_ = widget->window()->y()+info->posy_+22;
-
-	//std::cout << "test CC " << winx << ":" << winy << std::endl;	
-	//std::cout << "test CC, w num:  " << info->num << std::endl;	
 	
 	CC_DrawView::DateWindowUpdate((void *)info);
 }
 
 void CalendarControl::draw() 
 {
-	//Fl_Group::redraw();
 	Fl_Group::draw();
-	//Fl_Group::show();
+}
+
+void CalendarControl::test()
+{
+	std::cout << "TEST CC: OK" << std::endl;	
 }

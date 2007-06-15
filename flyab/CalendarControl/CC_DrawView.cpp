@@ -115,9 +115,7 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 
 void CC_DrawView::draw()
 {
-	//Fl_Group::redraw();
 	Fl_Group::draw();
-	//Fl_Group::show();
 
 	fl_color(170,170,170);
 	fl_line(3, 25, 165, 25);
@@ -193,7 +191,7 @@ void CC_DrawView::DateWindowUpdate(void *data)
 		info->dumy_win_ = dumy_win;
 		
 		Fl_Window::Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");//a true window
-		win->border(0); //0 = no border
+		win->border(0); 
 		win->set_modal();
 	
 		info->win_ = win;
@@ -232,7 +230,7 @@ void CC_DrawView::DateWindowUpdate(void *data)
 
 		Fl::lock();
 		Fl_Window::Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");
-		win->border(0); //0 = no border
+		win->border(0);
 		win->set_modal();
 	
 		info->win_ = win;
