@@ -385,6 +385,17 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		localMessage += s.str();
 		return;
 	}
+	
+	if(YabCalendar *cc = dynamic_cast<YabCalendar*>(widget))
+	{	
+		std::stringstream s;
+		s << cc->GetID();
+		s << ":";
+		//s << cc->value();
+		s << "|";
+		localMessage += s.str();
+		return;
+	}
 	if(YabColumnBox *columnbox = dynamic_cast<YabColumnBox*>(widget))
 	{
 		if(columnbox->callback_context() == Fl_Table::CONTEXT_CELL)
@@ -3475,8 +3486,8 @@ void YabInterface::Calendar(double x, double y, const char* id, const char* form
 			BPoint point = GetWindowCoordinates(yabViewList[i], x, y);
 
 			YabCalendar *cc = new YabCalendar(point.x,point.y,id,format,date);
-			
-			
+			cc->callback(StaticMessageCallback);
+			//cc->end();
 			//std::cout << "test: YABINTERFACE; on View: " << yabViewList[i]->GetID() << endl;
 			
 			yabViewList[i]->add(cc);
