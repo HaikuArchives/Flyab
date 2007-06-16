@@ -1,0 +1,31 @@
+#ifndef _EVENT_NAMES_H
+#define _EVENT_NAMES_H
+char *eventnames[] =
+{
+  "FL_NO_EVENT",
+  "FL_PUSH",
+  "FL_RELEASE",
+  "FL_ENTER",
+  "FL_LEAVE",
+  "FL_DRAG",
+  "FL_FOCUS",
+  "FL_UNFOCUS",
+  "FL_KEYDOWN",
+  "FL_KEYUP",
+  "FL_CLOSE",
+  "FL_MOVE",
+  "FL_SHORTCUT",
+  "FL_DEACTIVATE",
+  "FL_ACTIVATE",
+  "FL_HIDE",
+  "FL_SHOW",
+  "FL_PASTE",
+  "FL_SELECTIONCLEAR",
+  "FL_MOUSEWHEEL",
+  "FL_DND_ENTER",
+  "FL_DND_DRAG",
+  "FL_DND_LEAVE",
+  "FL_DND_RELEASE",
+};
+#endif /* _EVENT_NAMES_H */
+

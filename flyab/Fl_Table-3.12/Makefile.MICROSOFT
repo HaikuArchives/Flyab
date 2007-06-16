@@ -1,0 +1,56 @@
+FLTKDIR=C:\\fltk-1.1.7
+# FLTKDIR=C:\\fltk-utf8-1.1.4
+
+# UNCOMMENT THE FOLLOWING FOR UTF8 BUILDS
+# USEUTF8=/DUSEUTF8=1
+
+CC=cl
+
+CFLAGS=/MD /nologo /EHsc /DVS2000 /I. /I$(FLTKDIR) \
+       /DMICROSOFT /DWIN32 /D_WINDOWS $(USEUTF8)
+
+LIBS=$(FLTKDIR)\\lib\\fltk.lib wsock32.lib comctl32.lib \
+	    kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+	    shell32.lib winmm.lib ole32.lib oleaut32.lib uuid.lib \
+	    user32.lib imm32.lib \
+	    /nologo /machine:I386 /NODEFAULTLIB:libcmt
+
+BINS=sortapp testtablerow testkeyboardnav exercisetablerow widgettable singleinput
+
+all: $(BINS)
+
+clean: FORCE
+	-del *.obj > NUL
+	-del *.exe > NUL
+
+OBJS=Fl_Table.obj Fl_Table_Row.obj
+
+Fl_Table.obj: Fl_Table.cxx
+	$(CC) $(CFLAGS) /I$(FLTKDIR) -c /Tp Fl_Table.cxx
+
+Fl_Table_Row.obj: Fl_Table.obj Fl_Table_Row.cxx
+	$(CC) $(CFLAGS) /I$(FLTKDIR) -c /Tp Fl_Table_Row.cxx
+
+testtablerow: testtablerow.cxx $(OBJS)
+	$(CC) $(CFLAGS) /I$(FLTKDIR) /Tp testtablerow.cxx /link $(OBJS) $(LIBS) /subsystem:windows
+
+testkeyboardnav: testkeyboardnav.cxx $(OBJS)
+	$(CC) $(CFLAGS) /I$(FLTKDIR) /Tp testkeyboardnav.cxx /link $(OBJS) $(LIBS) /subsystem:console
+
+sortapp: sortapp.cxx $(OBJS)
+	$(CC) $(CFLAGS) /I$(FLTKDIR) /Tp sortapp.cxx /link $(OBJS) $(LIBS) /subsystem:windows
+
+exercisetablerow: exercisetablerow.cxx $(OBJS)
+	$(CC) $(CFLAGS) /I$(FLTKDIR) /Tp exercisetablerow.cxx /link $(OBJS) $(LIBS) /subsystem:windows
+
+widgettable: widgettable.cxx $(OBJS)
+	$(CC) $(CFLAGS) /I$(FLTKDIR) /Tp widgettable.cxx /link $(OBJS) $(LIBS) /subsystem:windows
+
+singleinput: singleinput.cxx $(OBJS)
+	$(CC) $(CFLAGS) /I$(FLTKDIR) /Tp singleinput.cxx /link $(OBJS) $(LIBS) /subsystem:windows
+
+foo: foo.cxx $(OBJS)
+	$(CC) $(CFLAGS) /I$(FLTKDIR) /Tp foo.cxx /link $(OBJS) $(LIBS) /subsystem:windows
+
+# DON'T REMOVE
+FORCE:

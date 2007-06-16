@@ -1,0 +1,16 @@
+#
+# MAC OSX (DARWIN)
+#    To use fltk-config, make sure the fltk directory is in your PATH, eg:
+#    set path = ( $path /usr/local/src/fltk-1.1.3 )
+#
+CC=c++
+CFLAGS=-g -Wall -I.
+
+# OSX 10.1.x, 10.2.x..
+FLTKDIR=/usr/local/src/fltk-1.1.7
+FLTKLIBS=-L$(FLTKDIR)/lib -lfltk -framework Carbon -framework ApplicationServices -lm
+REZCOMMAND=/Developer/Tools/Rez -t APPL $(FLTKDIR)/FL/mac.r -o
+
+# FLTK-CONFIG
+# FLTKLIBS=$(shell fltk-config --ldflags)
+

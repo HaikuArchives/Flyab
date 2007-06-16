@@ -1,7 +1,7 @@
 //CC_DayView.cpp
 
 #include <FL/Fl_Group.H> 
-#include <Fl/Enumerations.H>
+#include <FL/Enumerations.H>
 #include "CC_Date.cpp"
 
 #ifndef CC_DAYVIEW_H

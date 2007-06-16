@@ -33,7 +33,7 @@
 #include "YabCheckButton.h"
 //#include "YabCalendar.h"
 #include "YabColorControl.h"
-//#include "YabColumnBox.h"
+#include "YabColumnBox.h"
 #include "YabDropBox.h"
 #include "YabListBox.h"
 #include "YabMenuBar.h"
@@ -383,6 +383,36 @@ void YabInterface::StaticMessageCallback(Fl_Widget *widget, void *data=0)
 		s << yabslider->value();
 		s << "|";
 		localMessage += s.str();
+		return;
+	}
+	if(YabColumnBox *columnbox = dynamic_cast<YabColumnBox*>(widget))
+	{
+		if(columnbox->callback_context() == Fl_Table::CONTEXT_CELL)
+		{
+			switch(Fl::event())
+			{
+				case FL_KEYBOARD:
+					columnbox->select_row(columnbox->callback_row(),1);
+					break;
+				default:
+					break;
+			}
+					
+			std::stringstream s;
+			s << columnbox->GetID();
+
+			if(Fl::event_key() == FL_Enter || Fl::event_clicks()>0)
+			{
+				s << ":_Invoke:";
+			}
+			else
+				s << ":_Select:";
+			Fl::event_clicks(0);
+			s << columnbox->callback_row()+1;
+			s << "|";
+			localMessage += s.str();
+		}
+
 		return;
 	}
 }
@@ -1562,7 +1592,7 @@ void YabInterface::CreateListBox(BRect frame, const char* id, int scrollbar, con
 					 break;
 			}
 			list->labelsize(B_FONT_SIZE);
-			list->textsize(10);
+			list->textsize(B_FONT_SIZE);
 
 			yabViewList[i]->add(list);
 			yabViewList[i]->redraw();
@@ -3121,17 +3151,31 @@ void YabInterface::ListSort(const char* view)
 
 void YabInterface::FileBox(BRect frame, const char* id, bool hasHScrollbar, const char* option, const char* view)
 {
+	bool isResizable = false;
 	std::string s = view;
+
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+	if(t.find("resizable") != std::string::npos)
+	{
+		isResizable = true;
+	}
+
 	for (int i = 0; i < yabViewList.size(); i++)
 	{
 		if (s == yabViewList[i]->GetID())
 		{
 			Fl::lock();
 			BPoint nc = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
-//			YabColumnBox *box = new YabColumnBox((int)nc.x, (int)nc.y, (int)frame.width, (int)frame.height, id, hasHScrollbar, option);
-//			box->callback(StaticMessageCallback);
+			YabColumnBox *box = new YabColumnBox((int)nc.x, (int)nc.y, (int)frame.width, (int)frame.height, id, hasHScrollbar, isResizable);
+			box->selection_color(FL_DARK_BLUE); //fl_rgb_color(100,100,255));
+			box->col_header(true);
+			box->col_resize(isResizable);
+			box->callback(StaticMessageCallback);
+			box->when(FL_WHEN_CHANGED);
+			box->end();
 
-//			yabViewList[i]->add(box);
+			yabViewList[i]->add(box);
 			yabViewList[i]->redraw();
 			Fl::unlock();
 			return;
@@ -3142,14 +3186,78 @@ void YabInterface::FileBox(BRect frame, const char* id, bool hasHScrollbar, cons
 
 void YabInterface::FileBoxClear(const char* columnbox)
 {
+	std::string s = columnbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabColumnBox *box = dynamic_cast<YabColumnBox*>(yabViewList[i]->child(j)))
+			{
+				box->rows(0);
+				// box->RemoveAll();
+				return;
+			}
+		}
+	}
+	Error(columnbox, "COLUMNBOX");
 }
 
 void YabInterface::ColumnBoxAdd(const char* id, int column, int position, int height, const char* text)
 {
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabColumnBox *box = dynamic_cast<YabColumnBox*>(yabViewList[i]->child(j)))
+			{
+				Fl::lock();
+				box->AddItem(text, column, position);
+				box->row_height(column-1, height);
+				box->col_resize(true);
+				box->end();
+				Fl::unlock();
+				return;
+			}
+		}
+	}
+	Error(id, "COLUMNBOX");
 }
 
 void YabInterface::FileBoxAdd(const char* columnbox, const char* name, int pos, double minWidth, double maxWidth, double width, const char* option)
 {
+	std::string s = columnbox;
+
+	Fl_Align a;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+	if(t.find("align-left") != std::string::npos)
+		a = FL_ALIGN_LEFT;	
+	else if(t.find("align-center") != std::string::npos)
+		a = FL_ALIGN_CENTER;	
+	else if(t.find("align-right") != std::string::npos)
+		a = FL_ALIGN_RIGHT;	
+	else
+		ErrorGen("Invalid Option.");
+
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabColumnBox *column = dynamic_cast<YabColumnBox*>(yabViewList[i]->child(j)))
+			{
+				column->cols(column->cols()+1);
+				column->col_resize_min((int)minWidth);
+				column->col_width(pos-1, (int)width);
+				column->AddColumn(name, pos, a);
+				column->col_resize(true);
+				column->end();
+							
+				return;
+			}
+		}
+	}
+	Error(columnbox, "COLUMNBOX");
 }
 
 void YabInterface::ColumnBoxRemove(const char* columnbox, int position)
@@ -3162,6 +3270,22 @@ void YabInterface::ColumnBoxColor(const char* columnbox, const char* option, int
 
 void YabInterface::ColumnBoxSelect(const char* columnbox, int position)
 {
+	std::string s = columnbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabColumnBox *box = dynamic_cast<YabColumnBox*>(yabViewList[i]->child(j)))
+			{
+				if(position > 0 && position <= box->rows())
+					box->select_row(position-1);
+				else
+					box->select_all_rows(0);
+				return;
+			}
+		}
+	}
+	Error(columnbox, "COLUMNBOX");
 }
 
 const char* YabInterface::ColumnBoxGet(const char* columnbox, int column, int position)
@@ -3170,6 +3294,18 @@ const char* YabInterface::ColumnBoxGet(const char* columnbox, int column, int po
 
 int YabInterface::ColumnBoxCount(const char* columnbox)
 {
+	std::string s = columnbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabColumnBox *box = dynamic_cast<YabColumnBox*>(yabViewList[i]->child(j)))
+			{
+				return box->rows();
+			}
+		}
+	}
+	Error(columnbox, "COLUMNBOX");
 }
 
 int YabInterface::ColumnboxGetNum(const char* id)
