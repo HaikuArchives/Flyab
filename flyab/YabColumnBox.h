@@ -31,8 +31,8 @@ public:
 	}
 
 	void AddColumn(const char* item, int pos, Fl_Align align);
-	void AddItem(const char* item, int rowpos, int colpos);
-
+	//void AddItem(const char* item, int rowpos, int colpos);
+	void AddItem(const char* item, int colpos, int rowpos);
 protected:
 	void draw_cell(TableContext context, int R, int C, int X, int Y, int W, int H);
 };

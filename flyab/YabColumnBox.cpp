@@ -20,7 +20,8 @@ void YabColumnBox::AddColumn(const char* item, int pos, Fl_Align align)
 	alignments[pos-1] = align;
 }
 
-void YabColumnBox::AddItem(const char* item, int rowpos, int colpos)
+//void YabColumnBox::AddItem(const char* item, int rowpos, int colpos)
+void YabColumnBox::AddItem(const char* item, int colpos, int rowpos) 
 {
 	if(columnCount == 0 || colpos<1 || colpos>columnCount)
 		return;

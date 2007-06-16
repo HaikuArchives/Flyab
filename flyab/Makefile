@@ -23,7 +23,8 @@ OPT = -O3
 ##
 ## Specify FLTK version and directory
 ##
-FLTK = /home/jan/fltk/
+##FLTK = /home/jan/fltk/
+FLTK = ../../fltk/
 FLTABLE = Fl_Table-3.12
 
 ##
