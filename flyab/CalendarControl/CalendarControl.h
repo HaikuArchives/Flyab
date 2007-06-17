@@ -19,7 +19,7 @@ class CalendarControl: public Fl_Group
 		Fl_Button *button;
 		~CalendarControl();
 		void test(Fl_Widget *,  void *);
-		//void GetDate(Fl_Widget *,  void *);
+		const char * GetDate();
 		void SetDate(const char*);
 		CC_Infos *info;
 		

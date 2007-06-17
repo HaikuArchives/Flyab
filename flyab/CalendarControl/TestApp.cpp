@@ -22,6 +22,7 @@ int main(int argc, char **argv)
 	
 	CalendarControl *cl2 = new CalendarControl(10,50, "11.1.1111","MMDDYY.");	
 	cl2->SetDate("11.11.2007");
+	std::cout << "TestApp GetDate = " << cl2->GetDate() << std::endl;	
 	//
 
 	//

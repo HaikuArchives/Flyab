@@ -3515,7 +3515,7 @@ const char* YabInterface::Calendar(const char* id)
 					//cc->test();	
 					cc->redraw();
 					Fl::unlock();
-					return id;
+					return cc->GetDate();
 				}
 			}
 		}

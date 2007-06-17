@@ -108,3 +108,7 @@ void CalendarControl::SetDate(const char *date)
 	info->m = date2.get_month();
 	info->y = date2.get_year();
 }
+const char * CalendarControl::GetDate()
+{
+	return input->value();	
+}
