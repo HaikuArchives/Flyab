@@ -20,8 +20,8 @@ int main(int argc, char **argv)
 	
 	CalendarControl *cl1 = new CalendarControl(10,20, "10.11.1973","MMDDYY.");	
 	
-	CalendarControl *cl2 = new CalendarControl(10,50, "1.1.1111","MMDDYY.");	
-	
+	CalendarControl *cl2 = new CalendarControl(10,50, "11.1.1111","MMDDYY.");	
+	cl2->SetDate("11.11.2007");
 	//
 
 	//

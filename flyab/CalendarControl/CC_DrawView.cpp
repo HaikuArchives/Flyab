@@ -46,12 +46,12 @@ CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,
 	mb = new Fl_Box(5,3,90,20);
 	mb->box(FL_NO_BOX);
 	mb->labelsize(10);
-	info->mb_ = mb;
+	//info->mb_ = mb;
 
 	yb = new Fl_Box(85,3,95,20);
 	yb->box(FL_NO_BOX);
 	yb->labelsize(10);
-	info->yb_ = yb;
+	//info->yb_ = yb;
 	
 	Fl_Button *Mbutdo = new Fl_Button(2,(int)2.5,20,20,"<<");
 	Mbutdo->box(FL_NO_BOX);
@@ -206,6 +206,7 @@ void CC_DrawView::DateWindowUpdate(void *data)
 		else{
 		s_month << MonthName[info->m-1];
 		}
+
 		dv->mb->copy_label(s_month.str().c_str());
 
 		std::stringstream s_year;

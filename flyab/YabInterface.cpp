@@ -3536,7 +3536,7 @@ void YabInterface::Calendar(const char* id, const char* date)
 				{
 					Fl::lock();
 					//cc->test();
-					//SetDate in CalendarControl.* is missing
+					cc->SetDate(date);
 					cc->redraw();
 					Fl::unlock();
 					return;

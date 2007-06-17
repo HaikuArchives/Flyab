@@ -8,8 +8,8 @@
 class CC_Infos {
 	public:
 		int posx_, posy_;
-		Fl_Box *mb_;
-		Fl_Box *yb_;
+		//Fl_Box *mb_;
+		//Fl_Box *yb_;
 		int d,m,y;
 		Fl_Window *win_;
 		Fl_Window *oldwin[10000];

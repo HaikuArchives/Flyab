@@ -6,8 +6,8 @@
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Box.H>   
 #include <FL/fl_draw.H>
-#include <FL/Fl_Input.H>
-#include <FL/Fl_Button.H>
+//#include <FL/Fl_Input.H>
+//#include <FL/Fl_Button.H>
 
 #include <cstdlib> 
 #include <iostream>
@@ -17,7 +17,7 @@
 #include <sstream>
 
 #include "CalendarControl.h"
-#include "CC_Infos.h"
+//#include "CC_Infos.h"
 #include "CC_DayView.cpp"
 #include "CC_DrawView.cpp"
 
@@ -31,37 +31,36 @@ CalendarControl::CalendarControl(int x,
 		   const char* type)
 	 	:Fl_Group(x,y,200,200)	
 {
-	int day,month,year;
-	sscanf(date, "%2d.%2d.%4d", &day, &month, &year);
+	input = new Fl_Input(x,y,65,20);	
+	input->textsize(10);
 	
-	CC_Date date1(day,month,year);
+	button = new Fl_Button(x+68,y,13,20);
 
-	CC_Infos::CC_Infos *info = new CC_Infos;
-	
+	info = new CC_Infos;
 	info->num = 0;
 		
 	info->posx_ = x;
 	info->posy_ = y;
 	
+	info->input_ = input;
+	
+	int day,month,year;
+	sscanf(date, "%2d.%2d.%4d", &day, &month, &year);
+
+	CC_Date date1(day,month,year);
+
 	info->d = date1.get_day();
 	info->m = date1.get_month();
 	info->y = date1.get_year();
 
 	std::stringstream s;
+
 	s << date1.get_day(); 
 	s << ".";
 	s << date1.get_month();   
 	s << ".";
-	s << date1.get_year(); 
-	
-	type = "MMDDYY."; //no function yet
-
-	Fl_Input *input = new Fl_Input(x,y,65,20);
-	Fl_Button *button = new Fl_Button(x+68,y,13,20);	
-	
-	input->textsize(10);
-	input->value(s.str().c_str());
-	info->input_ = input;
+	s << date1.get_year();
+	input->value(s.str().c_str());	
 
 	button->callback(CalendarControl::CC_DateWindow, (void *)info);
 	
@@ -90,7 +89,22 @@ void CalendarControl::draw()
 	Fl_Group::draw();
 }
 
-void CalendarControl::test()
+void CalendarControl::test(Fl_Widget *widget,  void *data)
 {
+	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
+	info->input_->value();	
 	std::cout << "TEST CC: OK" << std::endl;	
+}
+void CalendarControl::SetDate(const char *date)
+{
+	input->value(date);
+	
+	int day,month,year;
+	sscanf(date, "%2d.%2d.%4d", &day, &month, &year);
+
+	CC_Date date2(day,month,year);
+
+	info->d = date2.get_day();
+	info->m = date2.get_month();
+	info->y = date2.get_year();
 }
