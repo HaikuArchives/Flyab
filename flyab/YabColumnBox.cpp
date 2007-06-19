@@ -1,3 +1,10 @@
+#include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_GIF_Image.H>
+#include <FL/Fl_XPM_Image.H>
+#include <FL/Fl_XBM_Image.H>
+#include <FL/Fl_BMP_Image.H>
+#include <FL/Fl_PNM_Image.H>
+#include <FL/Fl_JPEG_Image.H>
 #include "YabColumnBox.h"
 
 void YabColumnBox::AddColumn(const char* item, int pos, Fl_Align align)
@@ -38,6 +45,32 @@ void YabColumnBox::AddItem(const char* item, int colpos, int rowpos)
 	else
 	{
 		myrows[rowpos][colpos-1] = item;	
+	}
+
+	// load images only once
+	if(myrows[rowpos][colpos-1].find("__Icon__=") == 0)
+	{
+		std::string t = myrows[rowpos][colpos-1];
+		std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+		int l = t.length();
+		YabColumnBoxImage i;
+		i.column = colpos-1;
+		i.row = rowpos;
+		if(t.compare(l-4,4, ".png") == 0)
+			i.image = new Fl_PNG_Image(myrows[rowpos][colpos-1].substr(9,l-9).c_str());
+		else if(t.compare(l-4,4, ".gif") == 0)
+			i.image = new Fl_GIF_Image(myrows[rowpos][colpos-1].substr(9,l-9).c_str());
+		else if(t.compare(l-4,4, ".xpm") == 0)
+			i.image = new Fl_XPM_Image(myrows[rowpos][colpos-1].substr(9,l-9).c_str());
+		else if(t.compare(l-4,4, ".xbm") == 0)
+			i.image = new Fl_XBM_Image(myrows[rowpos][colpos-1].substr(9,l-9).c_str());
+		else if(t.compare(l-4,4, ".jpg") == 0 || t.compare(l-4,4, ".jpeg"))
+			i.image = new Fl_JPEG_Image(myrows[rowpos][colpos-1].substr(9,l-9).c_str());
+		else if(t.compare(l-4,4, ".bmp") == 0)
+			i.image = new Fl_BMP_Image(myrows[rowpos][colpos-1].substr(9,l-9).c_str());
+		else if(t.compare(l-4,4, ".pnm") == 0)
+			i.image = new Fl_PNM_Image(myrows[rowpos][colpos-1].substr(9,l-9).c_str());
+		images.push_back(i);
 	}
 }
 
@@ -125,9 +158,30 @@ void YabColumnBox::draw_cell(TableContext context, int R, int C, int X, int Y, i
 				// BG COLOR
 				fl_color( row_selected(R) ? selection_color() : backgroundColor);
 				fl_rectf(X, Y, W, H);
-				// TEXT
-				fl_color(row_selected(R) ? selectionTextColor: textColor);
-				fl_draw(myrows[R+1][C].c_str(), X, Y, W, H, alignments[C]);
+				// Icon and TEXT
+				if(myrows[R+1][C].find("__Icon__=") == 0)
+				{
+					if(images.size() > 0)
+					{
+						switch(alignments[C])
+						{
+							case FL_ALIGN_LEFT:
+								images[0].image->draw(X,Y);
+								break;
+							case FL_ALIGN_CENTER:
+								images[0].image->draw(X+W/2-images[0].image->w()/2,Y);
+								break;
+							case FL_ALIGN_RIGHT:
+								images[0].image->draw(X+W-images[0].image->w(),Y);
+								break;
+						}
+					}
+				}
+				else
+				{
+					fl_color(row_selected(R) ? selectionTextColor: textColor);
+					fl_draw(myrows[R+1][C].c_str(), X, Y, W, H, alignments[C]);
+				}
 				// BORDER
 				fl_color(rowDividerColor); //FL_LIGHT2); 
 				// fl_rect(X, Y, W, H);

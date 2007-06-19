@@ -5,10 +5,17 @@
 #include <string>
 #include <iostream>
 #include <FL/Fl.H>
+#include <FL/Fl_Image.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Table_Row.H>
 #include "global.h"
 #include "YabWidget.h"
+
+struct YabColumnBoxImage
+{
+	int column, row;
+	Fl_Image *image;
+};
 
 class YabColumnBox: public Fl_Table_Row, public YabWidget
 {
@@ -17,6 +24,7 @@ private:
 	std::vector<std::vector<std::string> > myrows;
 	int columnCount;
 	std::vector<Fl_Align> alignments;
+	std::vector<YabColumnBoxImage> images;
 	Fl_Color selectionTextColor, textColor, rowDividerColor, backgroundColor;
 
 public:
