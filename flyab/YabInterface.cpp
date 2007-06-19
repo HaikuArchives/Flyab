@@ -3179,7 +3179,11 @@ void YabInterface::FileBox(BRect frame, const char* id, bool hasHScrollbar, cons
 			Fl::lock();
 			BPoint nc = GetWindowCoordinates(yabViewList[i], frame.x1, frame.y1);
 			YabColumnBox *box = new YabColumnBox((int)nc.x, (int)nc.y, (int)frame.width, (int)frame.height, id, hasHScrollbar, isResizable);
-			box->selection_color(FL_DARK_BLUE); //fl_rgb_color(100,100,255));
+			if(t.find("no-border") != std::string::npos)
+				box->box(FL_NO_BOX);
+			else
+				box->box(FL_DOWN_FRAME);
+			box->color(fl_rgb_color(255,255,255)); //B_GREY));
 			box->col_header(true);
 			box->col_resize(isResizable);
 			box->callback(StaticMessageCallback);
@@ -3205,7 +3209,7 @@ void YabInterface::FileBoxClear(const char* columnbox)
 			if(YabColumnBox *box = dynamic_cast<YabColumnBox*>(yabViewList[i]->child(j)))
 			{
 				box->rows(0);
-				// box->RemoveAll();
+				box->RemoveAll();
 				return;
 			}
 		}
@@ -3277,6 +3281,37 @@ void YabInterface::ColumnBoxRemove(const char* columnbox, int position)
 
 void YabInterface::ColumnBoxColor(const char* columnbox, const char* option, int r, int g, int b)
 {
+	int col = 0;
+	std::string s = columnbox;
+	std::string t = option;
+	std::transform(t.begin(),t.end(),t.begin(),(int (*)(int))std::tolower);
+	if(t.find("selection-text") != std::string::npos)
+		col = 1;
+	else if(t.find("non-focus-selection") != std::string::npos)
+		col = 2;
+	else if(t.find("selection") != std::string::npos)
+		col = 3;
+	else if(t.find("text") != std::string::npos)
+		col = 4;
+	else if(t.find("row-divider") != std::string::npos)
+		col = 5;
+	else if(t.find("background") != std::string::npos)
+		col = 6;
+	else
+		ErrorGen("Invalid option");
+
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabColumnBox *box = dynamic_cast<YabColumnBox*>(yabViewList[i]->child(j)))
+			{
+				box->SetColor(col, r,g,b);
+				return;
+			}
+		}
+	}
+	Error(columnbox, "COLUMNBOX");
 }
 
 void YabInterface::ColumnBoxSelect(const char* columnbox, int position)
@@ -3301,6 +3336,23 @@ void YabInterface::ColumnBoxSelect(const char* columnbox, int position)
 
 const char* YabInterface::ColumnBoxGet(const char* columnbox, int column, int position)
 {
+	std::string s = columnbox;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabColumnBox *box = dynamic_cast<YabColumnBox*>(yabViewList[i]->child(j)))
+			{
+				if(column<1 || column>box->NumColumns())
+					ErrorGen("Column not found.");
+				else if(position<1 || position>box->NumRows())
+					ErrorGen("Row not found.");
+				else
+					return box->ItemAt(column, position);
+			}
+		}
+	}
+	Error(columnbox, "COLUMNBOX");
 }
 
 int YabInterface::ColumnBoxCount(const char* columnbox)
@@ -3321,6 +3373,18 @@ int YabInterface::ColumnBoxCount(const char* columnbox)
 
 int YabInterface::ColumnboxGetNum(const char* id)
 {
+	std::string s = id;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		for(int j = 0; j < yabViewList[i]->children(); j++)
+		{
+			if(YabColumnBox *box = dynamic_cast<YabColumnBox*>(yabViewList[i]->child(j)))
+			{
+				return box->SelectedRow();
+			}
+		}
+	}
+	Error(id, "COLUMNBOX");
 }
 
 void YabInterface::DrawSet1(const char* option, const char* window)
@@ -4063,7 +4127,7 @@ void YabInterface::ErrorGen(const char* msg)
 	fprintf(stderr, "---Error in %s, line %d: %s\n", currentLib.c_str(), currentLineNumber, msg);
 	fprintf(stderr, "---Error: Program stopped due to an error \n");
 	KillThread(-1);
-	// while(1){}
+	while(1){}
 }
 
 void YabInterface::SetCurrentLineNumber(int line, const char* libname)

@@ -52,12 +52,23 @@ listbox add "List", "Bar"
 // tooltip "List", "LISTBOX"
 
 // columnbox
+// columnbox 130,10 to 270,150, "Column", 1, "resizable", "Box1"
 columnbox 130,10 to 270,150, "Column", 1, "", "Box1"
 columnbox column "Column", " ", 1, 30,30,30, "align-center"
 columnbox column "Column", "Column", 2, 90,90,90, "align-center"
 columnbox add "Column", 1,1, 20, "__Icon__=img/yab.png"
 columnbox add "Column", 1,2, 20, "Foo"
 columnbox add "Column", 2,2, 20, "Bar"
+columnbox add "Column", 2,3, 20, "Bar"
+columnbox add "Column", 2,4, 20, "Bar"
+print columnbox get$ "Column", 1,1
+print columnbox get$ "Column", 2,1
+print columnbox get$ "Column", 1,2
+// columnbox color "Column", "selection-text", 255,0,0
+// columnbox color "Column", "selection", 0,255,0
+// columnbox color "Column", "text", 0,0,255
+// columnbox color "Column", "row-divider", 255,255,0
+// columnbox color "Column", "background", 0,255,255
 tooltip "Column", "COLUMNBOX"
 
 // textcontrol
@@ -156,6 +167,7 @@ draw text 10,20, "Second view", "StackView2"
 // messageloop
 while(not quitting)
 	msg$ = message$
+
 	if(msg$<> "") print msg$
 	if(instr(msg$, "Popup")) then
 		// popupmenu
