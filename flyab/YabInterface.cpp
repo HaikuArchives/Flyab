@@ -31,7 +31,6 @@
 #include "YabButtonImage.h"
 #include "YabCheckboxImage.h"
 #include "YabCheckButton.h"
-//#include "YabCalendar.h"
 #include "YabColorControl.h"
 #include "YabColumnBox.h"
 #include "YabDropBox.h"
@@ -48,9 +47,10 @@
 #include "YabTextControl.h"
 #include "YabTextEdit.h"
 #include "YabCalendar.h"
+#include "YabScrollView.h"
 #include "YabView.h"
 #include "YabWindow.h"
-//#include "YabCalendar.h"
+
 
 static bool localize = false;
 static bool quitting = false;
@@ -3613,6 +3613,30 @@ void YabInterface::Calendar(const char* id, const char* date)
 
 void YabInterface::Scrollbar(const char* id, int format, const char* view)
 {
+	std::string s = view;
+	for (int i = 0; i < yabViewList.size(); i++)
+	{
+		if(s == yabViewList[i]->GetID())
+		{
+			Fl::lock();
+			int x = yabViewList[i]->x();
+			int y = yabViewList[i]->y();
+			int w = yabViewList[i]->w();
+			int h = yabViewList[i]->h();
+			
+			YabScrollView *sv = new YabScrollView(x,y,w,h, id, format);
+			//sv->callback(StaticMessageCallback);
+			//std::cout << "test: YABINTERFACE; on ScrollView: " << yabViewList[i]->x() << endl;
+			//yabViewList[i]->resize(x,y,w,h+100);
+
+			yabViewList[i]->add(sv);
+			yabViewList[i]->redraw();
+
+			Fl::unlock();
+			return;
+		}
+	}
+	Error(view, "VIEW");
 }
 
 void YabInterface::ScrollbarSet(const char* scrollview, const char* option, double position)

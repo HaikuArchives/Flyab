@@ -1,0 +1,11 @@
+window open 100,100 to 300+300,200+300, "mainview", "Example"
+
+view 10,10 to 450,350, "MyView", "mainview"
+draw set "bgcolor", 200,200,255, "MyView"
+SCROLLBAR "sb1", 0, "MyView"
+
+while (not instr(msg$, "Quit"))
+	msg$ = message$
+	if (msg$ <> "") print msg$
+wend
+window close "mainview"
