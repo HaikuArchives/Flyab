@@ -18,8 +18,8 @@
 
 #include "CalendarControl.h"
 //#include "CC_Infos.h"
-#include "CC_DayView.cpp"
-#include "CC_DrawView.cpp"
+#include "CC_DayView.h"
+#include "CC_DrawView.h"
 
 //CC_Date ndd(0,0,00); 
 
