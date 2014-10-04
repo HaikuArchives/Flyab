@@ -24,17 +24,17 @@ OPT = -O3
 ## GCC Options
 ##
 GCC = gcc
-GCC_OPT = $(DBG) $(OPT) -I. -I/usr/X11R6/include/X11 -I/usr/include -DHAVE_CONFIG -DUNIX
+GCC_OPT = $(DBG) $(OPT) -I. -DHAVE_CONFIG -DUNIX
 GPP = g++
-GPP_OPT = $(DBG) $(OPT) -I. -I/usr/X11R6/include/X11 -I/usr/include -DHAVE_CONFIG -DUNIX 
+GPP_OPT = $(DBG) $(OPT) -I. -DHAVE_CONFIG -DUNIX 
 
 ##
 ## Libraries
 ##
 # LIBPATH = -L/boot/home/config/lib  
 #-L/boot/home/yab/CalendarControl.a
-LIB = -lncurses -l pthread -L/usr/X11R6/lib -lfltk_images -lfltk -lm
-#LIB = -lncurses -l pthread -L/usr/X11R6/lib  -lXext -lX11 -lm
+LIB = -lncurses -lpthread -lfltk_images -lfltk -lm
+#LIB = -lncurses -lpthread -lm
 
 ## flags for flex (-d for debugging)
 FLEXFLAGS = -i -I -L -s
