@@ -1,5 +1,3 @@
-FLTK = fltk-1.1.7
-
 # Haupttarget
 MeinProgramm: CalendarControl.o TestApp.o
 	g++ -O3 CalendarControl.o TestApp.o -o TestApp -lfltk -lm
