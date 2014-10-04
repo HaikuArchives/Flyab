@@ -7,6 +7,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -2949,7 +2950,7 @@ const char* YabInterface::TextGet(const char* title, int linenum)
 					if(countLines == linenum)
 						return b->line_text(i);
 
-					if(b->character(i) == '\n')
+					if(b->char_at(i) == '\n')
 						countLines++;
 				}
 

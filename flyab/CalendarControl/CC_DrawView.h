@@ -1,6 +1,7 @@
 //CC_DrawView.cpp
 
 #include <FL/Fl_Group.H> 
+#include <FL/Fl_Window.H>
 
 #ifndef CC_DRAWVIEW_H
 #define CC_DRAWVIEW_H
@@ -30,14 +31,14 @@ class CC_DrawView : public Fl_Group
 		Fl_Box *yb; //year box
 	private:
 		Fl_Box *dbt; //day titel box
-		CC_DayView::CC_DayView *dayview; //obj dayview		
+		CC_DayView *dayview; //obj dayview		
 };
 #endif
 
 CC_DrawView::CC_DrawView(int x, int y, int w, int h, void *data) : Fl_Group(x,y,w,h) 
 {
 	
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
+	CC_Infos *info = (CC_Infos*)data;
 
 	Fl_Box *dvb = new Fl_Box(0,0,w,h);
 	dvb->box(FL_UP_BOX);
@@ -125,7 +126,7 @@ void CC_DrawView::draw()
 
 void CC_DrawView::year_up(Fl_Widget *widget, void *data)
 {
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
+	CC_Infos *info = (CC_Infos *)data;
 
 	info->y = info->y+1;
 
@@ -135,7 +136,7 @@ void CC_DrawView::year_up(Fl_Widget *widget, void *data)
 
 void CC_DrawView::year_down(Fl_Widget *widget, void *data)
 {
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
+	CC_Infos *info = (CC_Infos *)data;
 
 	info->y = info->y-1;
 
@@ -144,7 +145,7 @@ void CC_DrawView::year_down(Fl_Widget *widget, void *data)
 
 void CC_DrawView::month_up(Fl_Widget *widget, void *data)
 {
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
+	CC_Infos *info = (CC_Infos *)data;
 
 	if(info->m >= 12){
 		info->m = 1;
@@ -158,7 +159,7 @@ void CC_DrawView::month_up(Fl_Widget *widget, void *data)
 
 void CC_DrawView::month_down(Fl_Widget *widget, void *data)
 {
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
+	CC_Infos *info = (CC_Infos *)data;
 
 	if(info->m == 1){
 		info->m = 12;
@@ -172,7 +173,7 @@ void CC_DrawView::month_down(Fl_Widget *widget, void *data)
 
 void CC_DrawView::DateWindowUpdate(void *data)
 {
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos *)data;
+	CC_Infos *info = (CC_Infos *)data;
 
 	//std::cout << "Test: " << "open old windows: "<< info->num << "\n";
 	
@@ -183,14 +184,14 @@ void CC_DrawView::DateWindowUpdate(void *data)
 	if(info->num == 0) {
 		Fl::lock();
 		
-		Fl_Window::Fl_Window* dumy_win = new Fl_Window(0,0,0,0, ""); //a dumy window
+		Fl_Window* dumy_win = new Fl_Window(0,0,0,0, ""); //a dumy window
 		dumy_win->end();
 		dumy_win->show();
 		dumy_win->redraw();
 		dumy_win->hide();
 		info->dumy_win_ = dumy_win;
 		
-		Fl_Window::Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");//a true window
+		Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");//a true window
 		win->border(0); 
 		win->set_modal();
 	
@@ -230,7 +231,7 @@ void CC_DrawView::DateWindowUpdate(void *data)
 	else {
 
 		Fl::lock();
-		Fl_Window::Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");
+		Fl_Window* win = new Fl_Window(info->winx_,info->winy_,170,170, "");
 		win->border(0);
 		win->set_modal();
 	

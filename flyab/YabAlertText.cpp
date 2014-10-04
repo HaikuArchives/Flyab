@@ -1,6 +1,8 @@
 #include <FL/Fl_Widget.H>
 #include <FL/fl_draw.H>
 #include <iostream>
+#include <string.h>
+
 #include "YabAlertText.h"
 #include "global.h"
 

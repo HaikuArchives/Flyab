@@ -5,6 +5,8 @@
 #include <FL/Fl_BMP_Image.H>
 #include <FL/Fl_PNM_Image.H>
 #include <FL/Fl_JPEG_Image.H>
+#include <algorithm>
+
 #include "YabColumnBox.h"
 
 void YabColumnBox::AddColumn(const char* item, int pos, Fl_Align align)

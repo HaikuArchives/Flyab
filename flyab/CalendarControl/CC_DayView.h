@@ -21,7 +21,7 @@ class CC_DayView : public Fl_Group
 
 CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h) 
 {
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
+	CC_Infos *info = (CC_Infos*)data;
 
 	cdg = new Fl_Group(x,y,w,h);
 	cdg->box(FL_NO_BOX);
@@ -29,7 +29,7 @@ CC_DayView::CC_DayView(int x, int y, int w, int h,void *data): Fl_Group(x,y,w,h)
 
 	int x_ = x;
 
-	CC_Date::CC_Date date(info->d,info->m,info->y);
+	CC_Date date(info->d,info->m,info->y);
 	
 	switch (date.get_weekday(1))
 	{
@@ -77,7 +77,7 @@ CC_DayView::~CC_DayView()
 
 void CC_DayView::SelectDay(Fl_Widget *widget,void *data)
 {	
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
+	CC_Infos *info = (CC_Infos*)data;
 	const char* b_lab = widget->label();
 	
 	std::stringstream s;

@@ -76,7 +76,7 @@ CalendarControl::~CalendarControl()
 
 void CalendarControl::CC_DateWindow(Fl_Widget *widget,  void *data)
 {
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
+	CC_Infos *info = (CC_Infos*)data;
 	
 	info->winx_ = widget->window()->x()+info->posx_;
 	info->winy_ = widget->window()->y()+info->posy_+22;
@@ -91,7 +91,7 @@ void CalendarControl::draw()
 
 void CalendarControl::test(Fl_Widget *widget,  void *data)
 {
-	CC_Infos::CC_Infos *info = (CC_Infos::CC_Infos*)data;
+	CC_Infos *info = (CC_Infos*)data;
 	info->input_->value();	
 	std::cout << "TEST CC: OK" << std::endl;	
 }

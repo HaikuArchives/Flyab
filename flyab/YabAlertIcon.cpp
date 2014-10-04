@@ -2,6 +2,8 @@
 #include <FL/fl_draw.H>
 #include <iostream>
 #include <string>
+#include <algorithm>
+
 #include "YabAlertIcon.h"
 	
 YabAlertIcon::YabAlertIcon(int x, int y, int w, int h, const char* type)
