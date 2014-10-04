@@ -1,4 +1,0 @@
-CC = g++
-CFLAGS = -g -s -pedantic -Wall -Wno-deprecated -I.
-FLTKLIBS = -mwindows -L$(FLTKDIR)/lib -lfltk -lole32 -luuid -lwsock32
-REZCOMMAND = @echo
